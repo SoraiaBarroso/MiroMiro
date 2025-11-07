@@ -2,12 +2,6 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { Analytics } from '@vercel/analytics/nuxt'
 
-const colorMode = useColorMode()
-
-onMounted(() => {
-  colorMode.value = 'light'
-})
-
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
