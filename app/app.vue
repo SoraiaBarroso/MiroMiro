@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { Analytics } from '@vercel/analytics/nuxt'
+
+const colorMode = useColorMode()
+
+onMounted(() => {
+  colorMode.value = 'light'
+})
 
 useHead({
   meta: [
@@ -13,8 +20,9 @@ useHead({
   }
 })
 
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
+const title = 'MiroMiro – The Ultimate UI Inspector Tool';
+const description = 'Inspect elements, extract assets, and generate design systems effortlessly. MiroMiro lets you analyze any website’s visuals, reveal brand identity insights, and export everything in production-ready formats.';
+
 
 useSeoMeta({
   title,
@@ -42,6 +50,8 @@ const items = computed<NavigationMenuItem[]>(() => [ {
 
 <template>
   <UApp>
+    <Analytics />
+
     <UHeader title="MiroMiro" to="/" mode="drawer">
       <UNavigationMenu :items="items" />
 
