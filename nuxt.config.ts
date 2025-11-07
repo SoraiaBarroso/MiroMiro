@@ -5,6 +5,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'nuxt-nodemailer'
   ],
+  ui: {
+    colorMode: false,
+  },
   nodemailer: {
     from: '"MiroMiro" <noreply@miromiro.com>',
     host: process.env.NUXT_NODEMAILER_HOST || 'smtp.mailtrap.io',
