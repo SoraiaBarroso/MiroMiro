@@ -103,7 +103,7 @@ const plans = ref([
         trailingIcon: 'i-lucide-arrow-right',
         size: 'xl',
         variant: 'soft',
-        class: 'rounded-full bg-purple-100 text-purple-500 hover:bg-purple-200'
+        class: 'rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 focus:bg-purple-300'
       }, {
         label: 'See how It Works',
         to: '#features',
