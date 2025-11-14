@@ -2,10 +2,6 @@
   import * as z from 'zod'
   import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 
-  definePageMeta({
-  middleware: 'auth'
-})
-
   const supabase = useSupabaseClient()
   const toast = useToast()
   const route = useRoute()
