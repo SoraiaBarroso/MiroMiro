@@ -271,8 +271,11 @@ Export as CSS variables or Tailwind configs instantly."
       </UForm>
     </UPageCTA>
 
-    <UPageSection id="pricing" title="Pricing" description="Try it for free and upgrade to unlock advanced features that will boost your efficiency.">
-          <UPricingPlans>
+    <UPageSection
+     :ui="{container: '!gap-6'}"
+     id="pricing" title="Pricing" description="Try it for free and upgrade to unlock advanced features that will boost your efficiency.">
+        <NuxtLink to="/compare-plans" class="text-purple-600 hover:underline mb-7 text-center inline-block">Compare Plans</NuxtLink>  
+        <UPricingPlans>
              <UPricingPlan
                 v-for="(plan, index) in plans"
                 :key="index"

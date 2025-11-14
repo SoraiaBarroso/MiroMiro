@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: "/signup", // User will be redirected to this path if not authenticated or after logout.
       callback: "/confirm", // This is the path the user will be redirect to after supabase login redirection.
-      exclude: ["/signin", "/"], // These paths won't be protected and require no authentication.
+      exclude: ["/signin", "/", "/compare-plans"], // These paths won't be protected and require no authentication.
       cookieRedirect: false,
     },
   },
