@@ -189,113 +189,91 @@ const plans = computed(() => [
     </UPageHero>
     
    
-    <UPageSection
-      id="features"
-      title="Instant Page Overview"
-      description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
-      orientation="horizontal"
-      :ui="{
-        container: '!pb-8',
-        description: 'leading-8',
-      }"
-    >
-      <img
-        src="assets/overview.png"
-        width="352"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 bg-[#fefcf4] h-100 object-contain rounded-3xl"
-      />
-    </UPageSection>
+    <UPageSection id="features">
+      <UPageGrid>
+        <UPageCard
+          spotlight
+          title="Instant Page Overview"
+          description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
+          class="col-span-2 lg:col-span-1"
+        >
+          <img
+            src="assets/overview.png"
+            alt="Page Overview"
+            class="w-full border border-neutral-200 bg-[#fefcf4] object-contain rounded-xl"
+          />
+        </UPageCard>
 
-     <UPageSection
-      title="Smart Element Inspector"
-      description="Hover over any element to see its complete style breakdown. Colors, fonts, spacing, shadows, borders—all displayed in
-  real-time. Copy values instantly or inspect design patterns as you browse."
-      orientation="horizontal"
-      :ui="{
-        container: '!pb-8',
-        description: 'leading-8',
-      }"
-      reverse
-    >
-      <img
-        src="assets/inspector.png"
-        width="352"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 bg-[#fefcf4] h-100 object-contain rounded-3xl"
-      />
-    </UPageSection>
+        <UPageCard
+          spotlight
+          title="Smart Element Inspector"
+          description="Hover over any element to see its complete style breakdown. Colors, fonts, spacing, shadows, borders—all displayed in real-time. Copy values instantly or inspect design patterns as you browse."
+          class="col-span-2! lg:col-span-1"
+        >
+          <img
+            src="assets/inspector.png"
+            alt="Element Inspector"
+            class="w-full border h-80 border-neutral-200 bg-[#fefcf4] object-cover rounded-xl"
+          />
+        </UPageCard>
 
-    <UPageSection
-      title="One-Click Media Extraction"
-      description="Download all images and videos from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click. "
-      orientation="horizontal"
-      :ui="{
-        container: '!pb-8', 
-        description: 'leading-8',
-      }"
-    >
-      <img
-        src="assets/images1.png"
-        width="352"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 bg-[#fefcf4] h-100 object-contain rounded-3xl"
-      />
-    </UPageSection>
+        <UPageCard
+          spotlight
+          title="One-Click Media Extraction"
+          description="Download all images and videos from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
+          class="col-span-2"
+        >
+          <img
+            src="assets/images1.png"
+            alt="Media Extraction"
+            class="w-full border border-neutral-200 bg-[#fefcf4] rounded-xl h-120 object-cover"
+          />
+        </UPageCard>
 
-     <UPageSection
-      title="SVG & Icon Capture"
-      description=" Extract SVG graphics and icons in their original vector format. Download them individually or in bulk, preserving full editability. Perfect for designers who need clean, scalable assets without
-  digging through page source."
-      orientation="horizontal"
-      reverse
-      :ui="{
-        description: 'leading-8',
-      }"
-    >
-      <img
-        src="assets/svg.png"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 bg-[#fefcf4] h-100 object-contain rounded-3xl"        
-      />
-    </UPageSection>
+        <UPageCard
+          spotlight
+          title="SVG & Icon Capture"
+          description="Extract SVG graphics and icons in their original vector format. Download them individually or in bulk, preserving full editability. Perfect for designers who need clean, scalable assets."
+          class="col-span-2 lg:col-span-1"
+        >
+          <img
+            src="assets/svg.png"
+            alt="SVG Capture"
+            class="w-full border h-full border-neutral-200 bg-[#fefcf4] object-cover rounded-xl"
+          />
+        </UPageCard>
 
-    <UPageSection
-      headline="New"
-      title="Lottie Animation Export"
-      description="Capture and export Lottie animations directly from websites. MiroMiro identifies embedded Lottie files and lets you download them in JSON format, ready for use in your projects."
-      orientation="horizontal"
-      :ui="{
-        description: 'leading-8',
-        headline: 'bg-purple-100 border border-purple-300 text-purple-600 inline-block px-3 py-0.5 rounded-full mb-4',
-      }"
-    >
-      <img
-        src="assets/test.gif"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 p-6 h-100 object-contain rounded-3xl"
-      />
-    </UPageSection>
+        <UPageCard
+          spotlight
+          title="Lottie Animation Export"
+          description="Capture and export Lottie animations directly from websites. MiroMiro identifies embedded Lottie files and lets you download them in JSON format, ready for use in your projects."
+          class="col-span-2 lg:col-span-1"
+        >
+          <template #icon>
+            <UBadge color="primary" variant="subtle" class="mb-4">New</UBadge>
+          </template>
+          <img
+            src="assets/test.gif"
+            alt="Lottie Export"
+            class="w-full border border-neutral-200 object-cover rounded-xl"
+          />
+        </UPageCard>
 
-     <UPageSection
-      icon="i-lucide:sparkles"
-      title="AI Design System Generator"
-      description="AI that converts any website into production-ready code.
-It detects hero colors, brand accents, and builds complete color scales with WCAG-validated accessibility.
-Export as CSS variables or Tailwind configs instantly."
-      orientation="horizontal"
-      :ui="{
-        leadingIcon: 'text-[#B6A5CC]',
-        description: 'leading-8',
-      }"
-      reverse
-    >
-      <img
-        src="assets/AI.png"
-        width="352"
-        alt="Illustration"
-        class="w-120 border-2 border-neutral-200 bg-[#fefcf4] h-100 object-contain rounded-3xl"
-      />
+        <UPageCard
+          spotlight
+          icon="i-lucide-sparkles"
+          title="AI Design System Generator"
+          description="AI that converts any website into production-ready code. It detects hero colors, brand accents, and builds complete color scales with WCAG-validated accessibility. Export as CSS variables or Tailwind configs instantly."
+          class="col-span-2"
+          :ui="{ icon: 'text-purple-500' }"
+        >
+          <img
+            src="assets/AI.png"
+            alt="AI Design System"
+            class="w-full border border-neutral-200 h-90 bg-[#fefcf4] object-contain rounded-xl"
+          />
+        </UPageCard>
+      </UPageGrid>
     </UPageSection>
 
     <UPageCTA
