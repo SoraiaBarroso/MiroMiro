@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as z from 'zod'
+import { STRIPE_PLANS } from '../../config/pricing'
 
 definePageMeta({
   middleware: 'auth'
@@ -17,6 +18,8 @@ const loading = ref(false)
 const uploadingAvatar = ref(false)
 const profile = ref<any>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
+const cancelingSubscription = ref(false)
+const showCancelModal = ref(false)
 
 // Form schema
 const schema = z.object({
@@ -28,11 +31,16 @@ type Schema = z.output<typeof schema>
 
 // Load profile data
 async function loadProfile() {
+  if (!user.value?.sub) {
+    console.log('User not loaded yet, skipping profile load')
+    return
+  }
+
   try {
     const { data, error } = await supabase
       .from('user_profiles')
       .select('*')
-      .eq('id', user.value?.sub)
+      .eq('id', user.value.sub)
       .single()
 
     if (error) throw error
@@ -115,10 +123,62 @@ const changeProfilePicture = async (event: Event) => {
     uploadingAvatar.value = false
   }
 }
-// Load profile on mount
-onMounted(async () => {
-  await loadProfile()
+// Get plan limits based on user's tier
+const planLimits = computed(() => {
+  if (!profile.value) return null
+
+  const tier = profile.value.premium_tier
+  if (tier === 'starter') return STRIPE_PLANS.starter.limits
+  if (tier === 'pro') return STRIPE_PLANS.pro.limits
+
+  // Free tier limits
+  return {
+    assetExtractions: 50,
+    lottieExtractions: 0,
+    aiGenerations: 0,
+    contrastChecks: 5,
+    bulkExport: false,
+    prioritySupport: false
+  }
 })
+
+// Open cancel modal
+const openCancelModal = () => {
+  showCancelModal.value = true
+}
+
+// Cancel subscription
+const cancelSubscription = async () => {
+  cancelingSubscription.value = true
+
+  try {
+    const response = await $fetch('/api/stripe/cancel-subscription', {
+      method: 'POST'
+    })
+
+    toast.add({
+      title: 'Subscription Canceled',
+      description: 'Your subscription will be canceled at the end of the billing period.',
+      color: 'success'
+    })
+
+    // Close modal and reload profile
+    showCancelModal.value = false
+    await loadProfile()
+  } catch (error: any) {
+    console.error('Error canceling subscription:', error)
+    toast.add({
+      title: 'Error',
+      description: error.data?.statusMessage || 'Failed to cancel subscription',
+      color: 'error'
+    })
+  } finally {
+    cancelingSubscription.value = false
+  }
+}
+
+// Watch for user to load, then load profile
+watch(user, loadProfile, { immediate: true })
 </script>
 
 <template>
@@ -222,25 +282,28 @@ onMounted(async () => {
           </UPageCard>
 
           <!-- Plan & Billing Section -->
-          <UPageCard>
+          <UPageCard
+            :ui="{
+              title: 'flex flex-col items-start gap-4', 
+            }"
+          >
             <template #title>
               <div class="flex items-center gap-2">
                 <UIcon name="i-lucide-credit-card" class="text-xl" />
-                <span>Plan & Billing</span>
+                <span class="text-nowrap">Plan & Billing</span>
               </div>
             </template>
 
             <div v-if="profile" class="space-y-6">
               <!-- Current Plan -->
-              <div class="flex items-center justify-between">
-                <div>
+              <div class="flex flex-col items-start gap-1">
                   <h3 class="font-semibold mb-1">Current Plan</h3>
                   <div class="flex items-center gap-2">
                     <UBadge
                       :color="profile.premium_tier === 'free' ? 'neutral' : 'primary'"
                       size="lg"
                       class="capitalize"
-                      variant="outline"
+                      variant="soft"
                     >
                       {{ profile.premium_tier || 'free' }}
                     </UBadge>
@@ -251,77 +314,73 @@ onMounted(async () => {
                     >
                       {{ profile.discount_percentage }}% Waitlist Discount
                     </UBadge>
-                  </div>
                 </div>
-                <UButton
-                  color="primary"
-                  variant="outline"
-                  disabled
-                >
-                  <UIcon name="i-lucide-sparkles" />
-                  Upgrade Plan
-                </UButton>
               </div>
 
-              <!-- Plan Features -->
+              <!-- Usage Statistics -->
               <div class="border-t border-muted pt-6">
-                <h4 class="font-semibold mb-3">Available Plans</h4>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <!-- Free Plan -->
-                  <div
-                    class="p-4 rounded-lg border border-purple-500"
-                    :class="profile.premium_tier === 'free' ? 'border-purple-500 bg-purple-500/5' : ''"
-                  >
-                    <h5 class="font-semibold mb-2">Free</h5>
-                    <p class="text-2xl font-bold mb-2">$0<span class="text-sm font-normal text-gray-500">/mo</span></p>
-                    <ul class="text-sm space-y-1 text-purple-600 dark:text-gray-400">
-                      <li>✓ Basic features</li>
-                      <li>✓ Community support</li>
-                    </ul>
-                  </div>
+                <h4 class="font-semibold mb-4">Usage This Month</h4>
+                <UsageStats :profile="profile" :plan-limits="planLimits" />
+              </div>
 
-                  <!-- Basic Plan -->
-                  <div
-                    class="p-4 rounded-lg border border-purple-500"
-                    :class="profile.premium_tier === 'basic' ? 'border-primary bg-primary/5' : ''"
-                  >
-                    <h5 class="font-semibold mb-2">Basic</h5>
-                    <p class="text-2xl font-bold mb-2">$9<span class="text-sm font-normal text-gray-500">/mo</span></p>
-                    <ul class="text-sm space-y-1 text-purple-600 dark:text-gray-400">
-                      <li>✓ All Free features</li>
-                      <li>✓ Priority support</li>
-                      <li>✓ Advanced analytics</li>
-                    </ul>
-                  </div>
+              <div v-if="profile" class="flex items-center gap-2 w-full">
+                <UModal
+                  title="Cancel Subscription"
+                  :ui="{ footer: 'justify-end' }"
+                >
+                  <UButton
+                    v-if="profile.premium_tier !== 'free' && profile.premium_status"
+                    color="neutral"
+                    variant="subtle"
+                    label="Cancel Subscription"
+                    icon="i-lucide-x-circle"
+                    class="w-full py-2 flex justify-center"
+                  />
 
-                  <!-- Pro Plan -->
-                  <div
-                    class="p-4 rounded-lg border border-purple-500"
-                    :class="profile.premium_tier === 'pro' ? 'border-primary bg-primary/5' : ''"
-                  >
-                    <h5 class="font-semibold mb-2">Pro</h5>
-                    <p class="text-2xl font-bold mb-2">$29<span class="text-sm font-normal text-gray-500">/mo</span></p>
-                    <ul class="text-sm space-y-1 text-purple-600 dark:text-gray-400">
-                      <li>✓ All Basic features</li>
-                      <li>✓ Custom integrations</li>
-                      <li>✓ API access</li>
-                    </ul>
-                  </div>
+                  <template #body>
+                      <p class="text-muted">
+                        Are you sure you want to cancel your subscription?
+                      </p>
 
-                  <!-- Enterprise Plan -->
-                  <div
-                    class="p-4 rounded-lg border border-purple-500"
-                    :class="profile.premium_tier === 'enterprise' ? 'border-primary bg-primary/5' : ''"
-                  >
-                    <h5 class="font-semibold mb-2">Enterprise</h5>
-                    <p class="text-2xl font-bold mb-2">Custom</p>
-                    <ul class="text-sm space-y-1 text-purple-600 dark:text-gray-400">
-                      <li>✓ All Pro features</li>
-                      <li>✓ Dedicated support</li>
-                      <li>✓ Custom solutions</li>
-                    </ul>
-                  </div>
-                </div>
+                      <UAlert
+                        color="primary"
+                        variant="soft"
+                        icon="i-lucide-info"
+                        title="Important"
+                        class="mt-4"
+                        description="You will retain access to all premium features until the end of your current billing period. After that, your account will be downgraded to the free plan."
+                      />
+                  </template>
+
+                   <template #footer>
+                      <UButton
+                        color="neutral"
+                        variant="outline"
+                        @click="showCancelModal = false"
+                        :disabled="cancelingSubscription"
+                        label="Go Back"
+                      />
+                       
+                      <UButton
+                        color="neutral"
+                        variant="solid"
+                        @click="cancelSubscription"
+                        label="Cancel Subscription"
+                        :loading="cancelingSubscription"
+                      />
+                  </template>
+                </UModal>
+              
+
+                <UButton
+                  to="/compare-plans"
+                  color="primary"
+                  class="w-full py-2 flex justify-center"
+                  variant="subtle"
+                  :disabled="profile.premium_tier === 'pro'"
+                  icon="i-lucide-sparkles"
+                  :label="profile.premium_tier === 'pro' ? 'Max Plan' : 'Upgrade Plan'"
+                />
               </div>
             </div>
           </UPageCard>

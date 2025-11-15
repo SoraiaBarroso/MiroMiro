@@ -3,9 +3,6 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 import { Analytics } from '@vercel/analytics/nuxt'
 import type { DropdownMenuItem } from '@nuxt/ui'
 
-definePageMeta({
-})
-
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const toast = useToast()
@@ -15,19 +12,26 @@ const baseUrl = config.public.siteUrl
 // Use shared avatar state
 const { avatarUrl, updateAvatar } = useUserAvatar()
 
-onMounted(async () => {
-  if (!user.value?.sub) return
-  
+// Fetch avatar when user logs in or changes
+const fetchAvatar = async () => {
+  if (!user.value?.sub) {
+    updateAvatar('') // Clear avatar when logged out
+    return
+  }
+
   const { data } = await supabase
-      .from('user_profiles')
-      .select('avatar_url')
-      .eq('id', user.value?.sub)
-      .single()
+    .from('user_profiles')
+    .select('avatar_url')
+    .eq('id', user.value.sub)
+    .single()
 
   if (data?.avatar_url) {
     updateAvatar(data.avatar_url)
   }
-})
+}
+
+// Watch user changes to update avatar
+watch(user, fetchAvatar, { immediate: true })
 
 const imgUser = computed(() => {
   return avatarUrl.value

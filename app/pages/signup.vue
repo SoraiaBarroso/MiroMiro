@@ -37,8 +37,7 @@
     label: 'Google',
     icon: 'i-simple-icons-google',
     onClick: async () => {
-      // ALWAYS redirect to website, not extension
-      // We'll manually redirect to extension after auth completes
+      console.log('Starting Google OAuth signup')
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -186,7 +185,7 @@
               Didn't receive the email? Resend
             </UButton>
 
-            <UDivider label="OR" />
+            <!-- <UDivider label="OR" /> -->
 
             <div class="text-sm text-center">
               Already confirmed?

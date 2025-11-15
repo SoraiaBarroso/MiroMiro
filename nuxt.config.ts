@@ -1,10 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image', '@unlok-co/nuxt-stripe'],
 
   runtimeConfig: {
+    stripe: {
+      key: process.env.STRIPE_SECRET_KEY,
+    },
+    stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     public: {
-      siteUrl: process.env.SITE_URL || 'http://localhost:3000'
+      siteUrl: process.env.SITE_URL || 'http://localhost:3000',
+      stripe: {
+        key: process.env.STRIPE_PUBLIC_KEY,
+      }
     }
   },
 
@@ -19,7 +26,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: "/signup", // User will be redirected to this path if not authenticated or after logout.
       callback: "/confirm", // This is the path the user will be redirect to after supabase login redirection.
-      exclude: ["/signin", "/", "/compare-plans"], // These paths won't be protected and require no authentication.
+      exclude: ["/signin", "/", "/compare-plans",], // These paths won't be protected and require no authentication.
       cookieRedirect: false,
     },
   },

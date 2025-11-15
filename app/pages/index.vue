@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { STRIPE_PLANS } from '../../config/pricing'
 
 const schema = z.object({
   email: z.string().email('Invalid email')
@@ -14,6 +15,7 @@ const state = reactive<Partial<Schema>>({
 
 const toast = useToast()
 const isSubmitting = ref(false)
+const checkoutLoading = ref(false)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (isSubmitting.value) return
@@ -56,7 +58,55 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 }
 
-const plans = ref([
+async function handleCheckout(priceId: string) {
+  console.log('Initiating checkout for priceId:', priceId)
+  if (checkoutLoading.value) return
+
+  // Check if user is authenticated
+  const user = useSupabaseUser()
+  if (!user.value) {
+    toast.add({
+      title: 'Authentication Required',
+      description: 'Please sign in or create an account to subscribe.',
+      color: 'warning'
+    })
+    navigateTo('/signup')
+    return
+  }
+
+  checkoutLoading.value = true
+
+  try {
+    const { url, error } = await $fetch('/api/stripe/create-checkout-session', {
+      method: 'POST',
+      body: {
+        priceId,
+        successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/#pricing`
+      }
+    })
+
+    if (error) {
+      throw new Error(error)
+    }
+
+    // Redirect to Stripe Checkout
+    if (url) {
+      window.location.href = url
+    }
+  } catch (error: any) {
+    console.error('Checkout error:', error)
+    toast.add({
+      title: 'Error',
+      description: error.message || 'Failed to start checkout. Please try again.',
+      color: 'error'
+    })
+  } finally {
+    checkoutLoading.value = false
+  }
+}
+
+const plans = computed(() => [
   {
     title: 'Free Plan',
     description: 'Perfect for trying MiroMiro and occasional use',
@@ -70,42 +120,40 @@ const plans = ref([
       '50 asset extractions/month',
     ],
     button: {
-      label: 'Coming Soon...'
+      label: 'Current Plan',
+      disabled: true
     }
   },
   {
-    title: 'Starter',
-    description: 'Best for: Freelancers working on 5-10 projects/month',
-    price: '$15',
-    discount: '$9',
+    title: STRIPE_PLANS.starter.name,
+    description: STRIPE_PLANS.starter.description,
+    price: `$${STRIPE_PLANS.starter.price.originalPrice}`,
+    discount: `$${STRIPE_PLANS.starter.price.monthly}`,
     billingCycle: "/month",
     scale: true,
-    badge: 'Launch Price',
-    features: [
-      'Everything in Free Plan, plus:',
-      '500 asset extractions/month',
-      'Bulk Export',
-      '20 Lottie Animation Extractions/month',
-      '50 AI Design System Generations/month',
-    ],
+    badge: STRIPE_PLANS.starter.badge,
+    features: STRIPE_PLANS.starter.features,
     button: {
-      label: 'Coming Soon...'
+      disabled: true,
+      label: 'Upgrade to Starter',
+      onClick: () => {
+        handleCheckout(STRIPE_PLANS.starter.priceId)
+      }
     }
   },
-    {
-    title: 'Pro',
-    description: 'Best for: Agencies, product teams, and daily users',
-    price: '$24',
+  {
+    title: STRIPE_PLANS.pro.name,
+    description: STRIPE_PLANS.pro.description,
+    price: `$${STRIPE_PLANS.pro.price.monthly}`,
     billingCycle: "/month",
-     features: [
-      'Everything in Starter Plan, plus:',
-      '2,000 asset extractions/month',
-      'Unlimited Lottie extractions',
-      'Unlimited AI Design System generations',
-      'Priority support'
-    ],
+    badge: STRIPE_PLANS.pro.badge,
+    features: STRIPE_PLANS.pro.features,
     button: {
-      label: 'Coming Soon...'
+      disabled: true,
+      label: 'Upgrade to Pro',
+      onClick: () => {
+        handleCheckout(STRIPE_PLANS.pro.priceId)
+      }
     }
   },
 ])
