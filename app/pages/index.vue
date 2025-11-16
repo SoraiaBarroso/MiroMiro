@@ -195,7 +195,7 @@ const plans = computed(() => [
           spotlight
           title="Instant Page Overview"
           description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
-          class="col-span-2 lg:col-span-1"
+          class="col-span-1! lg:col-span-1"
         >
           <img
             src="assets/overview.png"
@@ -272,6 +272,14 @@ const plans = computed(() => [
             alt="AI Design System"
             class="w-full border border-neutral-200 h-90 bg-[#fefcf4] object-contain rounded-xl"
           />
+        </UPageCard>
+          <UPageCard
+          spotlight
+          title="See MiroMiro in Action"
+          description="Watch how we inspect a button element with its embedded image, extract exact styles, spacing, and assets—then recreate a pixel-perfect copy in Figma. From hover to export in seconds."
+          class="col-span-3!"
+        >
+         <video src="/assets/demo.mp4" controls autoplay class="w-full border h-100 object-contain border-neutral-200 bg-[#fefcf4] rounded-xl"></video>
         </UPageCard>
       </UPageGrid>
     </UPageSection>

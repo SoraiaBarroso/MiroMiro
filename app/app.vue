@@ -83,12 +83,18 @@ useSeoMeta({
   ogTitle: title,
   ogDescription: description,
   ogImage: `${baseUrl}/og-image.png`,
+  ogImageWidth: '1919',
+  ogImageHeight: '957',
+  ogImageType: 'image/png',
   ogUrl: baseUrl,
+  ogType: 'website',
+  ogSiteName: 'MiroMiro',
   twitterCard: 'summary_large_image',
   twitterTitle: title,
   twitterDescription: description,
   twitterImage: `${baseUrl}/og-image.png`,
-  twitterSite: '@SoraiaDev'
+  twitterSite: '@SoraiaDev',
+  twitterCreator: '@SoraiaDev'
 })
 
 const items = computed<NavigationMenuItem[]>(() => [ {
