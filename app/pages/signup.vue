@@ -31,51 +31,21 @@
     type: 'password',
     placeholder: 'Enter your password (min 8 characters)',
     required: true
-  }]
-
-  const providers = [{
-    label: 'Google',
-    icon: 'i-simple-icons-google',
-    onClick: async () => {
-      console.log('Starting Google OAuth signup')
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/confirm`,
-        },
-      })
-      if (error) {
-        toast.add({
-          title: 'Error',
-          description: error.message,
-          color: 'error'
-        })
-      }
-    }
   }, {
-    label: 'GitHub',
-    icon: 'i-simple-icons-github',
-    onClick: async () => {
-      // ALWAYS redirect to website, not extension
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
-        options: {
-          redirectTo: `${window.location.origin}/confirm`,
-        },
-      })
-      if (error) {
-        toast.add({
-          title: 'Error',
-          description: error.message,
-          color: 'error'
-        })
-      }
-    }
+    name: 'confirmPassword',
+    label: 'Confirm Password',
+    type: 'password',
+    placeholder: 'Confirm your password',
+    required: true
   }]
 
   const schema = z.object({
     email: z.string().email('Invalid email'),
-    password: z.string().min(8, 'Must be at least 8 characters')
+    password: z.string().min(8, 'Must be at least 8 characters'),
+    confirmPassword: z.string().min(8, 'Must be at least 8 characters')
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
   })
 
   type Schema = z.output<typeof schema>
@@ -107,11 +77,21 @@
       })
     } catch (error: any) {
       console.error('Signup error:', error)
-      toast.add({
-        title: 'Error',
-        description: error.data?.statusMessage || error.message || 'Failed to create account',
-        color: 'error'
-      })
+
+      // Handle duplicate email specially
+      if (error.status === 409 || error.data?.data?.errorType === 'duplicate_email') {
+        toast.add({
+          title: 'Account Already Exists',
+          description: error.data?.statusMessage || 'An account with this email already exists.',
+          color: 'warning',
+        })
+      } else {
+        toast.add({
+          title: 'Error',
+          description: error.data?.statusMessage || error.message || 'Failed to create account',
+          color: 'error'
+        })
+      }
     } finally {
       loading.value = false
     }
@@ -194,7 +174,6 @@
           description="Create your account to get started."
           icon="i-lucide-user-plus"
           :fields="fields"
-          :providers="providers"
           @submit="onSubmit"
         >
           <template #footer>

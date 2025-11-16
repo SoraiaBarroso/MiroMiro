@@ -1,8 +1,9 @@
-import { serverSupabaseClient } from '#supabase/server'
+import { serverSupabaseClient, serverSupabaseServiceRole } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
   try {
     const client = await serverSupabaseClient(event)
+    const serviceClient = serverSupabaseServiceRole(event)
     const body = await readBody(event)
     const { email: rawEmail, password } = body
 
@@ -21,6 +22,25 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 400,
         statusMessage: 'Password must be at least 8 characters'
+      })
+    }
+
+    // Check if user already exists (use service role to bypass RLS)
+    const { data: existingProfile } = await serviceClient
+      .from('user_profiles')
+      .select('email')
+      .eq('email', email)
+      .maybeSingle()
+
+    console.log('Existing profile check:', existingProfile)
+    if (existingProfile) {
+      throw createError({
+        statusCode: 409,
+        statusMessage: 'An account with this email already exists. Please sign in instead.',
+        data: {
+          errorType: 'duplicate_email',
+          email
+        }
       })
     }
 
@@ -49,6 +69,18 @@ export default defineEventHandler(async (event) => {
     })
 
     if (authError) {
+      // Handle duplicate email more gracefully
+      if (authError.message.includes('already registered') || authError.message.includes('User already registered')) {
+        throw createError({
+          statusCode: 409,
+          statusMessage: 'An account with this email already exists. Please sign in instead.',
+          data: {
+            errorType: 'duplicate_email',
+            email
+          }
+        })
+      }
+
       throw createError({
         statusCode: 400,
         statusMessage: authError.message
