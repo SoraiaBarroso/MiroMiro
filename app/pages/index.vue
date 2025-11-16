@@ -195,7 +195,7 @@ const plans = computed(() => [
           spotlight
           title="Instant Page Overview"
           description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
-          class="col-span-1! lg:col-span-1"
+          class="col-span-2 lg:col-span-1"         
         >
           <img
             src="assets/overview.png"
@@ -222,6 +222,7 @@ const plans = computed(() => [
           title="One-Click Media Extraction"
           description="Download all images and videos from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
           class="col-span-2"
+        
         >
           <img
             src="assets/images1.png"
@@ -235,6 +236,7 @@ const plans = computed(() => [
           title="SVG & Icon Capture"
           description="Extract SVG graphics and icons in their original vector format. Download them individually or in bulk, preserving full editability. Perfect for designers who need clean, scalable assets."
           class="col-span-2 lg:col-span-1"
+         
         >
           <img
             src="assets/svg.png"
@@ -248,6 +250,7 @@ const plans = computed(() => [
           title="Lottie Animation Export"
           description="Capture and export Lottie animations directly from websites. MiroMiro identifies embedded Lottie files and lets you download them in JSON format, ready for use in your projects."
           class="col-span-2 lg:col-span-1"
+        
         >
           <template #icon>
             <UBadge color="primary" variant="subtle" class="mb-4">New</UBadge>
@@ -266,6 +269,7 @@ const plans = computed(() => [
           description="AI that converts any website into production-ready code. It detects hero colors, brand accents, and builds complete color scales with WCAG-validated accessibility. Export as CSS variables or Tailwind configs instantly."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
+         
         >
           <img
             src="assets/AI.png"
@@ -277,7 +281,8 @@ const plans = computed(() => [
           spotlight
           title="See MiroMiro in Action"
           description="Watch how we inspect a button element with its embedded image, extract exact styles, spacing, and assets—then recreate a pixel-perfect copy in Figma. From hover to export in seconds."
-          class="col-span-3!"
+          class="col-span-2 lg:col-span-3!"
+       
         >
          <video src="/assets/demo.mp4" controls autoplay class="w-full border h-100 object-contain border-neutral-200 bg-[#fefcf4] rounded-xl"></video>
         </UPageCard>
@@ -290,7 +295,7 @@ const plans = computed(() => [
       description="Sign up for our waitlist and be among the first to enjoy our premium features."
       variant="subtle"
       :ui="{
-        title: 'relative',  
+        title: 'relative',
         container: 'flex flex-col items-center justify-center !gap-8',
       }"
     >
@@ -306,7 +311,8 @@ const plans = computed(() => [
 
     <UPageSection
      :ui="{container: '!gap-6'}"
-     id="pricing" title="Pricing" description="Try it for free and upgrade to unlock advanced features that will boost your efficiency.">
+     id="pricing" title="Pricing" description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
+   >
         <NuxtLink to="/compare-plans" class="text-purple-600 hover:underline mb-7 text-center inline-block">Compare Plans</NuxtLink>  
         <UPricingPlans>
              <UPricingPlan
