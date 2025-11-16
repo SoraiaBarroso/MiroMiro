@@ -79,9 +79,10 @@ export default defineEventHandler(async (event) => {
 
     if (updateError) {
       console.error('Failed to update user profile:', updateError)
+      console.error('Update error details:', JSON.stringify(updateError, null, 2))
       throw createError({
         statusCode: 500,
-        statusMessage: 'Failed to update user profile'
+        statusMessage: `Failed to update user profile: ${updateError.message || updateError.code || 'Unknown error'}`
       })
     }
 

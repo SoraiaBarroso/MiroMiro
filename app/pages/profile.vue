@@ -29,6 +29,12 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
+// Form state
+const formState = reactive<Partial<Schema>>({
+  first_name: '',
+  last_name: ''
+})
+
 // Load profile data
 async function loadProfile() {
   if (!user.value?.sub) {
@@ -45,6 +51,10 @@ async function loadProfile() {
 
     if (error) throw error
     profile.value = data
+
+    // Populate form state
+    formState.first_name = data.first_name || ''
+    formState.last_name = data.last_name || ''
   } catch (error: any) {
     console.error('Error loading profile:', error)
     toast.add({
@@ -52,6 +62,40 @@ async function loadProfile() {
       description: 'Failed to load profile',
       color: 'error'
     })
+  }
+}
+
+// Update profile
+async function onSubmit(event: any) {
+  loading.value = true
+  try {
+    const { error } = await supabase
+      .from('user_profiles')
+      .update({
+        first_name: formState.first_name,
+        last_name: formState.last_name
+      })
+      .eq('id', user.value!.sub)
+
+    if (error) throw error
+
+    toast.add({
+      title: 'Success',
+      description: 'Profile updated successfully',
+      color: 'success'
+    })
+
+    // Reload profile to get updated data
+    await loadProfile()
+  } catch (error: any) {
+    console.error('Error updating profile:', error)
+    toast.add({
+      title: 'Error',
+      description: 'Failed to update profile',
+      color: 'error'
+    })
+  } finally {
+    loading.value = false
   }
 }
 
@@ -142,10 +186,6 @@ const planLimits = computed(() => {
   }
 })
 
-// Open cancel modal
-const openCancelModal = () => {
-  showCancelModal.value = true
-}
 
 // Cancel subscription
 const cancelSubscription = async () => {
@@ -200,7 +240,7 @@ watch(user, loadProfile, { immediate: true })
             <div class="flex items-center gap-4">
               <div class="relative">
                 <UAvatar
-                  :src="profile?.avatar_url || '/default-avatar.png'"
+                  :src="profile?.avatar_url"
                   size="xl"
                   class="hover:opacity-80 transition duration-200 cursor-pointer"
                   :class="{ 'opacity-50': uploadingAvatar }"
@@ -238,7 +278,8 @@ watch(user, loadProfile, { immediate: true })
             <UForm
               v-if="profile"
               :schema="schema"
-              :state="{ first_name: profile.first_name || '', last_name: profile.last_name || '' }"
+              :state="formState"
+              @submit="onSubmit"
             >
               <div class="grid gap-4">
                 <UFormField label="Email" name="email" class="w-full" description="Email cannot be changed">
@@ -252,18 +293,18 @@ watch(user, loadProfile, { immediate: true })
 
                 <UFormField label="First Name" name="first_name" required class="w-full">
                   <UInput
+                    v-model="formState.first_name"
                     icon="i-lucide-user"
                     placeholder="Enter your first name"
-                    :model-value="profile.first_name"
                     class="w-1/2"
                   />
                 </UFormField>
 
                 <UFormField label="Last Name" name="last_name" required class="w-full">
                   <UInput
+                    v-model="formState.last_name"
                     icon="i-lucide-user"
                     placeholder="Enter your last name"
-                    :model-value="profile.last_name"
                     class="w-1/2"
                   />
                 </UFormField>

@@ -174,17 +174,6 @@
               Please click the confirmation link in the email to activate your account.
             </p>
 
-            <UButton
-              color="neutral"
-              variant="outline"
-              block
-              :loading="resendingEmail"
-              @click="resendConfirmation"
-            >
-              <UIcon name="i-lucide-mail" />
-              Didn't receive the email? Resend
-            </UButton>
-
             <!-- <UDivider label="OR" /> -->
 
             <div class="text-sm text-center">

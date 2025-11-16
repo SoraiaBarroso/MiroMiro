@@ -1,11 +1,32 @@
 <script setup lang="ts">
+import { STRIPE_PLANS } from '../../config/pricing'
+
 const route = useRoute()
 const router = useRouter()
 const confetti = ref<any>(null)
 const verifying = ref(true)
 const error = ref<string | null>(null)
+const planTier = ref<string>('free')
 
 const sessionId = route.query.session_id
+
+// Get plan details based on tier
+const planDetails = computed(() => {
+  if (planTier.value === 'starter') {
+    return {
+      name: STRIPE_PLANS.starter.name,
+      features: STRIPE_PLANS.starter.features,
+      price: `$${STRIPE_PLANS.starter.price.monthly}/month`
+    }
+  } else if (planTier.value === 'pro') {
+    return {
+      name: STRIPE_PLANS.pro.name,
+      features: STRIPE_PLANS.pro.features,
+      price: `$${STRIPE_PLANS.pro.price.monthly}/month`
+    }
+  }
+  return null
+})
 
 onMounted(async () => {
   // Verify the session and update database
@@ -16,6 +37,7 @@ onMounted(async () => {
         body: { sessionId }
       })
       console.log('Payment verified:', response)
+      planTier.value = response.tier || 'free'
       verifying.value = false
     } catch (err: any) {
       console.error('Verification failed:', err)
@@ -47,16 +69,23 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen p-4">
-    <UPageCard class="w-full max-w-md text-center">
-      <div v-if="verifying" class="flex flex-col items-center gap-6 py-8">
+    <UCard v-if="verifying"
+      :ui="{
+        body: 'flex flex-col items-center gap-4'
+      }"
+    >
         <UIcon name="i-lucide-loader-2" class="w-20 h-20 text-primary animate-spin" />
         <div class="space-y-2">
-          <h1 class="text-3xl font-bold">Verifying Payment...</h1>
-          <p class="text-muted">Please wait while we confirm your subscription</p>
+          <h1 class="text-3xl font-bold text-center">Verifying Payment...</h1>
+          <p class="text-muted text-center">Please wait while we confirm your subscription</p>
         </div>
-      </div>
+    </UCard>
 
-      <div v-else-if="error" class="flex flex-col items-center gap-6 py-8">
+    <UCard v-else-if="error" 
+      :ui="{
+        body: 'flex flex-col items-center gap-4'
+      }"
+    >
         <UIcon name="i-lucide-alert-circle" class="w-20 h-20 text-red-500" />
         <div class="space-y-2">
           <h1 class="text-3xl font-bold">Verification Failed</h1>
@@ -65,15 +94,23 @@ onMounted(async () => {
         <UButton to="/profile" color="neutral" variant="solid" size="lg">
           Go to Profile
         </UButton>
-      </div>
-
-      <div v-else class="flex flex-col items-center gap-6 py-8">
+    </UCard>
+    
+    <UCard 
+      v-else
+      :ui="{
+        body: 'flex flex-col items-center gap-4'
+      }"
+    >
         <UIcon name="i-lucide-check-circle-2" class="w-20 h-20 text-green-500" />
 
         <div class="space-y-2">
-          <h1 class="text-3xl font-bold">Payment Successful!</h1>
-          <p class="text-muted">
-            Thank you for subscribing to MiroMiro Premium
+          <h1 class="text-3xl font-bold text-center">Payment Successful!</h1>
+          <p class="text-muted text-center">
+            Thank you for subscribing to <strong>{{ planDetails?.name || 'MiroMiro Premium' }}</strong>
+          </p>
+          <p v-if="planDetails" class="text-sm text-muted text-center">
+            {{ planDetails.price }}
           </p>
         </div>
 
@@ -81,12 +118,25 @@ onMounted(async () => {
           color="primary"
           variant="soft"
           icon="i-lucide-sparkles"
-          title="Welcome to Premium!"
-          description="You now have access to all premium features including unlimited asset extractions, Lottie animations, and AI Design System generation."
-        />
+          :title="`Welcome to ${planDetails?.name || 'Premium'}!`"
+        >
+          <template #description>
+            <div v-if="planDetails">
+              <p class="mb-2">You now have access to:</p>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li v-for="(feature, index) in planDetails.features.slice(0, 5)" :key="index">
+                  {{ feature }}
+                </li>
+              </ul>
+            </div>
+            <p v-else>
+              You now have access to all premium features including unlimited asset extractions, Lottie animations, and AI Design System generation.
+            </p>
+          </template>
+        </UAlert>
 
         <div class="space-y-3 w-full">
-          <p class="text-sm text-muted">
+          <p class="text-sm text-muted text-center">
             Redirecting you to your profile in 5 seconds...
           </p>
 
@@ -115,7 +165,6 @@ onMounted(async () => {
         <p v-if="sessionId" class="text-xs text-muted mt-4">
           Session ID: {{ sessionId }}
         </p>
-      </div>
-    </UPageCard>
+    </UCard>     
   </div>
 </template>

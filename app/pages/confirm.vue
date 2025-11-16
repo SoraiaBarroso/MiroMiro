@@ -1,6 +1,5 @@
 <script setup lang="ts">
   const supabase = useSupabaseClient()
-  const route = useRoute()
 
   onMounted(async () => {
     console.log('Confirm page loaded')
