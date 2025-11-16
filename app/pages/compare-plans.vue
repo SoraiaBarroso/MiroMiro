@@ -96,7 +96,7 @@ const tiers = computed(() => {
       button: {
         label: currentTier === 'starter' ? 'Current Plan' : 'Upgrade to Starter',
         // disabled: currentTier === 'starter',
-        // disabled: true,
+        disabled: true,
         onClick: () => handleCheckout(STRIPE_PLANS.starter.priceId, 'Starter')
       }
     },
