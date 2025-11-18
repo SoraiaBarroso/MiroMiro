@@ -118,6 +118,7 @@ const plans = computed(() => [
       'Individual Downloads',
       'Color Palette Viewer',
       '50 asset extractions/month',
+      '5 smart inspections/day',
     ],
     button: {
       label: 'Current Plan',
@@ -146,7 +147,6 @@ const plans = computed(() => [
     description: STRIPE_PLANS.pro.description,
     price: `$${STRIPE_PLANS.pro.price.monthly}`,
     billingCycle: "/month",
-    badge: STRIPE_PLANS.pro.badge,
     features: STRIPE_PLANS.pro.features,
     button: {
       disabled: true,
@@ -213,21 +213,21 @@ const plans = computed(() => [
           <img
             src="assets/inspector.png"
             alt="Element Inspector"
-            class="w-full border h-80 border-neutral-200 bg-[#fefcf4] object-cover rounded-xl"
+            class="w-full border lg:h-80 border-neutral-200 bg-[#fefcf4] h-fit object-cover rounded-xl"
           />
         </UPageCard>
 
         <UPageCard
           spotlight
           title="One-Click Media Extraction"
-          description="Download all images and videos from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
+          description="Download all images, videos, gifs from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
           class="col-span-2"
         
         >
           <img
-            src="assets/images1.png"
+            src="assets/demoImg.gif"
             alt="Media Extraction"
-            class="w-full border border-neutral-200 bg-[#fefcf4] rounded-xl h-120 object-cover"
+            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-120 lg:object-cover"
           />
         </UPageCard>
 
@@ -258,7 +258,7 @@ const plans = computed(() => [
           <img
             src="assets/test.gif"
             alt="Lottie Export"
-            class="w-full border border-neutral-200 object-cover rounded-xl"
+            class="w-full border border-neutral-200 object-cover rounded-xl h-fit"
           />
         </UPageCard>
 
@@ -284,15 +284,15 @@ const plans = computed(() => [
           class="col-span-2 lg:col-span-3!"
        
         >
-         <video src="/assets/demo.mp4" controls autoplay class="w-full border h-100 object-contain border-neutral-200 bg-[#fefcf4] rounded-xl"></video>
+         <video src="/assets/demo.mp4" controls autoplay class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"></video>
         </UPageCard>
       </UPageGrid>
     </UPageSection>
 
     <UPageCTA
       id="waitlist"
-      title="Be the First to Know"
-      description="Sign up for our waitlist and be among the first to enjoy our premium features."
+      title="Be First to Know"
+      description="Sign up for our waitlist and get 20% off of any plan forever!"
       variant="subtle"
       :ui="{
         title: 'relative',
