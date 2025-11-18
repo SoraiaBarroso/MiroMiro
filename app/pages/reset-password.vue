@@ -13,8 +13,8 @@ const showConfirmation = ref(false)
 const schema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string().min(8, 'Password must be at least 8 characters')
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+}).refine(data => data.password === data.confirmPassword, {
+  message: 'Passwords don\'t match',
   path: ['confirmPassword']
 })
 
@@ -76,15 +76,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UPageCard class="w-full max-w-md">
       <div v-if="!passwordReset">
         <div class="text-center mb-6">
-          <UIcon name="i-lucide-key-round" class="w-12 h-12 mx-auto mb-4 text-purple-500" />
-          <h1 class="text-2xl font-bold mb-2">Reset Password</h1>
+          <UIcon
+            name="i-lucide-key-round"
+            class="w-12 h-12 mx-auto mb-4 text-purple-500"
+          />
+          <h1 class="text-2xl font-bold mb-2">
+            Reset Password
+          </h1>
           <p class="text-sm text-gray-600">
             Enter your new password below.
           </p>
         </div>
 
-        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-          <UFormField name="password" label="New Password">
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
+          <UFormField
+            name="password"
+            label="New Password"
+          >
             <UInput
               v-model="state.password"
               :type="show ? 'text' : 'password'"
@@ -108,7 +121,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </UInput>
           </UFormField>
 
-          <UFormField name="confirmPassword" label="Confirm Password">
+          <UFormField
+            name="confirmPassword"
+            label="Confirm Password"
+          >
             <UInput
               v-model="state.confirmPassword"
               :type="showConfirmation ? 'text' : 'password'"
@@ -117,19 +133,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               class="w-full"
               :ui="{ trailing: 'pe-1' }"
             >
-                <template #trailing>
-                  <UButton
-                    color="neutral"
-                    variant="link"
-                    size="sm"
-                    :icon="showConfirmation ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    :aria-label="showConfirmation ? 'Hide password' : 'Show password'"
-                    :aria-pressed="showConfirmation"
-                    aria-controls="password"
-                    @click="showConfirmation = !showConfirmation"
-                  />
-                </template>
-              </UInput>
+              <template #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  :icon="showConfirmation ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                  :aria-label="showConfirmation ? 'Hide password' : 'Show password'"
+                  :aria-pressed="showConfirmation"
+                  aria-controls="password"
+                  @click="showConfirmation = !showConfirmation"
+                />
+              </template>
+            </UInput>
           </UFormField>
 
           <div class="text-xs text-gray-500 space-y-1">
@@ -152,15 +168,26 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UForm>
 
         <div class="text-sm text-center mt-6">
-          <NuxtLink to="/signin" class="text-purple-600 font-medium hover:underline">
+          <NuxtLink
+            to="/signin"
+            class="text-purple-600 font-medium hover:underline"
+          >
             Back to Sign In
           </NuxtLink>
         </div>
       </div>
 
-      <div v-else class="text-center py-8">
-        <UIcon name="i-lucide-check-circle" class="w-16 h-16 mx-auto mb-4 text-green-500" />
-        <h2 class="text-2xl font-bold mb-2">Password Reset Successful!</h2>
+      <div
+        v-else
+        class="text-center py-8"
+      >
+        <UIcon
+          name="i-lucide-check-circle"
+          class="w-16 h-16 mx-auto mb-4 text-green-500"
+        />
+        <h2 class="text-2xl font-bold mb-2">
+          Password Reset Successful!
+        </h2>
         <p class="text-sm text-gray-600 mb-6">
           Your password has been successfully reset. You can now sign in with your new password.
         </p>

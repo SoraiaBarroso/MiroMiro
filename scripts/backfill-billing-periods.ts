@@ -106,8 +106,8 @@ async function backfillBillingPeriods() {
 
       // Rate limit to avoid hitting Stripe API limits
       await new Promise(resolve => setTimeout(resolve, 200))
-    } catch (error: any) {
-      const msg = `  ❌ Error processing ${user.email}: ${error.message}`
+    } catch (error: unknown) {
+      const msg = `  ❌ Error processing ${user.email}: ${error instanceof Error ? error.message : String(error)}`
       console.log(msg)
       errors.push(msg)
       failCount++

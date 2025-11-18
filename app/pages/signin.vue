@@ -32,8 +32,8 @@ const providers = [{
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/confirm`,
-      },
+        redirectTo: `${window.location.origin}/confirm`
+      }
     })
     if (error) {
       toast.add({
@@ -50,8 +50,8 @@ const providers = [{
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}/confirm`,
-      },
+        redirectTo: `${window.location.origin}/confirm`
+      }
     })
     if (error) {
       toast.add({
@@ -160,11 +160,17 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
       >
         <template #footer>
           <div class="text-sm text-center mt-4">
-            <NuxtLink to="/forgot-password" class="text-purple-600 font-medium hover:underline block mb-3">
+            <NuxtLink
+              to="/forgot-password"
+              class="text-purple-600 font-medium hover:underline block mb-3"
+            >
               Forgot your password?
             </NuxtLink>
             Don't have an account?
-            <NuxtLink to="/signup" class="text-primary font-medium hover:underline">
+            <NuxtLink
+              to="/signup"
+              class="text-primary font-medium hover:underline"
+            >
               Sign up
             </NuxtLink>
           </div>
@@ -173,4 +179,3 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     </UPageCard>
   </div>
 </template>
-

@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const { data } = await client.from('waitlist').insert({email: email}).select().single()
+    const { data } = await client.from('waitlist').insert({ email: email }).select().single()
 
     console.log('Current waitlist entries:', data)
     const { sendMail } = useNodeMailer()

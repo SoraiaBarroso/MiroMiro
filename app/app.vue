@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem, DropdownMenuItem } from '@nuxt/ui'
 import { Analytics } from '@vercel/analytics/nuxt'
-import type { DropdownMenuItem } from '@nuxt/ui'
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
@@ -74,8 +73,8 @@ useHead({
   }
 })
 
-const title = 'MiroMiro – Chrome Extension for Designers & Developers';
-const description = 'Inspect elements, extract assets, and generate design systems effortlessly. MiroMiro lets you analyze any website\'s visuals, reveal brand identity insights, and export everything in production-ready formats.';
+const title = 'MiroMiro – Chrome Extension for Designers & Developers'
+const description = 'Inspect elements, extract assets, and generate design systems effortlessly. MiroMiro lets you analyze any website\'s visuals, reveal brand identity insights, and export everything in production-ready formats.'
 
 useSeoMeta({
   title,
@@ -97,17 +96,17 @@ useSeoMeta({
   twitterCreator: '@SoraiaDev'
 })
 
-const items = computed<NavigationMenuItem[]>(() => [ {
+const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Features',
-  to: '#features',
+  to: '#features'
 },
 {
   label: 'Waitlist',
-  to: '#waitlist',
+  to: '#waitlist'
 },
 {
   label: 'Pricing',
-  to: '#pricing',
+  to: '#pricing'
 }])
 </script>
 
@@ -115,36 +114,51 @@ const items = computed<NavigationMenuItem[]>(() => [ {
   <UApp>
     <Analytics />
 
-    <UHeader title="MiroMiro" to="/" mode="drawer">
+    <UHeader
+      title="MiroMiro"
+      to="/"
+      mode="drawer"
+    >
       <UNavigationMenu :items="items" />
 
       <template #right>
         <!-- <UColorModeButton /> -->
-         <UButton
+        <UButton
+          v-if="!user"
           to="/signin"
           variant="outline"
           color="neutral"
-          v-if="!user"
           disabled
         >
           Sign In
         </UButton>
-          <UButton
+        <UButton
+          v-if="!user"
           to="/signup"
           color="neutral"
-          v-if="!user"
           disabled
         >
           Sign Up
         </UButton>
-        
-        <UDropdownMenu :items="itemsDropdown" v-if="user" class="cursor-pointer">
-          <UAvatar :src="imgUser" class="ml-2"/>
+
+        <UDropdownMenu
+          v-if="user"
+          :items="itemsDropdown"
+          class="cursor-pointer"
+        >
+          <UAvatar
+            :src="imgUser"
+            class="ml-2"
+          />
         </UDropdownMenu>
       </template>
 
       <template #body>
-        <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
+        <UNavigationMenu
+          :items="items"
+          orientation="vertical"
+          class="-mx-2.5"
+        />
       </template>
     </UHeader>
 
@@ -152,7 +166,10 @@ const items = computed<NavigationMenuItem[]>(() => [ {
       <NuxtPage />
     </UMain>
 
-    <USeparator icon="i-typcn:heart-outline" :ui="{icon: 'text-purple-400'}" />
+    <USeparator
+      icon="i-typcn:heart-outline"
+      :ui="{ icon: 'text-purple-400' }"
+    />
 
     <UFooter>
       <template #left>

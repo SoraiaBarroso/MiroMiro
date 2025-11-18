@@ -98,8 +98,8 @@ export default defineEventHandler(async (event) => {
             console.log(`✅ Reset counters for ${user.email}`)
           }
         }
-      } catch (userError: any) {
-        const errorMsg = `Error processing user ${user.email}: ${userError.message}`
+      } catch (userError: unknown) {
+        const errorMsg = `Error processing user ${user.email}: ${userError instanceof Error ? userError.message : String(userError)}`
         console.error(errorMsg)
         resetResults.errors.push(errorMsg)
       }
@@ -118,11 +118,11 @@ export default defineEventHandler(async (event) => {
       results: resetResults,
       timestamp: now.toISOString()
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ Fatal error during usage reset:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: `Usage reset failed: ${error.message}`
+      statusMessage: `Usage reset failed: ${error instanceof Error ? error.message : String(error)}`
     })
   }
 })

@@ -33,8 +33,8 @@ export default defineEventHandler(async (event) => {
       line_items: [
         {
           price: priceId,
-          quantity: 1,
-        },
+          quantity: 1
+        }
       ],
       customer_email: user.email, // Pass user email to Stripe
       metadata: {
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
         price_id: priceId
       },
       success_url: successUrl || `${config.public.siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: cancelUrl || `${config.public.siteUrl}/#pricing`,
+      cancel_url: cancelUrl || `${config.public.siteUrl}/#pricing`
     })
 
     return {

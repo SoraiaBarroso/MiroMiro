@@ -246,13 +246,13 @@ const sections = ref([
 </script>
 
 <template>
-    <UPage>
-        <UPageSection>
-          <!-- <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1> -->
-          <UPricingTable :tiers="tiers" :sections="sections" />
-        </UPageSection>
-    </UPage>
+  <UPage>
+    <UPageSection>
+      <!-- <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1> -->
+      <UPricingTable
+        :tiers="tiers"
+        :sections="sections"
+      />
+    </UPageSection>
+  </UPage>
 </template>
-
-
- 

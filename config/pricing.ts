@@ -18,7 +18,7 @@ export const STRIPE_PLANS = {
     price: {
       monthly: 9,
       originalPrice: 15,
-      currency: 'USD',
+      currency: 'USD'
     },
     features: [
       'Everything in Free Plan, plus:',
@@ -26,7 +26,7 @@ export const STRIPE_PLANS = {
       'Bulk Export',
       '50 Lottie Animation Extractions/month',
       '50 AI Design System Generations/month',
-      '50 Contrast Checks',
+      '50 Contrast Checks'
     ],
     limits: {
       assetExtractions: 500,
@@ -34,10 +34,10 @@ export const STRIPE_PLANS = {
       aiGenerations: 50,
       contrastChecks: 50,
       bulkExport: true,
-      prioritySupport: false,
+      prioritySupport: false
     },
     badge: 'Launch Price',
-    comingSoon: false,
+    comingSoon: false
   },
   pro: {
     name: 'Pro',
@@ -45,14 +45,14 @@ export const STRIPE_PLANS = {
     priceId: getEnv('STRIPE_PRO_PRICE_ID', 'price_1STjdMAaZdcZr0Eu9hu7u4a4'), // Test: price_1STjdMAaZdcZr0Eu9hu7u4a4
     price: {
       monthly: 24,
-      currency: 'USD',
+      currency: 'USD'
     },
     features: [
       'Everything in Starter Plan, plus:',
       '2,000 asset extractions/month',
       'Unlimited Lottie extractions',
       'Unlimited AI Design System generations',
-      'Priority support',
+      'Priority support'
     ],
     limits: {
       assetExtractions: 2000,
@@ -60,12 +60,12 @@ export const STRIPE_PLANS = {
       aiGenerations: -1, // -1 means unlimited
       contrastChecks: -1, // -1 means unlimited
       bulkExport: true,
-      prioritySupport: true,
+      prioritySupport: true
     },
     badge: 'Popular',
     featured: true,
-    comingSoon: false,
-  },
+    comingSoon: false
+  }
 } as const
 
 export type PlanTier = keyof typeof STRIPE_PLANS

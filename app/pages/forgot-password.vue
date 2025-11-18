@@ -22,7 +22,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     const config = useRuntimeConfig()
     const { data, error } = await supabase.auth.resetPasswordForEmail(state.email!, {
-      redirectTo: `${config.public.siteUrl}/reset-password`,
+      redirectTo: `${config.public.siteUrl}/reset-password`
     })
 
     if (error) throw error
@@ -51,15 +51,30 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UPageCard class="w-full max-w-md">
       <div v-if="!emailSent">
         <div class="text-center mb-6">
-          <UIcon name="i-lucide-lock-keyhole" class="w-12 h-12 mx-auto mb-4 text-purple-500" />
-          <h1 class="text-2xl font-bold mb-2">Forgot your password?</h1>
+          <UIcon
+            name="i-lucide-lock-keyhole"
+            class="w-12 h-12 mx-auto mb-4 text-purple-500"
+          />
+          <h1 class="text-2xl font-bold mb-2">
+            Forgot your password?
+          </h1>
           <p class="text-sm text-gray-600">
             Enter your email address and we'll send you a link to reset your password.
           </p>
         </div>
 
-        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-          <UFormField name="email" label="Email" class="w-full" required>
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
+        >
+          <UFormField
+            name="email"
+            label="Email"
+            class="w-full"
+            required
+          >
             <UInput
               v-model="state.email"
               type="email"
@@ -81,15 +96,26 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
         <div class="text-sm text-center mt-6">
           Remember your password?
-          <NuxtLink to="/signin" class="text-purple-600 font-medium hover:underline">
+          <NuxtLink
+            to="/signin"
+            class="text-purple-600 font-medium hover:underline"
+          >
             Sign in
           </NuxtLink>
         </div>
       </div>
 
-      <div v-else class="text-center py-8">
-        <UIcon name="i-lucide-mail-check" class="w-16 h-16 mx-auto mb-4 text-green-500" />
-        <h2 class="text-2xl font-bold mb-2">Check Your Email</h2>
+      <div
+        v-else
+        class="text-center py-8"
+      >
+        <UIcon
+          name="i-lucide-mail-check"
+          class="w-16 h-16 mx-auto mb-4 text-green-500"
+        />
+        <h2 class="text-2xl font-bold mb-2">
+          Check Your Email
+        </h2>
         <p class="text-sm text-gray-600 mb-6">
           We've sent a password reset link to <strong>{{ state.email }}</strong>.
           Click the link in the email to reset your password.
@@ -100,8 +126,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UButton
           variant="outline"
           color="neutral"
-          @click="emailSent = false"
           class="w-full flex justify-center"
+          @click="emailSent = false"
         >
           Try Again
         </UButton>

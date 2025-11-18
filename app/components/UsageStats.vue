@@ -51,7 +51,10 @@ const aiGenerationsUsagePercent = computed(() => {
         v-model="assetUsagePercent"
         :color="assetUsagePercent >= 80 ? 'error' : 'primary'"
       />
-      <p v-if="assetUsagePercent >= 80 && planLimits?.assetExtractions !== -1" class="text-xs text-error mt-1">
+      <p
+        v-if="assetUsagePercent >= 80 && planLimits?.assetExtractions !== -1"
+        class="text-xs text-error mt-1"
+      >
         You're running low on extractions. Consider upgrading!
       </p>
     </div>
@@ -71,7 +74,10 @@ const aiGenerationsUsagePercent = computed(() => {
         v-model="contrastUsagePercent"
         :color="contrastUsagePercent >= 80 ? 'error' : 'primary'"
       />
-      <p v-if="contrastUsagePercent >= 80 && profile.premium_tier === 'free'" class="text-xs text-error mt-1">
+      <p
+        v-if="contrastUsagePercent >= 80 && profile.premium_tier === 'free'"
+        class="text-xs text-error mt-1"
+      >
         You've used most of your contrast checks. Upgrade for unlimited!
       </p>
     </div>
@@ -92,10 +98,16 @@ const aiGenerationsUsagePercent = computed(() => {
         v-model="lottieUsagePercent"
         :color="lottieUsagePercent >= 80 ? 'error' : 'primary'"
       />
-      <p v-if="lottieUsagePercent >= 80 && planLimits?.lottieExtractions !== -1 && planLimits?.lottieExtractions !== 0" class="text-xs text-error mt-1">
+      <p
+        v-if="lottieUsagePercent >= 80 && planLimits?.lottieExtractions !== -1 && planLimits?.lottieExtractions !== 0"
+        class="text-xs text-error mt-1"
+      >
         You're running low on Lottie extractions. Consider upgrading!
       </p>
-      <p v-if="planLimits?.lottieExtractions === 0" class="text-xs text-muted mt-1">
+      <p
+        v-if="planLimits?.lottieExtractions === 0"
+        class="text-xs text-muted mt-1"
+      >
         Upgrade to Starter or Pro to unlock Lottie extractions
       </p>
     </div>
@@ -116,15 +128,24 @@ const aiGenerationsUsagePercent = computed(() => {
         v-model="aiGenerationsUsagePercent"
         :color="aiGenerationsUsagePercent >= 80 ? 'error' : 'primary'"
       />
-      <p v-if="aiGenerationsUsagePercent >= 80 && planLimits?.aiGenerations !== -1 && planLimits?.aiGenerations !== 0" class="text-xs text-error mt-1">
+      <p
+        v-if="aiGenerationsUsagePercent >= 80 && planLimits?.aiGenerations !== -1 && planLimits?.aiGenerations !== 0"
+        class="text-xs text-error mt-1"
+      >
         You're running low on AI generations. Consider upgrading!
       </p>
-      <p v-if="planLimits?.aiGenerations === 0" class="text-xs text-muted mt-1">
+      <p
+        v-if="planLimits?.aiGenerations === 0"
+        class="text-xs text-muted mt-1"
+      >
         Upgrade to Starter or Pro to unlock AI Design System generations
       </p>
     </div>
 
     <!-- Plan Features Summary -->
-    <PlanFeatures :limits="planLimits" class="mt-6" />
+    <PlanFeatures
+      :limits="planLimits"
+      class="mt-6"
+    />
   </div>
 </template>

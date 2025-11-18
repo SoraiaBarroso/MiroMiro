@@ -19,7 +19,7 @@ const checkoutLoading = ref(false)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (isSubmitting.value) return
-  
+
   isSubmitting.value = true
 
   try {
@@ -111,14 +111,14 @@ const plans = computed(() => [
     title: 'Free Plan',
     description: 'Perfect for trying MiroMiro and occasional use',
     price: '$0',
-    billingCycle: "/month",
+    billingCycle: '/month',
     features: [
       'Page Overview',
       'Inspect Mode',
       'Individual Downloads',
       'Color Palette Viewer',
       '50 asset extractions/month',
-      '5 smart inspections/day',
+      '5 smart inspections/day'
     ],
     button: {
       label: 'Current Plan',
@@ -130,7 +130,7 @@ const plans = computed(() => [
     description: STRIPE_PLANS.starter.description,
     price: `$${STRIPE_PLANS.starter.price.originalPrice}`,
     discount: `$${STRIPE_PLANS.starter.price.monthly}`,
-    billingCycle: "/month",
+    billingCycle: '/month',
     scale: true,
     badge: STRIPE_PLANS.starter.badge,
     features: STRIPE_PLANS.starter.features,
@@ -146,7 +146,7 @@ const plans = computed(() => [
     title: STRIPE_PLANS.pro.name,
     description: STRIPE_PLANS.pro.description,
     price: `$${STRIPE_PLANS.pro.price.monthly}`,
-    billingCycle: "/month",
+    billingCycle: '/month',
     features: STRIPE_PLANS.pro.features,
     button: {
       disabled: true,
@@ -155,7 +155,7 @@ const plans = computed(() => [
         handleCheckout(STRIPE_PLANS.pro.priceId)
       }
     }
-  },
+  }
 ])
 </script>
 
@@ -181,27 +181,29 @@ const plans = computed(() => [
         class: 'rounded-full'
       }]"
     >
-      <img src="/assets/bg.svg" class="absolute inset-0 w-full h-full object-cover -z-10" alt="">
+      <img
+        src="/assets/bg.svg"
+        class="absolute inset-0 w-full h-full object-cover -z-10"
+        alt=""
+      >
       <!-- <img src="/assets/ex1.png" alt="" class="absolute w-100 hover:scale-110 transition duration-200 ease-in-out right-10 top-1/4 -translate-y-1/2 ">
       <img src="/assets/ex2.png" alt="" class="absolute w-80 hover:scale-110 transition duration-200 ease-in-out left-10 bottom-10 ">
       <img src="/assets/ex4.png" alt="" class="absolute w-80 hover:scale-110 transition duration-200 ease-in-out left-0 top-10 "> -->
-
     </UPageHero>
-    
-   
+
     <UPageSection id="features">
       <UPageGrid>
         <UPageCard
           spotlight
           title="Instant Page Overview"
           description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
-          class="col-span-2 lg:col-span-1"         
+          class="col-span-2 lg:col-span-1"
         >
           <img
             src="assets/overview.png"
             alt="Page Overview"
             class="w-full border border-neutral-200 bg-[#fefcf4] object-contain rounded-xl"
-          />
+          >
         </UPageCard>
 
         <UPageCard
@@ -214,7 +216,7 @@ const plans = computed(() => [
             src="assets/inspector.png"
             alt="Element Inspector"
             class="w-full border lg:h-80 border-neutral-200 bg-[#fefcf4] h-fit object-cover rounded-xl"
-          />
+          >
         </UPageCard>
 
         <UPageCard
@@ -222,13 +224,12 @@ const plans = computed(() => [
           title="One-Click Media Extraction"
           description="Download all images, videos, gifs from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
           class="col-span-2"
-        
         >
           <img
             src="assets/demoImg.gif"
             alt="Media Extraction"
             class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-120 lg:object-cover"
-          />
+          >
         </UPageCard>
 
         <UPageCard
@@ -236,13 +237,12 @@ const plans = computed(() => [
           title="SVG & Icon Capture"
           description="Extract SVG graphics and icons in their original vector format. Download them individually or in bulk, preserving full editability. Perfect for designers who need clean, scalable assets."
           class="col-span-2 lg:col-span-1"
-         
         >
           <img
             src="assets/svg.png"
             alt="SVG Capture"
             class="w-full border h-full border-neutral-200 bg-[#fefcf4] object-cover rounded-xl"
-          />
+          >
         </UPageCard>
 
         <UPageCard
@@ -250,16 +250,21 @@ const plans = computed(() => [
           title="Lottie Animation Export"
           description="Capture and export Lottie animations directly from websites. MiroMiro identifies embedded Lottie files and lets you download them in JSON format, ready for use in your projects."
           class="col-span-2 lg:col-span-1"
-        
         >
           <template #icon>
-            <UBadge color="primary" variant="subtle" class="mb-4">New</UBadge>
+            <UBadge
+              color="primary"
+              variant="subtle"
+              class="mb-4"
+            >
+              New
+            </UBadge>
           </template>
           <img
             src="assets/test.gif"
             alt="Lottie Export"
             class="w-full border border-neutral-200 object-cover rounded-xl h-fit"
-          />
+          >
         </UPageCard>
 
         <UPageCard
@@ -269,22 +274,25 @@ const plans = computed(() => [
           description="AI that converts any website into production-ready code. It detects hero colors, brand accents, and builds complete color scales with WCAG-validated accessibility. Export as CSS variables or Tailwind configs instantly."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
-         
         >
           <img
             src="assets/AI.png"
             alt="AI Design System"
             class="w-full border border-neutral-200 h-90 bg-[#fefcf4] object-contain rounded-xl"
-          />
+          >
         </UPageCard>
-          <UPageCard
+        <UPageCard
           spotlight
           title="See MiroMiro in Action"
           description="Watch how we inspect a button element with its embedded image, extract exact styles, spacing, and assets—then recreate a pixel-perfect copy in Figma. From hover to export in seconds."
           class="col-span-2 lg:col-span-3!"
-       
         >
-         <video src="/assets/demo.mp4" controls autoplay class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"></video>
+          <video
+            src="/assets/demo.mp4"
+            controls
+            autoplay
+            class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"
+          />
         </UPageCard>
       </UPageGrid>
     </UPageSection>
@@ -296,32 +304,54 @@ const plans = computed(() => [
       variant="subtle"
       :ui="{
         title: 'relative',
-        container: 'flex flex-col items-center justify-center !gap-8',
+        container: 'flex flex-col items-center justify-center !gap-8'
       }"
     >
-      <UForm :schema="schema" :state="state" class="space-y-4 w-xs sm:w-sm md:w-xl lg:w-auto 2xl:w-auto" @submit="onSubmit">
-        <UFormField  name="email" class="w-full">
-          <UInput placeholder="name@mail.com" v-model="state.email" class="w-full" />
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-4 w-xs sm:w-sm md:w-xl lg:w-auto 2xl:w-auto"
+        @submit="onSubmit"
+      >
+        <UFormField
+          name="email"
+          class="w-full"
+        >
+          <UInput
+            v-model="state.email"
+            placeholder="name@mail.com"
+            class="w-full"
+          />
         </UFormField>
-        <UButton type="submit" class="w-full flex justify-center items-center cursor-pointer focus:bg-purple-600! disabled:bg-purple-200! bg-purple-400 hover:bg-purple-500" :disabled="!state.email || isSubmitting" :loading="isSubmitting">
+        <UButton
+          type="submit"
+          class="w-full flex justify-center items-center cursor-pointer focus:bg-purple-600! disabled:bg-purple-200! bg-purple-400 hover:bg-purple-500"
+          :disabled="!state.email || isSubmitting"
+          :loading="isSubmitting"
+        >
           Join Waitlist
         </UButton>
       </UForm>
     </UPageCTA>
 
     <UPageSection
-     :ui="{container: '!gap-6'}"
-     id="pricing" title="Pricing" description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
-   >
-        <NuxtLink to="/compare-plans" class="text-purple-600 hover:underline mb-7 text-center inline-block">Compare Plans</NuxtLink>  
-        <UPricingPlans>
-             <UPricingPlan
-                v-for="(plan, index) in plans"
-                :key="index"
-                v-bind="plan"
-                :ui="{button: 'bg-purple-400 hover:bg-purple-500 disabled:bg-purple-200! focus:bg-purple-600!', featureIcon: '!bg-purple-300'}"
-              />
-          </UPricingPlans>
+      id="pricing"
+      :ui="{ container: '!gap-6' }"
+      title="Pricing"
+      description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
+    >
+      <NuxtLink
+        to="/compare-plans"
+        class="text-purple-600 hover:underline mb-7 text-center inline-block"
+      >Compare Plans</NuxtLink>
+      <UPricingPlans>
+        <UPricingPlan
+          v-for="(plan, index) in plans"
+          :key="index"
+          v-bind="plan"
+          :ui="{ button: 'bg-purple-400 hover:bg-purple-500 disabled:bg-purple-200! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
+        />
+      </UPricingPlans>
     </UPageSection>
   </div>
 </template>

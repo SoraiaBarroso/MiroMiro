@@ -40,11 +40,12 @@ export default defineEventHandler(async (event) => {
       console.warn('⚠️ Webhook signature verification skipped - no STRIPE_WEBHOOK_SECRET configured')
       stripeEvent = body
     }
-  } catch (err: any) {
-    console.error('Webhook signature verification failed:', err.message)
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : String(err)
+    console.error('Webhook signature verification failed:', errorMessage)
     throw createError({
       statusCode: 400,
-      statusMessage: `Webhook Error: ${err.message}`
+      statusMessage: `Webhook Error: ${errorMessage}`
     })
   }
 
@@ -95,7 +96,7 @@ export default defineEventHandler(async (event) => {
           stripe_customer_id: session.customer,
           updated_at: new Date().toISOString(),
           current_period_start: new Date(session.current_period_start * 1000).toISOString(),
-          current_period_end: new Date(session.current_period_end * 1000).toISOString(),
+          current_period_end: new Date(session.current_period_end * 1000).toISOString()
         })
         .eq('id', profile.id)
 

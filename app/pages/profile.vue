@@ -186,7 +186,6 @@ const planLimits = computed(() => {
   }
 })
 
-
 // Cancel subscription
 const cancelSubscription = async () => {
   cancelingSubscription.value = true
@@ -225,18 +224,23 @@ watch(user, loadProfile, { immediate: true })
   <UPage>
     <UPageSection>
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-highlighted font-semibold text-3xl mb-8">Profile Settings</h1>
+        <h1 class="text-highlighted font-semibold text-3xl mb-8">
+          Profile Settings
+        </h1>
 
         <div class="grid gap-6">
           <!-- Profile Picture Section -->
           <UPageCard>
             <template #title>
               <div class="flex items-center gap-2">
-                <UIcon name="i-lucide-image" class="text-xl" />
+                <UIcon
+                  name="i-lucide-image"
+                  class="text-xl"
+                />
                 <span>Profile Picture</span>
               </div>
             </template>
-            
+
             <div class="flex items-center gap-4">
               <div class="relative">
                 <UAvatar
@@ -246,22 +250,34 @@ watch(user, loadProfile, { immediate: true })
                   :class="{ 'opacity-50': uploadingAvatar }"
                   @click="fileInputRef?.click()"
                 />
-                <div v-if="uploadingAvatar" class="absolute inset-0 flex items-center justify-center">
-                  <UIcon name="i-lucide-loader-2" class="text-2xl animate-spin text-primary" />
+                <div
+                  v-if="uploadingAvatar"
+                  class="absolute inset-0 flex items-center justify-center"
+                >
+                  <UIcon
+                    name="i-lucide-loader-2"
+                    class="text-2xl animate-spin text-primary"
+                  />
                 </div>
               </div>
               <input
-                type="file"
                 ref="fileInputRef"
+                type="file"
                 class="hidden"
                 accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
-                @change="changeProfilePicture"
                 :disabled="uploadingAvatar"
-              />
+                @change="changeProfilePicture"
+              >
               <div>
-                <h1 class="text-highlighted font-semibold">Update Profile Picture</h1>
-                <p class="text-muted">Click avatar to upload. Recommended: Square image, at least 400x400px. Max size: 5MB</p>
-                <p class="text-xs text-muted mt-1">Supported formats: JPEG, PNG, GIF, WebP</p>
+                <h1 class="text-highlighted font-semibold">
+                  Update Profile Picture
+                </h1>
+                <p class="text-muted">
+                  Click avatar to upload. Recommended: Square image, at least 400x400px. Max size: 5MB
+                </p>
+                <p class="text-xs text-muted mt-1">
+                  Supported formats: JPEG, PNG, GIF, WebP
+                </p>
               </div>
             </div>
           </UPageCard>
@@ -270,7 +286,10 @@ watch(user, loadProfile, { immediate: true })
           <UPageCard>
             <template #title>
               <div class="flex items-center gap-2">
-                <UIcon name="i-lucide-user" class="text-xl" />
+                <UIcon
+                  name="i-lucide-user"
+                  class="text-xl"
+                />
                 <span>Personal Information</span>
               </div>
             </template>
@@ -282,7 +301,12 @@ watch(user, loadProfile, { immediate: true })
               @submit="onSubmit"
             >
               <div class="grid gap-4">
-                <UFormField label="Email" name="email" class="w-full" description="Email cannot be changed">
+                <UFormField
+                  label="Email"
+                  name="email"
+                  class="w-full"
+                  description="Email cannot be changed"
+                >
                   <UInput
                     :model-value="profile.email"
                     disabled
@@ -291,7 +315,12 @@ watch(user, loadProfile, { immediate: true })
                   />
                 </UFormField>
 
-                <UFormField label="First Name" name="first_name" required class="w-full">
+                <UFormField
+                  label="First Name"
+                  name="first_name"
+                  required
+                  class="w-full"
+                >
                   <UInput
                     v-model="formState.first_name"
                     icon="i-lucide-user"
@@ -300,7 +329,12 @@ watch(user, loadProfile, { immediate: true })
                   />
                 </UFormField>
 
-                <UFormField label="Last Name" name="last_name" required class="w-full">
+                <UFormField
+                  label="Last Name"
+                  name="last_name"
+                  required
+                  class="w-full"
+                >
                   <UInput
                     v-model="formState.last_name"
                     icon="i-lucide-user"
@@ -325,46 +359,62 @@ watch(user, loadProfile, { immediate: true })
           <!-- Plan & Billing Section -->
           <UPageCard
             :ui="{
-              title: 'flex flex-col items-start gap-4', 
+              title: 'flex flex-col items-start gap-4'
             }"
           >
             <template #title>
               <div class="flex items-center gap-2">
-                <UIcon name="i-lucide-credit-card" class="text-xl" />
+                <UIcon
+                  name="i-lucide-credit-card"
+                  class="text-xl"
+                />
                 <span class="text-nowrap">Plan & Billing</span>
               </div>
             </template>
 
-            <div v-if="profile" class="space-y-6">
+            <div
+              v-if="profile"
+              class="space-y-6"
+            >
               <!-- Current Plan -->
               <div class="flex flex-col items-start gap-1">
-                  <h3 class="font-semibold mb-1">Current Plan</h3>
-                  <div class="flex items-center gap-2">
-                    <UBadge
-                      :color="profile.premium_tier === 'free' ? 'neutral' : 'primary'"
-                      size="lg"
-                      class="capitalize"
-                      variant="soft"
-                    >
-                      {{ profile.premium_tier || 'free' }}
-                    </UBadge>
-                    <UBadge
-                      v-if="profile.has_waitlist_discount"
-                      color="success"
-                      variant="subtle"
-                    >
-                      {{ profile.discount_percentage }}% Waitlist Discount
-                    </UBadge>
+                <h3 class="font-semibold mb-1">
+                  Current Plan
+                </h3>
+                <div class="flex items-center gap-2">
+                  <UBadge
+                    :color="profile.premium_tier === 'free' ? 'neutral' : 'primary'"
+                    size="lg"
+                    class="capitalize"
+                    variant="soft"
+                  >
+                    {{ profile.premium_tier || 'free' }}
+                  </UBadge>
+                  <UBadge
+                    v-if="profile.has_waitlist_discount"
+                    color="success"
+                    variant="subtle"
+                  >
+                    {{ profile.discount_percentage }}% Waitlist Discount
+                  </UBadge>
                 </div>
               </div>
 
               <!-- Usage Statistics -->
               <div class="border-t border-muted pt-6">
-                <h4 class="font-semibold mb-4">Usage This Month</h4>
-                <UsageStats :profile="profile" :plan-limits="planLimits" />
+                <h4 class="font-semibold mb-4">
+                  Usage This Month
+                </h4>
+                <UsageStats
+                  :profile="profile"
+                  :plan-limits="planLimits"
+                />
               </div>
 
-              <div v-if="profile" class="flex items-center gap-2 w-full">
+              <div
+                v-if="profile"
+                class="flex items-center gap-2 w-full"
+              >
                 <UModal
                   title="Cancel Subscription"
                   :ui="{ footer: 'justify-end' }"
@@ -379,39 +429,38 @@ watch(user, loadProfile, { immediate: true })
                   />
 
                   <template #body>
-                      <p class="text-muted">
-                        Are you sure you want to cancel your subscription?
-                      </p>
+                    <p class="text-muted">
+                      Are you sure you want to cancel your subscription?
+                    </p>
 
-                      <UAlert
-                        color="primary"
-                        variant="soft"
-                        icon="i-lucide-info"
-                        title="Important"
-                        class="mt-4"
-                        description="You will retain access to all premium features until the end of your current billing period. After that, your account will be downgraded to the free plan."
-                      />
+                    <UAlert
+                      color="primary"
+                      variant="soft"
+                      icon="i-lucide-info"
+                      title="Important"
+                      class="mt-4"
+                      description="You will retain access to all premium features until the end of your current billing period. After that, your account will be downgraded to the free plan."
+                    />
                   </template>
 
-                   <template #footer>
-                      <UButton
-                        color="neutral"
-                        variant="outline"
-                        @click="showCancelModal = false"
-                        :disabled="cancelingSubscription"
-                        label="Go Back"
-                      />
-                       
-                      <UButton
-                        color="neutral"
-                        variant="solid"
-                        @click="cancelSubscription"
-                        label="Cancel Subscription"
-                        :loading="cancelingSubscription"
-                      />
+                  <template #footer>
+                    <UButton
+                      color="neutral"
+                      variant="outline"
+                      :disabled="cancelingSubscription"
+                      label="Go Back"
+                      @click="showCancelModal = false"
+                    />
+
+                    <UButton
+                      color="neutral"
+                      variant="solid"
+                      label="Cancel Subscription"
+                      :loading="cancelingSubscription"
+                      @click="cancelSubscription"
+                    />
                   </template>
                 </UModal>
-              
 
                 <UButton
                   to="/compare-plans"
