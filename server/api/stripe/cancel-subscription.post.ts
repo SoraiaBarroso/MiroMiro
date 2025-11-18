@@ -92,11 +92,13 @@ export default defineEventHandler(async (event) => {
       cancelAt: canceledSubscription.cancel_at,
       currentPeriodEnd: canceledSubscription.current_period_end
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Subscription cancellation error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to cancel subscription'
+    const statusCode = (error as { statusCode?: number }).statusCode || 500
     throw createError({
-      statusCode: error.statusCode || 500,
-      statusMessage: error.message || 'Failed to cancel subscription'
+      statusCode,
+      statusMessage: errorMessage
     })
   }
 })

@@ -1,6 +1,25 @@
 import { defineEventHandler, readBody } from 'h3'
 import { serverSupabaseServiceRole } from '#supabase/server'
 
+/*
+  It fetches every user from the user_profiles table and checks:
+
+  For Paid Users (Starter/Pro):
+  Is today's date >= their current_period_end?
+  ├─ YES → Reset their usage counters to 0
+  └─ NO → Skip (billing period not ended yet)
+
+  For Free Users:
+  Is today the 1st of the month?
+  ├─ YES → Reset their usage counters to 0
+  └─ NO → Skip (not time to reset yet)
+
+ When it's time, it sets these fields to 0:
+  - asset_extractions
+  - contrast_checks
+  - lottie_extractions
+  - ai_generations
+*/
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const supabase = serverSupabaseServiceRole(event)

@@ -10,6 +10,11 @@
 
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import { config } from 'dotenv'
+import { resolve } from 'path'
+
+// Load environment variables from .env file
+config({ path: resolve(process.cwd(), '.env') })
 
 // Load environment variables
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY

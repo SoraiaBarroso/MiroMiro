@@ -145,11 +145,15 @@ export default defineEventHandler(async (event) => {
       // Find user by subscription ID (more reliable than email)
       const { data: profile } = await supabase
         .from('user_profiles')
-        .select('id, email')
+        .select('id, email, asset_extractions, contrast_checks, lottie_extractions, ai_generations')
         .eq('stripe_subscription_id', subscription.id)
         .single()
 
       if (profile) {
+        console.log(`🔄 Processing subscription cancellation for ${profile.email}`)
+        console.log(`   Previous usage: ${profile.asset_extractions} assets, ${profile.contrast_checks} contrast checks, ${profile.lottie_extractions} lottie, ${profile.ai_generations} AI`)
+
+        // Downgrade to free tier AND reset all usage counters
         await supabase
           .from('user_profiles')
           .update({
@@ -159,11 +163,17 @@ export default defineEventHandler(async (event) => {
             subscription_cancel_at: null,
             current_period_start: null,
             current_period_end: null,
+            // Reset all usage counters to 0
+            asset_extractions: 0,
+            contrast_checks: 0,
+            lottie_extractions: 0,
+            ai_generations: 0,
             updated_at: new Date().toISOString()
           })
           .eq('id', profile.id)
 
         console.log(`✅ Downgraded ${profile.email} to free tier (subscription ended)`)
+        console.log(`   All usage counters reset to 0`)
       } else {
         console.error('User not found for subscription:', subscription.id)
       }
