@@ -8,7 +8,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "backfill-billing": "tsx scripts/backfill-billing-periods.ts"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.71",
@@ -24,9 +25,12 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.9.0",
+    "@supabase/supabase-js": "^2.49.2",
     "eslint": "^9.38.0",
     "nodemailer": "^7.0.10",
     "nuxt-nodemailer": "^1.1.4",
+    "stripe": "^17.6.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.1.2"
   },

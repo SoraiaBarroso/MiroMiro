@@ -93,7 +93,9 @@ export default defineEventHandler(async (event) => {
           premium_tier: premiumTier,
           stripe_subscription_id: session.subscription,
           stripe_customer_id: session.customer,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
+          current_period_start: new Date(session.current_period_start * 1000).toISOString(),
+          current_period_end: new Date(session.current_period_end * 1000).toISOString(),
         })
         .eq('id', profile.id)
 
@@ -154,6 +156,8 @@ export default defineEventHandler(async (event) => {
             premium_tier: 'free',
             stripe_subscription_id: null,
             subscription_cancel_at: null,
+            current_period_start: null,
+            current_period_end: null,
             updated_at: new Date().toISOString()
           })
           .eq('id', profile.id)
@@ -161,6 +165,39 @@ export default defineEventHandler(async (event) => {
         console.log(`✅ Downgraded ${profile.email} to free tier (subscription ended)`)
       } else {
         console.error('User not found for subscription:', subscription.id)
+      }
+
+      break
+    }
+
+    case 'invoice.payment_succeeded': {
+      const invoice = stripeEvent.data.object
+
+      // Update billing period when subscription renews
+      // This event fires on both initial subscription and renewals
+      if (invoice.subscription) {
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('id, email')
+          .eq('stripe_subscription_id', invoice.subscription)
+          .single()
+
+        if (profile) {
+          // Get the subscription to fetch period dates
+          const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
+
+          await supabase
+            .from('user_profiles')
+            .update({
+              current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', profile.id)
+
+          console.log(`🔄 Updated billing period for ${profile.email}`)
+          console.log(`   Period: ${new Date(subscription.current_period_start * 1000).toISOString()} - ${new Date(subscription.current_period_end * 1000).toISOString()}`)
+        }
       }
 
       break

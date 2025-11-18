@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       key: process.env.STRIPE_SECRET_KEY,
     },
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    cronSecret: process.env.CRON_SECRET,
     public: {
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
       stripe: {

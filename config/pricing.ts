@@ -24,13 +24,15 @@ export const STRIPE_PLANS = {
       'Everything in Free Plan, plus:',
       '500 asset extractions/month',
       'Bulk Export',
-      '20 Lottie Animation Extractions/month',
+      '50 Lottie Animation Extractions/month',
       '50 AI Design System Generations/month',
+      '50 Contrast Checks',
     ],
     limits: {
       assetExtractions: 500,
-      lottieExtractions: 20,
+      lottieExtractions: 50,
       aiGenerations: 50,
+      contrastChecks: 50,
       bulkExport: true,
       prioritySupport: false,
     },
@@ -56,6 +58,7 @@ export const STRIPE_PLANS = {
       assetExtractions: 2000,
       lottieExtractions: -1, // -1 means unlimited
       aiGenerations: -1, // -1 means unlimited
+      contrastChecks: -1, // -1 means unlimited
       bulkExport: true,
       prioritySupport: true,
     },
