@@ -10,15 +10,11 @@ import { serverSupabaseServiceRole } from '#supabase/server'
   └─ NO → Skip (billing period not ended yet)
 
   For Free Users:
-  Is today the 1st of the month?
-  ├─ YES → Reset their usage counters to 0
-  └─ NO → Skip (not time to reset yet)
+  Daily reset: contrast_checks (5 per day)
+  Monthly reset (1st of month): asset_extractions, lottie_extractions, ai_generations
 
- When it's time, it sets these fields to 0:
-  - asset_extractions
-  - contrast_checks
-  - lottie_extractions
-  - ai_generations
+  Paid users reset all fields to 0 at end of billing cycle.
+  Free users reset selectively based on daily vs monthly limits.
 */
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -36,7 +32,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  console.log('🔄 Starting monthly usage reset...')
+  console.log('🔄 Starting usage reset...')
 
   const now = new Date()
   const resetResults = {
@@ -85,18 +81,45 @@ export default defineEventHandler(async (event) => {
             resetResults.paidUsersReset++
           }
         } else if (!user.premium_status) {
-          // FREE USERS: Reset on the 1st of each month
-          // Check if we're on the 1st day of the month
+          // FREE USERS: Different reset schedules for different features
           const isFirstDayOfMonth = now.getDate() === 1
 
+          // Always reset contrast_checks daily (5 per day)
+          // Reset other fields monthly (on the 1st)
+          const updateData: any = {
+            contrast_checks: 0,
+            updated_at: new Date().toISOString()
+          }
+
           if (isFirstDayOfMonth) {
-            shouldReset = true
-            console.log(`🆓 Free user ${user.email}: monthly reset (1st of month)`)
+            // Monthly reset: reset asset extractions and other monthly limits
+            updateData.asset_extractions = 0
+            updateData.lottie_extractions = 0
+            updateData.ai_generations = 0
+            console.log(`🆓 Free user ${user.email}: daily + monthly reset (1st of month)`)
+          } else {
+            console.log(`🆓 Free user ${user.email}: daily reset (contrast checks only)`)
+          }
+
+          const { error: resetError } = await supabase
+            .from('user_profiles')
+            .update(updateData)
+            .eq('id', user.id)
+
+          if (resetError) {
+            const errorMsg = `Failed to reset ${user.email}: ${resetError.message}`
+            console.error(errorMsg)
+            resetResults.errors.push(errorMsg)
+          } else {
+            console.log(`✅ Reset counters for ${user.email}`)
             resetResults.freeUsersReset++
           }
+
+          // Skip the generic shouldReset block for free users
+          continue
         }
 
-        // Reset usage counters if needed
+        // Reset usage counters if needed (for paid users)
         if (shouldReset) {
           const { error: resetError } = await supabase
             .from('user_profiles')

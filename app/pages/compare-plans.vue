@@ -156,7 +156,7 @@ const sections = ref([
       {
         title: 'Smart Inspector (Contrast Checker)',
         tiers: {
-          free: '5/month',
+          free: '5/day',
           starter: 'Unlimited',
           pro: 'Unlimited'
         }
