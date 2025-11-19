@@ -162,16 +162,16 @@ const plans = computed(() => [
 <template>
   <div>
     <UPageHero
-      title="Inspect. Extract. Build Faster."
+      title="Build Websites 2× Faster With a One-Click Asset Extractor"
       class="relative z-10 py-20"
-      description="The ultimate Chrome extension for one-click asset extraction. Hover to inspect colors, fonts, and spacing—then export images, videos, and SVGs production-ready."
+      description="A Chrome extension that instantly extracts colors, fonts, spacing, contrast, animations, and all media assets from any webpage. Save 10+ hours per project and start building faster."
       :links="[{
         label: 'Join the Waitlist',
         to: '#waitlist',
         trailingIcon: 'i-lucide-arrow-right',
         size: 'xl',
         variant: 'soft',
-        class: 'rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 focus:bg-purple-300'
+        class: 'rounded-full bg-purple-200 text-purple-800 hover:bg-purple-300 focus:bg-purple-300'
       }, {
         label: 'See how It Works',
         to: '#features',

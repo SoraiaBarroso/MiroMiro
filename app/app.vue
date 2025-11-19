@@ -115,10 +115,13 @@ const items = computed<NavigationMenuItem[]>(() => [{
     <Analytics />
 
     <UHeader
-      title="MiroMiro"
       to="/"
       mode="drawer"
     >
+      <template #title>
+        <img src="/logo.png" class="w-8 h-8" alt="MiroMiro Logo">
+        <h1>MiroMiro</h1>
+      </template>
       <UNavigationMenu :items="items" />
 
       <template #right>
