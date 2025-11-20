@@ -171,13 +171,12 @@ const plans = computed(() => [
         trailingIcon: 'i-lucide-arrow-right',
         size: 'xl',
         variant: 'soft',
-        class: 'rounded-full bg-purple-200 text-purple-800 hover:bg-purple-300 focus:bg-purple-300'
+        class: 'rounded-full bg-purple-500 text-white hover:bg-purple-400 focus:bg-purple-300'
       }, {
         label: 'See how It Works',
         to: '#features',
         size: 'xl',
         color: 'neutral',
-        variant: 'soft',
         class: 'rounded-full'
       }]"
     >
@@ -202,7 +201,7 @@ const plans = computed(() => [
           <img
             src="assets/overview.png"
             alt="Page Overview"
-            class="w-full border border-neutral-200 bg-[#fefcf4] object-contain rounded-xl"
+            class="w-full border h-70 border-neutral-200 object-cover rounded-xl"
           >
         </UPageCard>
 
@@ -213,9 +212,9 @@ const plans = computed(() => [
           class="col-span-2! lg:col-span-1"
         >
           <img
-            src="assets/inspector.png"
+            src="assets/InspectorImg.png"
             alt="Element Inspector"
-            class="w-full border lg:h-80 border-neutral-200 bg-[#fefcf4] h-fit object-cover rounded-xl"
+            class="w-full border lg:h-90 border-neutral-200 h-fit object-cover rounded-xl"
           >
         </UPageCard>
 
@@ -241,7 +240,7 @@ const plans = computed(() => [
           <img
             src="assets/svg.png"
             alt="SVG Capture"
-            class="w-full border h-full border-neutral-200 bg-[#fefcf4] object-cover rounded-xl"
+            class="w-full border h-full border-neutral-200 object-cover rounded-xl"
           >
         </UPageCard>
 
@@ -278,7 +277,7 @@ const plans = computed(() => [
           <img
             src="assets/AI.png"
             alt="AI Design System"
-            class="w-full border border-neutral-200 h-90 bg-[#fefcf4] object-contain rounded-xl"
+            class="w-full border border-neutral-200 h-100 object-cover rounded-xl"
           >
         </UPageCard>
         <UPageCard
