@@ -108,6 +108,11 @@ const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Pricing',
   to: '#pricing'
 }])
+
+const itemsFooter: NavigationMenuItem[] = [{
+  label: 'Privacy Policy',
+  to: '/privacy-policy',
+},]
 </script>
 
 <template>
@@ -180,6 +185,8 @@ const items = computed<NavigationMenuItem[]>(() => [{
           Built by Soraia with ❤️ • © {{ new Date().getFullYear() }}
         </p>
       </template>
+
+      <UNavigationMenu :items="itemsFooter" variant="link" />
 
       <template #right>
         <UButton
