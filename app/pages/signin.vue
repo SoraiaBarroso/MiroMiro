@@ -132,7 +132,7 @@
   async function onSubmit(payload: FormSubmitEvent<Schema>) {
     loading.value = true
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: payload.data.email.toLowerCase(),
         password: payload.data.password
       })
@@ -148,10 +148,13 @@
       })
 
       // Check for extension redirect
-      if (extensionRedirect.value) {
+      if (extensionRedirect.value && data.session) {
         console.log('Redirecting back to extension:', extensionRedirect.value)
         sessionStorage.removeItem('extensionRedirect')
-        window.location.href = extensionRedirect.value
+
+        // Include tokens in the redirect URL (same as OAuth flow)
+        const params = `access_token=${data.session.access_token}&refresh_token=${data.session.refresh_token}`
+        window.location.href = `${extensionRedirect.value}#${params}`
       } else {
         // Normal redirect to home
         router.push('/')
