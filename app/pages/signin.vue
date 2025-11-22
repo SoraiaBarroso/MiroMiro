@@ -7,6 +7,7 @@
   const router = useRouter()
   const route = useRoute() // Add this
   const loading = ref(false)
+  const config = useRuntimeConfig()
 
   // Add extension redirect handling
   const extensionRedirect = ref<string | null>(null)
@@ -49,11 +50,11 @@
     icon: 'i-simple-icons-google',
     onClick: async () => {
       // Preserve extensionRedirect for OAuth flow
-      const redirectUrl = new URL(`${window.location.origin}/confirm`)
+      const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
       if (extensionRedirect.value) {
         redirectUrl.searchParams.set('extensionRedirect', extensionRedirect.value)
       }
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -73,11 +74,11 @@
     icon: 'i-simple-icons-github',
     onClick: async () => {
       // Preserve extensionRedirect for OAuth flow
-      const redirectUrl = new URL(`${window.location.origin}/confirm`)
+      const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
       if (extensionRedirect.value) {
         redirectUrl.searchParams.set('extensionRedirect', extensionRedirect.value)
       }
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
