@@ -190,7 +190,7 @@ async function resendConfirmation() {
           <div class="text-sm text-center mt-4">
             Already have an account?
             <NuxtLink
-              to="/signin"
+              :to="extensionRedirect ? `/signin?extensionRedirect=${encodeURIComponent(extensionRedirect)}` : '/signin'"
               class="text-primary font-medium hover:underline"
             >
               Sign in

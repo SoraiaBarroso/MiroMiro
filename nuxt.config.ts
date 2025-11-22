@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     cronSecret: process.env.CRON_SECRET,
     public: {
-      siteUrl: process.env.SITE_URL || 'http://localhost:3000',
+      siteUrl: process.env.SITE_URL || 'https://miromiro.app',
       stripe: {
         key: process.env.STRIPE_PUBLIC_KEY,
         starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1STjbEAaZdcZr0Eum9VuWWJ6',
