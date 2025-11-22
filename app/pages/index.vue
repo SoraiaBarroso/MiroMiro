@@ -158,38 +158,56 @@ const plans = computed(() => [
     }
   }
 ])
+
+// const headline = `Soon on the Chrome Store ${i-logos:chrome-web-store}`
+
 </script>
 
 <template>
   <div>
-    <UPageHero
-      title="Build Websites 2× Faster With a One-Click Asset Extractor"
-      class="relative z-10 py-20"
-      description="A Chrome extension that instantly extracts colors, fonts, spacing, contrast, animations, and all media assets from any webpage. Save 10+ hours per project and start building faster."
-      :links="[{
-        label: 'Join the Waitlist',
-        to: '#waitlist',
-        trailingIcon: 'i-lucide-arrow-right',
-        size: 'xl',
-        variant: 'soft',
-        class: 'rounded-full bg-purple-500 text-white hover:bg-purple-400 focus:bg-purple-300'
-      }, {
-        label: 'See how It Works',
-        to: '#features',
-        size: 'xl',
-        color: 'neutral',
-        class: 'rounded-full'
-      }]"
-    >
-      <img
-        src="/assets/bg.svg"
-        class="absolute inset-0 w-full h-full object-cover -z-10"
-        alt=""
-      >
-      <!-- <img src="/assets/ex1.png" alt="" class="absolute w-100 hover:scale-110 transition duration-200 ease-in-out right-10 top-1/4 -translate-y-1/2 ">
-      <img src="/assets/ex2.png" alt="" class="absolute w-80 hover:scale-110 transition duration-200 ease-in-out left-10 bottom-10 ">
-      <img src="/assets/ex4.png" alt="" class="absolute w-80 hover:scale-110 transition duration-200 ease-in-out left-0 top-10 "> -->
-    </UPageHero>
+    <CustomPageHero orientation="vertical">
+      <template #background>
+        <img
+          src="/assets/bg.svg"
+          class="absolute inset-0 w-full h-full object-cover -z-10"
+          alt=""
+        >
+      </template>
+
+      <template #headline>
+        On the Chrome Store
+      </template>
+
+      <template #title>
+        Reverse-Engineer Any Website: Inspect UI & Extract Assets Instantly
+      </template>
+
+      <template #description>
+Hover over any element to see its complete CSS breakdown. Extract entire design systems, color       
+  palettes, typography, spacing, and all media assets in one click. Turn any website into your
+  design reference and asset library instantly.      </template>
+
+      <template #links>
+        <UButton
+          to="#waitlist"
+          trailing-icon="i-lucide-arrow-right"
+          size="xl"
+          variant="soft"
+          class="rounded-lg bg-purple-500 text-white hover:bg-purple-400 focus:bg-purple-300"
+        >
+          Join Waitlist
+        </UButton>
+        <UButton
+          to="#features"
+          size="xl"
+          color="primary"
+          variant="outline"
+          class="rounded-lg"
+        >
+          See how It Works
+        </UButton>
+      </template>
+    </CustomPageHero>
 
     <UPageSection id="features">
       <UPageGrid>
@@ -263,7 +281,7 @@ const plans = computed(() => [
           <img
             src="assets/test.gif"
             alt="Lottie Export"
-            class="w-full border border-neutral-200 object-cover rounded-xl h-fit"
+            class="w-full border border-neutral-200 object-cover rounded-xl h-80"
           >
         </UPageCard>
 
@@ -278,7 +296,7 @@ const plans = computed(() => [
           <img
             src="assets/AI.png"
             alt="AI Design System"
-            class="w-full border border-neutral-200 h-100 object-cover rounded-xl"
+            class="w-full border border-neutral-200 h-80 object-cover rounded-xl"
           >
         </UPageCard>
         <UPageCard
