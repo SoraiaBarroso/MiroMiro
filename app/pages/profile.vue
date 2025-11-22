@@ -51,7 +51,7 @@ async function loadProfile() {
 
     if (error) throw error
     profile.value = data
-
+    console.log('Profile data loaded:', data)
     // Populate form state
     formState.first_name = data.first_name || ''
     formState.last_name = data.last_name || ''
@@ -391,7 +391,7 @@ watch(user, loadProfile, { immediate: true })
                     {{ profile.premium_tier || 'free' }}
                   </UBadge>
                   <UBadge
-                    v-if="profile.has_waitlist_discount"
+                    v-if="profile.discount_percentage"
                     color="success"
                     variant="subtle"
                   >

@@ -6,13 +6,14 @@ const supabase = useSupabaseClient()
 const toast = useToast()
 const checkoutLoading = ref(false)
 const userProfile = ref<any>(null)
+const config = useRuntimeConfig()
 
 // Load user profile to check current plan
 onMounted(async () => {
   if (user.value?.sub) {
     const { data } = await supabase
       .from('user_profiles')
-      .select('premium_tier')
+      .select('premium_tier, discount_percentage')
       .eq('id', user.value.sub)
       .single()
 
@@ -39,18 +40,14 @@ async function handleCheckout(priceId: string, planName: string) {
   checkoutLoading.value = true
 
   try {
-    const { url, error } = await $fetch('/api/stripe/create-checkout-session', {
+    const { url } = await $fetch('/api/stripe/create-checkout-session', {
       method: 'POST',
       body: {
         priceId,
         successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancelUrl: `${window.location.origin}/compare-plans`
+        cancelUrl: `${window.location.origin}/compare-plans`,
       }
     })
-
-    if (error) {
-      throw new Error(error)
-    }
 
     // Redirect to Stripe Checkout
     if (url) {
@@ -97,7 +94,7 @@ const tiers = computed(() => {
         label: currentTier === 'starter' ? 'Current Plan' : 'Upgrade to Starter',
         // disabled: currentTier === 'starter',
         disabled: true,
-        onClick: () => handleCheckout(STRIPE_PLANS.starter.priceId, 'Starter')
+        onClick: () => handleCheckout(config.public.stripe.starterPriceId, 'Starter')
       }
     },
     {
@@ -112,11 +109,12 @@ const tiers = computed(() => {
         color: 'neutral',
         // disabled: currentTier === 'pro',
         disabled: true,
-        onClick: () => handleCheckout(STRIPE_PLANS.pro.priceId, 'Pro')
+        onClick: () => handleCheckout(config.public.stripe.proPriceId, 'Pro')
       }
     }
   ]
 })
+
 const sections = ref([
   {
     title: 'Core Features',

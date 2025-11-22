@@ -2,6 +2,7 @@
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { STRIPE_PLANS } from '../../config/pricing'
+const config = useRuntimeConfig()
 
 const schema = z.object({
   email: z.string().email('Invalid email')
@@ -138,7 +139,7 @@ const plans = computed(() => [
       disabled: true,
       label: 'Upgrade to Starter',
       onClick: () => {
-        handleCheckout(STRIPE_PLANS.starter.priceId)
+        handleCheckout(config.public.stripe.starterPriceId)
       }
     }
   },
@@ -152,7 +153,7 @@ const plans = computed(() => [
       disabled: true,
       label: 'Upgrade to Pro',
       onClick: () => {
-        handleCheckout(STRIPE_PLANS.pro.priceId)
+        handleCheckout(config.public.stripe.proPriceId)
       }
     }
   }

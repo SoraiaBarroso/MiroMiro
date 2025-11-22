@@ -19,14 +19,17 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     stripe: {
-      key: process.env.STRIPE_SECRET_KEY
+      key: process.env.STRIPE_SECRET_KEY,
+      discountCouponId: process.env.STRIPE_DISCOUNT_COUPON_ID
     },
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     cronSecret: process.env.CRON_SECRET,
     public: {
       siteUrl: process.env.SITE_URL || 'http://localhost:3000',
       stripe: {
-        key: process.env.STRIPE_PUBLIC_KEY
+        key: process.env.STRIPE_PUBLIC_KEY,
+        starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1STjbEAaZdcZr0Eum9VuWWJ6',
+        proPriceId: process.env.STRIPE_PRO_PRICE_ID || 'price_1STjdMAaZdcZr0Eu9hu7u4a4'
       }
     }
   },
