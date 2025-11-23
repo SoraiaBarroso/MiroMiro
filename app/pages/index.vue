@@ -179,7 +179,18 @@ const plans = computed(() => [
       </template>
 
       <template #title>
-        Reverse-Engineer Any Website: Inspect UI & Extract Assets Instantly
+        Reverse-Engineer Any Website: <span class="relative inline-block px-3 py-2">Inspect UI<svg class="absolute w-full h-full left-0 top-0 z-10 pointer-events-none" viewBox="0 0 2727 626" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<path d="M49.828 50.1708L49.8633 574.942L2675.17 575.066L2675.14 50.2952L49.828 50.1708Z" fill="#3491FF" fill-opacity="0.06" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M29.0002 40.0084L29.0371 585.102L2696 585.229L2695.96 40.1349L29.0002 40.0084Z" fill="#3491FF" fill-opacity="0.06"/>
+<path d="M2633.35 6.31239L2633.36 93.6847L2720.73 93.6906L2720.72 6.31833L2633.35 6.31239Z" fill="#F5F5F5"/>
+<path d="M2633.35 6.31239L2633.36 93.6847L2720.73 93.6906L2720.72 6.31834L2633.35 6.31239Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00583L6.35031 5.99989Z" fill="#F5F5F5"/>
+<path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00584L6.35031 5.99989Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M2633.35 532.313L2633.35 619.685L2720.73 619.691L2720.72 532.319L2633.35 532.313Z" fill="#F5F5F5"/>
+<path d="M2633.35 532.313L2633.35 619.685L2720.73 619.691L2720.72 532.319L2633.35 532.313Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" fill="#F5F5F5"/>
+<path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+</svg></span> & Extract Assets Instantly
       </template>
 
       <template #description>
@@ -193,7 +204,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           trailing-icon="i-lucide-arrow-right"
           size="xl"
           variant="soft"
-          class="rounded-lg bg-purple-500 text-white hover:bg-purple-400 focus:bg-purple-300"
+          class="rounded-lg bg-purple-600 text-white hover:bg-purple-700 focus:bg-purple-300"
         >
           Join Waitlist
         </UButton>
@@ -202,7 +213,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           size="xl"
           color="primary"
           variant="outline"
-          class="rounded-lg"
+          class="rounded-lg border-primary-600 text-primary-600 hover:bg-purple-50 focus:bg-purple-100"
         >
           See how It Works
         </UButton>
