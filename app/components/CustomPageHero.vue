@@ -62,11 +62,12 @@ const linksClasses = computed(() => {
 </script>
 
 <template>
-  <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative isolate">
+  <div class="relative isolate">
+    <!-- Default slot for background elements like images -->
+    <slot name="background" />
+
+    <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8">
       <div :class="['flex flex-col lg:grid py-24 sm:py-32 lg:py-40 gap-16 sm:gap-y-24', orientationClasses]">
-        <!-- Default slot for background elements like images -->
-        <slot name="background" />
 
         <!-- Main content wrapper -->
         <div :class="wrapperClasses">
