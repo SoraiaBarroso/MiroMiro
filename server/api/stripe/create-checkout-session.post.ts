@@ -51,6 +51,7 @@ export default defineEventHandler(async (event) => {
         }
       ],
       customer_email: user.email, // Pass user email to Stripe
+      allow_promotion_codes: true, // Enable promotion code field at checkout
       metadata: {
         user_id: user.id,
         price_id: priceId
