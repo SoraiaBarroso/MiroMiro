@@ -18,6 +18,17 @@ const toast = useToast()
 const isSubmitting = ref(false)
 const checkoutLoading = ref(false)
 
+// Check if email is valid
+const isEmailValid = computed(() => {
+  if (!state.email) return false
+  try {
+    schema.parse({ email: state.email })
+    return true
+  } catch {
+    return false
+  }
+})
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (isSubmitting.value) return
 
@@ -204,7 +215,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           trailing-icon="i-lucide-arrow-right"
           size="xl"
           variant="soft"
-          class="rounded-lg bg-purple-600 text-white hover:bg-purple-700 focus:bg-purple-300"
+          class="rounded-lg bg-purple-800 text-white hover:bg-purple-700 focus:bg-purple-300"
         >
           Join Waitlist
         </UButton>
@@ -354,8 +365,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
         </UFormField>
         <UButton
           type="submit"
-          class="w-full flex justify-center items-center cursor-pointer focus:bg-purple-600! disabled:bg-purple-200! bg-purple-400 hover:bg-purple-500"
-          :disabled="!state.email || isSubmitting"
+          class="w-full flex justify-center items-center cursor-pointer rounded-lg bg-purple-800 text-white hover:bg-purple-700 focus:bg-purple-300"
+          :disabled="!isEmailValid || isSubmitting"
           :loading="isSubmitting"
         >
           Join Waitlist
@@ -365,14 +376,9 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
 
     <UPageSection
       id="pricing"
-      :ui="{ container: '!gap-6' }"
       title="Pricing"
       description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
     >
-      <NuxtLink
-        to="/compare-plans"
-        class="text-purple-600 hover:underline mb-7 text-center inline-block"
-      >Compare Plans</NuxtLink>
       <UPricingPlans>
         <UPricingPlan
           v-for="(plan, index) in plans"

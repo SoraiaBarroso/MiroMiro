@@ -92,8 +92,7 @@ const tiers = computed(() => {
       badge: STRIPE_PLANS.starter.badge,
       button: {
         label: currentTier === 'starter' ? 'Current Plan' : 'Upgrade to Starter',
-        // disabled: currentTier === 'starter',
-        disabled: true,
+        disabled: currentTier === 'starter',
         onClick: () => handleCheckout(config.public.stripe.starterPriceId, 'Starter')
       }
     },
@@ -107,8 +106,7 @@ const tiers = computed(() => {
       button: {
         label: currentTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
         color: 'neutral',
-        // disabled: currentTier === 'pro',
-        disabled: true,
+        disabled: currentTier === 'pro',
         onClick: () => handleCheckout(config.public.stripe.proPriceId, 'Pro')
       }
     }
