@@ -68,20 +68,6 @@ useHead({
   link: [
     { rel: 'icon', href: '/logo.png' }
   ],
-  script: [
-    {
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-YK82YXF0VX',
-      async: true
-    },
-    {
-      children: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-YK82YXF0VX');
-      `
-    }
-  ],
   htmlAttrs: {
     lang: 'en'
   }

@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image', '@unlok-co/nuxt-stripe', '@vueuse/motion/nuxt'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image', '@unlok-co/nuxt-stripe', '@vueuse/motion/nuxt', 'nuxt-gtag'],
   devtools: {
     enabled: true
   },
@@ -17,6 +17,10 @@ export default defineNuxtConfig({
     colorMode: false
   },
 
+  gtag: {
+    id: "G-YK82YXF0VX" 
+  },
+  
   runtimeConfig: {
     stripe: {
       key: process.env.STRIPE_SECRET_KEY,
