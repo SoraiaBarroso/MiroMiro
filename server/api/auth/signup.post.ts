@@ -101,6 +101,32 @@ export default defineEventHandler(async (event) => {
     // Note: Supabase automatically sends a confirmation email
     // A welcome email can be sent after confirmation via a database trigger or webhook
 
+    // Send notification email to admin about new signup
+    try {
+      const { sendMail } = useNodeMailer()
+      await sendMail({
+        to: 'sorilc@hotmail.com',
+        subject: 'New User Signup - MiroMiro',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h2 style="color: #333;">New User Signed Up</h2>
+            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <p style="font-size: 16px; color: #333;"><strong>Email:</strong> ${email}</p>
+              <p style="font-size: 16px; color: #333;"><strong>User ID:</strong> ${authData.user.id}</p>
+              <p style="font-size: 16px; color: #333;"><strong>Waitlist Member:</strong> ${isFromWaitlist ? 'Yes' : 'No'}</p>
+              ${isFromWaitlist ? `<p style="font-size: 16px; color: #333;"><strong>Discount:</strong> ${discountPercentage}%</p>` : ''}
+            </div>
+            <p style="font-size: 14px; color: #999;">
+              <strong>Date:</strong> ${new Date().toLocaleString()}
+            </p>
+          </div>
+        `
+      })
+    } catch (emailError) {
+      // Don't fail the signup if email notification fails
+      console.error('Failed to send signup notification email:', emailError)
+    }
+
     return {
       success: true,
       message: 'Account created successfully',

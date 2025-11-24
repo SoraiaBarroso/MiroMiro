@@ -17,6 +17,24 @@ const state = reactive<Partial<Schema>>({
 const toast = useToast()
 const isSubmitting = ref(false)
 const checkoutLoading = ref(false)
+const user = useSupabaseUser()
+const supabase = useSupabaseClient()
+const userProfile = ref<any>(null)
+
+// Load user profile to check for waitlist discount
+onMounted(async () => {
+  if (user.value?.sub) {
+    const { data } = await supabase
+      .from('user_profiles')
+      .select('has_waitlist_discount')
+      .eq('id', user.value.sub)
+      .single()
+
+    if (data) {
+      userProfile.value = data
+    }
+  }
+})
 
 // Check if email is valid
 const isEmailValid = computed(() => {
@@ -75,7 +93,6 @@ async function handleCheckout(priceId: string) {
   if (checkoutLoading.value) return
 
   // Check if user is authenticated
-  const user = useSupabaseUser()
   if (!user.value) {
     toast.add({
       title: 'Authentication Required',
@@ -379,6 +396,22 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
       title="Pricing"
       description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
     >
+      <!-- Waitlist Discount Banner -->
+      <UAlert
+        v-if="userProfile?.has_waitlist_discount"
+        title="Waitlist Discount Available!"
+        color="primary"
+        variant="soft"
+        icon="i-heroicons-gift"
+        class="mb-8"
+      >
+        <template #description>
+          <p class="mt-1 text-sm">
+            Use code <span class="font-mono font-semibold bg-primary-100 dark:bg-primary-900 px-2 py-1 rounded">WAITLIST20</span> at checkout to get 20% off forever on any plan.
+          </p>
+        </template>
+      </UAlert>
+
       <UPricingPlans>
         <UPricingPlan
           v-for="(plan, index) in plans"

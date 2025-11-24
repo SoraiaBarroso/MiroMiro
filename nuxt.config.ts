@@ -24,7 +24,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     stripe: {
       key: process.env.STRIPE_SECRET_KEY,
-      discountCouponId: process.env.STRIPE_DISCOUNT_COUPON_ID
     },
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     cronSecret: process.env.CRON_SECRET,

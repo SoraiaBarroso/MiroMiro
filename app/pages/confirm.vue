@@ -13,6 +13,12 @@ onMounted(async () => {
     if (event === 'SIGNED_IN' && session) {
       console.log('User signed in successfully')
 
+      // Send notification to admin (non-blocking)
+      $fetch('/api/auth/notify-signin', {
+        method: 'POST',
+        body: { method: 'oauth' }
+      }).catch(err => console.error('Failed to send signin notification:', err))
+
       // Check if this auth was initiated from the extension
       const extensionRedirect = sessionStorage.getItem('extensionRedirect')
 

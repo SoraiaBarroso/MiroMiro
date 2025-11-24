@@ -390,15 +390,24 @@ watch(user, loadProfile, { immediate: true })
                   >
                     {{ profile.premium_tier || 'free' }}
                   </UBadge>
-                  <UBadge
-                    v-if="profile.discount_percentage"
-                    color="success"
-                    variant="subtle"
-                  >
-                    {{ profile.discount_percentage }}% Waitlist Discount
-                  </UBadge>
                 </div>
               </div>
+
+              <!-- Waitlist Discount Code -->
+              <UAlert
+                v-if="profile.has_waitlist_discount"
+                title="Discount Code"
+                color="primary"
+                variant="soft"
+                icon="i-heroicons-gift"
+                class="mt-2"
+              >
+                <template #description>
+                  <p class="mt-1 text-sm">
+                    Use code <span class="font-mono font-semibold bg-primary-100 border border-primary-200 dark:bg-primary-900 px-2.5 mx-1 py-1 rounded">WAITLIST20</span> at checkout to get 20% off forever when upgrading.
+                  </p>
+                </template>
+              </UAlert>
 
               <!-- Usage Statistics -->
               <div class="border-t border-muted pt-6">

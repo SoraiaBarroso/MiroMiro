@@ -148,6 +148,12 @@
         color: 'success'
       })
 
+      // Send notification to admin (non-blocking)
+      $fetch('/api/auth/notify-signin', {
+        method: 'POST',
+        body: { method: 'password' }
+      }).catch(err => console.error('Failed to send signin notification:', err))
+
       // Check for extension redirect
       if (extensionRedirect.value && data.session) {
         console.log('Redirecting back to extension:', extensionRedirect.value)

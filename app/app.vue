@@ -155,11 +155,11 @@ const itemsFooter: NavigationMenuItem[] = [{
         <UDropdownMenu
           v-if="user"
           :items="itemsDropdown"
-          class="cursor-pointer"
         >
+        
           <UAvatar
             :src="imgUser"
-            class="ml-2"
+            class=" cursor-pointer"
           />
         </UDropdownMenu>
       </template>
