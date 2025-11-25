@@ -253,20 +253,20 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
         <UPageCard
           spotlight
           title="Instant Page Overview"
-          description="The moment you open a website, MiroMiro analyzes everything: background colors, text colors, font families and color usage frequency. Get a complete snapshot of any site's visual language in seconds."
+          description="See what makes any site look good. Get a complete snapshot of colors, fonts, and visual patterns the moment you land."
           class="col-span-2 lg:col-span-1"
         >
           <img
             src="assets/overview.png"
             alt="Page Overview"
-            class="w-full border h-70 border-neutral-200 object-cover rounded-xl"
+            class="w-full border lg:h-90 border-neutral-200 object-cover rounded-xl"
           >
         </UPageCard>
 
         <UPageCard
           spotlight
           title="Smart Element Inspector"
-          description="Hover over any element to see its complete style breakdown. Colors, fonts, spacing, shadows, borders—all displayed in real-time. Copy values instantly or inspect design patterns as you browse."
+          description="Hover to reveal everything. Point at anything—see exactly how it's built. Copy values in one click. Full CSS breakdown: spacing, shadows, borders, computed styles."
           class="col-span-2! lg:col-span-1"
         >
           <img
@@ -279,33 +279,34 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
         <UPageCard
           spotlight
           title="One-Click Media Extraction"
-          description="Download all images, videos, gifs from any website instantly. No more digging for assets—MiroMiro captures every visual asset on the page with a single click."
+          description="Download all images at once. Grab every image, video, and GIF from any page. No more right-click, save-as."
           class="col-span-2"
         >
           <img
             src="assets/demoImg.gif"
             alt="Media Extraction"
-            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-120 lg:object-cover"
+            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-110 lg:object-cover"
           >
         </UPageCard>
 
         <UPageCard
           spotlight
           title="SVG & Icon Capture"
-          description="Extract SVG graphics and icons in their original vector format. Download them individually or in bulk, preserving full editability. Perfect for designers who need clean, scalable assets."
+          description="Grab icons as clean vectors. Extract SVGs individually or in bulk—fully editable, infinitely scalable."
           class="col-span-2 lg:col-span-1"
         >
           <img
             src="assets/svg.png"
             alt="SVG Capture"
-            class="w-full border h-full border-neutral-200 object-cover rounded-xl"
+            class="w-full border h-100 border-neutral-200 object-cover rounded-xl"
           >
         </UPageCard>
 
         <UPageCard
           spotlight
           title="Lottie Animation Export"
-          description="Capture and export Lottie animations directly from websites. MiroMiro identifies embedded Lottie files and lets you download them in JSON format, ready for use in your projects."
+          description="
+Find and export Lottie animations as JSON, ready for your projects."
           class="col-span-2 lg:col-span-1"
         >
           <template #icon>
@@ -320,7 +321,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           <img
             src="assets/test.gif"
             alt="Lottie Export"
-            class="w-full border border-neutral-200 object-cover rounded-xl h-80"
+            class="w-full border border-neutral-200 object-cover rounded-xl h-90"
           >
         </UPageCard>
 
@@ -328,14 +329,15 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           spotlight
           icon="i-lucide-sparkles"
           title="AI Design System Generator"
-          description="AI that converts any website into production-ready code. It detects hero colors, brand accents, and builds complete color scales with WCAG-validated accessibility. Export as CSS variables or Tailwind configs instantly."
+          description="Turn any site into a design system.
+AI extracts colors and builds complete, accessible palettes automatically."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
         >
           <img
             src="assets/AI.png"
             alt="AI Design System"
-            class="w-full border border-neutral-200 h-80 object-cover rounded-xl"
+            class="w-full border border-neutral-200 h-90 object-cover rounded-xl"
           >
         </UPageCard>
         <UPageCard
