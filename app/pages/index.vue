@@ -21,6 +21,20 @@ const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const userProfile = ref<any>(null)
 
+// Billing cycle toggle
+const isYearly = ref('0')
+
+const billingItems = ref([
+  {
+    label: 'Monthly',
+    value: '0'
+  },
+  {
+    label: 'Yearly',
+    value: '1'
+  }
+])
+
 // Load user profile to check for waitlist discount
 onMounted(async () => {
   if (user.value?.sub) {
@@ -135,57 +149,65 @@ async function handleCheckout(priceId: string) {
   }
 }
 
-const plans = computed(() => [
-  {
-    title: 'Free Plan',
-    description: 'Perfect for trying MiroMiro and occasional use',
-    price: '$0',
-    billingCycle: '/month',
-    features: [
-      'Page Overview',
-      'Inspect Mode',
-      'Individual Downloads',
-      'Color Palette Viewer',
-      '50 asset extractions/month',
-      '5 smart inspections/day'
-    ],
-    button: {
-      label: 'Current Plan',
-      disabled: true
-    }
-  },
-  {
-    title: STRIPE_PLANS.starter.name,
-    description: STRIPE_PLANS.starter.description,
-    price: `$${STRIPE_PLANS.starter.price.originalPrice}`,
-    discount: `$${STRIPE_PLANS.starter.price.monthly}`,
-    billingCycle: '/month',
-    scale: true,
-    badge: STRIPE_PLANS.starter.badge,
-    features: STRIPE_PLANS.starter.features,
-    button: {
-      disabled: true,
-      label: 'Upgrade to Starter',
-      onClick: () => {
-        handleCheckout(config.public.stripe.starterPriceId)
+const plans = computed(() => {
+  const yearly = isYearly.value === '1'
+
+  return [
+    {
+      title: 'Free Plan',
+      description: 'Perfect for trying MiroMiro and occasional use',
+      price: '$0',
+      billingCycle: '/month',
+      features: [
+        'Page Overview',
+        'Inspect Mode',
+        'Individual Downloads',
+        'Color Palette Viewer',
+        '50 asset extractions/month',
+        '10 contrast checks/month'
+      ],
+      button: {
+        label: 'Current Plan',
+        disabled: true
+      }
+    },
+    {
+      title: STRIPE_PLANS.starter.name,
+      description: STRIPE_PLANS.starter.description,
+      price: yearly ? `$${STRIPE_PLANS.starter.price.year}` : `$${STRIPE_PLANS.starter.price.originalPrice}`,
+      discount: yearly ? undefined : `$${STRIPE_PLANS.starter.price.month}`,
+      billingCycle: yearly ? '/year' : '/month',
+      scale: true,
+      badge: STRIPE_PLANS.starter.badge,
+      features: STRIPE_PLANS.starter.features,
+      button: {
+        disabled: true,
+        label: 'Upgrade to Starter',
+        onClick: () => {
+          handleCheckout(
+            yearly ? config.public.stripe.starterYearlyPriceId : config.public.stripe.starterPriceId
+          )
+        }
+      }
+    },
+    {
+      title: STRIPE_PLANS.pro.name,
+      description: STRIPE_PLANS.pro.description,
+      price: yearly ? `$${STRIPE_PLANS.pro.price.year}` : `$${STRIPE_PLANS.pro.price.month}`,
+      billingCycle: yearly ? '/year' : '/month',
+      features: STRIPE_PLANS.pro.features,
+      button: {
+        disabled: true,
+        label: 'Upgrade to Pro',
+        onClick: () => {
+          handleCheckout(
+            yearly ? config.public.stripe.proYearlyPriceId : config.public.stripe.proPriceId
+          )
+        }
       }
     }
-  },
-  {
-    title: STRIPE_PLANS.pro.name,
-    description: STRIPE_PLANS.pro.description,
-    price: `$${STRIPE_PLANS.pro.price.monthly}`,
-    billingCycle: '/month',
-    features: STRIPE_PLANS.pro.features,
-    button: {
-      disabled: true,
-      label: 'Upgrade to Pro',
-      onClick: () => {
-        handleCheckout(config.public.stripe.proPriceId)
-      }
-    }
-  }
-])
+  ]
+})
 
 // const headline = `Soon on the Chrome Store ${i-logos:chrome-web-store}`
 
@@ -397,7 +419,25 @@ AI extracts colors and builds complete, accessible palettes automatically."
       id="pricing"
       title="Pricing"
       description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
+      :ui="{
+        headline: 'rounded-full border border-white bg-muted shadow-lg w-fit mx-auto',
+      }"
     >
+      <template #links>
+        <UTabs
+          v-model="isYearly"
+          :items="billingItems"
+          color="primary"
+          size="xs"
+          class="w-48"
+          :ui="{
+            list: 'ring ring-accented rounded-full',
+            indicator: 'rounded-full',
+            trigger: 'w-1/2',
+          }"
+        />
+      </template>
+
       <!-- Waitlist Discount Banner -->
       <UAlert
         v-if="userProfile?.has_waitlist_discount"

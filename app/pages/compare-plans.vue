@@ -8,6 +8,20 @@ const checkoutLoading = ref(false)
 const userProfile = ref<any>(null)
 const config = useRuntimeConfig()
 
+// Billing cycle toggle
+const isYearly = ref('0')
+
+const billingItems = ref([
+  {
+    label: 'Monthly',
+    value: '0'
+  },
+  {
+    label: 'Yearly',
+    value: '1'
+  }
+])
+
 // Load user profile to check current plan
 onMounted(async () => {
   if (user.value?.sub) {
@@ -67,6 +81,7 @@ async function handleCheckout(priceId: string, planName: string) {
 
 const tiers = computed(() => {
   const currentTier = userProfile.value?.premium_tier || 'free'
+  const yearly = isYearly.value === '1'
 
   return [
     {
@@ -84,30 +99,36 @@ const tiers = computed(() => {
     {
       id: 'starter',
       title: STRIPE_PLANS.starter.name,
-      price: `$${STRIPE_PLANS.starter.price.monthly}`,
-      originalPrice: `$${STRIPE_PLANS.starter.price.originalPrice}`,
+      price: yearly ? `$${STRIPE_PLANS.starter.price.year}` : `$${STRIPE_PLANS.starter.price.month}`,
+      originalPrice: yearly ? undefined : `$${STRIPE_PLANS.starter.price.originalPrice}`,
       description: STRIPE_PLANS.starter.description,
-      billingCycle: '/month',
+      billingCycle: yearly ? '/year' : '/month',
       scale: true,
       badge: STRIPE_PLANS.starter.badge,
       button: {
         label: currentTier === 'starter' ? 'Current Plan' : 'Upgrade to Starter',
         disabled: currentTier === 'starter',
-        onClick: () => handleCheckout(config.public.stripe.starterPriceId, 'Starter')
+        onClick: () => handleCheckout(
+          yearly ? config.public.stripe.starterYearlyPriceId : config.public.stripe.starterPriceId,
+          'Starter'
+        )
       }
     },
     {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
-      price: `$${STRIPE_PLANS.pro.price.monthly}`,
+      price: yearly ? `$${STRIPE_PLANS.pro.price.year}` : `$${STRIPE_PLANS.pro.price.month}`,
       description: STRIPE_PLANS.pro.description,
-      billingCycle: '/month',
+      billingCycle: yearly ? '/year' : '/month',
       badge: STRIPE_PLANS.pro.badge,
       button: {
         label: currentTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
         color: 'neutral',
         disabled: currentTier === 'pro',
-        onClick: () => handleCheckout(config.public.stripe.proPriceId, 'Pro')
+        onClick: () => handleCheckout(
+          yearly ? config.public.stripe.proYearlyPriceId : config.public.stripe.proPriceId,
+          'Pro'
+        )
       }
     }
   ]
@@ -150,10 +171,10 @@ const sections = ref([
         }
       },
       {
-        title: 'Smart Inspector (Contrast Checker)',
+        title: 'Contrast Checks',
         tiers: {
-          free: '5/day',
-          starter: 'Unlimited',
+          free: '10/month',
+          starter: '50/month',
           pro: 'Unlimited'
         }
       }
@@ -244,7 +265,21 @@ const sections = ref([
 <template>
   <UPage>
     <UPageSection>
-      <!-- <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1> -->
+      <div class="flex flex-col items-center gap-6 mb-8 sm:ml-36">
+        <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1>
+        <UTabs
+          v-model="isYearly"
+          :items="billingItems"
+          color="primary"
+          size="xs"
+          class="w-48"
+          :ui="{
+            list: 'ring ring-accented rounded-full',
+            indicator: 'rounded-full',
+            trigger: 'w-1/2'
+          }"
+        />
+      </div>
       <UPricingTable
         :tiers="tiers"
         :sections="sections"

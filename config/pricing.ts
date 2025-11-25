@@ -6,7 +6,8 @@ export const STRIPE_PLANS = {
     tagline: 'Launch Price',
     description: 'Best for: Freelancers working on 5-10 projects/month',
     price: {
-      monthly: 9,
+      month: 9,
+      year: 86, // $7.17/month when billed yearly (20% savings)
       originalPrice: 15,
       currency: 'USD'
     },
@@ -33,7 +34,8 @@ export const STRIPE_PLANS = {
     name: 'Pro',
     description: 'Best for: Agencies, product teams, and daily users',
     price: {
-      monthly: 24,
+      month: 24,
+      year: 230, // $19.17/month when billed yearly (20% savings)
       currency: 'USD'
     },
     features: [

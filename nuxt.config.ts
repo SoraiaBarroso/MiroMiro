@@ -32,7 +32,9 @@ export default defineNuxtConfig({
       stripe: {
         key: process.env.STRIPE_PUBLIC_KEY,
         starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1STjbEAaZdcZr0Eum9VuWWJ6',
-        proPriceId: process.env.STRIPE_PRO_PRICE_ID || 'price_1STjdMAaZdcZr0Eu9hu7u4a4'
+        starterYearlyPriceId: process.env.STRIPE_STARTER_YEARLY_PRICE_ID || 'price_starter_yearly',
+        proPriceId: process.env.STRIPE_PRO_PRICE_ID || 'price_1STjdMAaZdcZr0Eu9hu7u4a4',
+        proYearlyPriceId: process.env.STRIPE_PRO_YEARLY_PRICE_ID || 'price_pro_yearly'
       }
     }
   },
@@ -69,7 +71,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/signup', // User will be redirected to this path if not authenticated or after logout.
       callback: '/confirm', // This is the path the user will be redirect to after supabase login redirection.
-      exclude: ['/signin', '/', '/compare-plans', '/forgot-password', '/reset-password', '/privacy-policy', '/contact'], // These paths won't be protected and require no authentication.
+      exclude: ['/signin', '/', '/compare-plans', '/forgot-password', '/reset-password', '/privacy-policy', '/contact', '/terms-of-service'], // These paths won't be protected and require no authentication.
       cookieRedirect: false
     }
   }

@@ -112,7 +112,12 @@ const items = computed<NavigationMenuItem[]>(() => [{
 const itemsFooter: NavigationMenuItem[] = [{
   label: 'Privacy Policy',
   to: '/privacy-policy',
-}, {
+}, 
+{
+  label: 'Terms of Service',
+  to: '/terms-of-service',
+},
+{
   label: 'Contact',
   to: '/contact'
 }]
