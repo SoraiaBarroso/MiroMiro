@@ -264,7 +264,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           size="xl"
           color="primary"
           variant="outline"
-          class="rounded-lg bg-primary-200 border-primary-900 text-primary-900 hover:bg-purple-50 focus:bg-purple-100"
+          class="rounded-lg bg-white border-primary-900 text-primary-900 hover:bg-purple-50 focus:bg-purple-100"
         >
           See how It Works
         </UButton>
@@ -480,7 +480,7 @@ AI extracts colors and builds complete, accessible palettes automatically."
           v-for="(plan, index) in plans"
           :key="index"
           v-bind="plan"
-          :ui="{ button: 'bg-purple-400 hover:bg-purple-500 disabled:bg-purple-200! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
+          :ui="{ badge: '!text-primary-800', button: 'bg-purple-400 hover:bg-purple-500 disabled:bg-purple-200! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
         />
       </UPricingPlans>
     </UPageSection>
