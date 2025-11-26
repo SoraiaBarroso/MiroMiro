@@ -84,7 +84,17 @@ export default defineEventHandler(async (event) => {
       cancel_at_period_end: true
     })
 
+    // Update database with cancellation timestamp so UI can show warning
+    await supabase
+      .from('user_profiles')
+      .update({
+        subscription_cancel_at: canceledSubscription.cancel_at,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', userId)
+
     console.log(`✅ Subscription ${subscriptionId} will be canceled at period end for user ${profile.email}`)
+    console.log(`   Access ends: ${new Date(canceledSubscription.cancel_at * 1000).toISOString()}`)
 
     return {
       success: true,

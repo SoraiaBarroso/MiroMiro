@@ -215,6 +215,22 @@ const cancelSubscription = async () => {
   }
 }
 
+// Check if subscription is cancelled
+const subscriptionCancelled = computed(() => {
+  return profile.value?.subscription_cancel_at !== null
+})
+
+// Format the cancellation date
+const accessEndsDate = computed(() => {
+  if (!profile.value?.subscription_cancel_at) return null
+  const date = new Date(profile.value.subscription_cancel_at * 1000)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+})
+
 // Watch for user to load, then load profile
 watch(user, loadProfile, { immediate: true })
 </script>
@@ -392,6 +408,22 @@ watch(user, loadProfile, { immediate: true })
                 </div>
               </div>
 
+              <!-- Subscription Cancelled Notice -->
+              <UAlert
+                v-if="subscriptionCancelled && profile.premium_status"
+                color="warning"
+                variant="soft"
+                icon="i-lucide-alert-triangle"
+                title="Subscription Cancelled"
+                class="mt-2"
+              >
+                <template #description>
+                  <p class="mt-1 text-sm">
+                    Your subscription has been cancelled. You'll retain access to all premium features until <strong>{{ accessEndsDate }}</strong>.
+                  </p>
+                </template>
+              </UAlert>
+
               <!-- Waitlist Discount Code -->
               <UAlert
                 v-if="profile.has_waitlist_discount"
@@ -428,7 +460,7 @@ watch(user, loadProfile, { immediate: true })
                   :ui="{ footer: 'justify-end' }"
                 >
                   <UButton
-                    v-if="profile.premium_tier !== 'free' && profile.premium_status"
+                    v-if="profile.premium_tier !== 'free' && profile.premium_status && !subscriptionCancelled"
                     color="neutral"
                     variant="subtle"
                     label="Cancel Subscription"
