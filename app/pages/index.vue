@@ -280,7 +280,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
-            src="/overview.png"
+            src="/Overview.png"
             alt="Page Overview"
             class="w-full border lg:h-90 border-neutral-200 object-cover rounded-xl"
             loading="lazy"
