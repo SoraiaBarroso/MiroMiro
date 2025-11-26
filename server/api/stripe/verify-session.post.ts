@@ -77,8 +77,12 @@ export default defineEventHandler(async (event) => {
 
     if (session.subscription) {
       const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
-      currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
-      currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
+      if (subscription.current_period_start) {
+        currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
+      }
+      if (subscription.current_period_end) {
+        currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
+      }
     }
 
     const { error: updateError } = await supabase
