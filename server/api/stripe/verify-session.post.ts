@@ -56,10 +56,10 @@ export default defineEventHandler(async (event) => {
       premiumTier = 'pro'
     }
 
-    // Update user profile in database
+    // Check if user exists and get current status
     const { data: profile, error: fetchError } = await supabase
       .from('user_profiles')
-      .select('id')
+      .select('id, premium_status, premium_tier, stripe_subscription_id')
       .eq('email', customerEmail)
       .single()
 
@@ -69,6 +69,17 @@ export default defineEventHandler(async (event) => {
         statusCode: 404,
         statusMessage: 'User profile not found'
       })
+    }
+
+    // If webhook already updated the profile, just return success
+    if (profile.stripe_subscription_id === session.subscription && profile.premium_status) {
+      console.log(`✅ Profile already updated by webhook for ${customerEmail}`)
+      return {
+        success: true,
+        tier: profile.premium_tier,
+        email: customerEmail,
+        alreadyProcessed: true
+      }
     }
 
     // Get subscription details for period dates
@@ -85,29 +96,40 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    const updateData = {
+      premium_status: true,
+      premium_tier: premiumTier,
+      stripe_subscription_id: session.subscription,
+      stripe_customer_id: session.customer,
+      current_period_start: currentPeriodStart,
+      current_period_end: currentPeriodEnd,
+      updated_at: new Date().toISOString()
+    }
+
+    console.log(`Updating profile for ${customerEmail}:`, {
+      tier: premiumTier,
+      subscriptionId: session.subscription,
+      customerId: session.customer
+    })
+
     const { error: updateError } = await supabase
       .from('user_profiles')
-      .update({
-        premium_status: true,
-        premium_tier: premiumTier,
-        stripe_subscription_id: session.subscription,
-        stripe_customer_id: session.customer,
-        current_period_start: currentPeriodStart,
-        current_period_end: currentPeriodEnd,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', profile.id)
 
     if (updateError) {
-      console.error('Failed to update user profile:', updateError)
+      console.error('❌ Failed to update user profile:', updateError)
       console.error('Update error details:', JSON.stringify(updateError, null, 2))
+      console.error('Attempted update data:', updateData)
+      console.error('Session ID:', session.id)
+      console.error('Subscription ID:', session.subscription)
       throw createError({
         statusCode: 500,
         statusMessage: `Failed to update user profile: ${updateError.message || updateError.code || 'Unknown error'}`
       })
     }
 
-    console.log(`✅ Updated ${customerEmail} to ${premiumTier} tier via session verification`)
+    console.log(`✅ Updated ${customerEmail} to ${premiumTier} tier via session verification (fallback)`)
 
     return {
       success: true,

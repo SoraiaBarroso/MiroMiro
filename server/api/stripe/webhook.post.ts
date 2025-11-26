@@ -91,6 +91,24 @@ export default defineEventHandler(async (event) => {
         break
       }
 
+      // Get subscription details for period dates
+      let currentPeriodStart = null
+      let currentPeriodEnd = null
+
+      if (session.subscription) {
+        try {
+          const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
+          if (subscription.current_period_start) {
+            currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
+          }
+          if (subscription.current_period_end) {
+            currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
+          }
+        } catch (err) {
+          console.error('Failed to retrieve subscription details:', err)
+        }
+      }
+
       const { error: updateError } = await supabase
         .from('user_profiles')
         .update({
@@ -99,13 +117,14 @@ export default defineEventHandler(async (event) => {
           stripe_subscription_id: session.subscription,
           stripe_customer_id: session.customer,
           updated_at: new Date().toISOString(),
-          current_period_start: new Date(session.current_period_start * 1000).toISOString(),
-          current_period_end: new Date(session.current_period_end * 1000).toISOString()
+          current_period_start: currentPeriodStart,
+          current_period_end: currentPeriodEnd
         })
         .eq('id', profile.id)
 
       if (updateError) {
         console.error('Failed to update user profile:', updateError)
+        console.error('Update error details:', JSON.stringify(updateError, null, 2))
       } else {
         console.log(`✅ Updated ${customerEmail} to ${premiumTier} tier`)
       }
@@ -201,17 +220,29 @@ export default defineEventHandler(async (event) => {
           // Get the subscription to fetch period dates
           const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
 
+          let currentPeriodStart = null
+          let currentPeriodEnd = null
+
+          if (subscription.current_period_start) {
+            currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
+          }
+          if (subscription.current_period_end) {
+            currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
+          }
+
           await supabase
             .from('user_profiles')
             .update({
-              current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              current_period_start: currentPeriodStart,
+              current_period_end: currentPeriodEnd,
               updated_at: new Date().toISOString()
             })
             .eq('id', profile.id)
 
           console.log(`🔄 Updated billing period for ${profile.email}`)
-          console.log(`   Period: ${new Date(subscription.current_period_start * 1000).toISOString()} - ${new Date(subscription.current_period_end * 1000).toISOString()}`)
+          if (currentPeriodStart && currentPeriodEnd) {
+            console.log(`   Period: ${currentPeriodStart} - ${currentPeriodEnd}`)
+          }
         }
       }
 
