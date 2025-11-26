@@ -66,12 +66,16 @@ export default defineEventHandler(async (event) => {
       let premiumTier = 'free'
       const priceId = session.line_items?.data?.[0]?.price?.id || session.metadata?.price_id
 
-      // Import pricing config to match price IDs
-      const { STRIPE_PLANS } = await import('../../../config/pricing')
-
-      if (priceId === STRIPE_PLANS.starter.priceId) {
+      // Check against all price IDs (monthly and yearly)
+      if (
+        priceId === config.public.stripe.starterPriceId ||
+        priceId === config.public.stripe.starterYearlyPriceId
+      ) {
         premiumTier = 'starter'
-      } else if (priceId === STRIPE_PLANS.pro.priceId) {
+      } else if (
+        priceId === config.public.stripe.proPriceId ||
+        priceId === config.public.stripe.proYearlyPriceId
+      ) {
         premiumTier = 'pro'
       }
 

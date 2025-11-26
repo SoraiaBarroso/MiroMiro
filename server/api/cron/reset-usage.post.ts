@@ -10,11 +10,14 @@ import { serverSupabaseServiceRole } from '#supabase/server'
   └─ NO → Skip (billing period not ended yet)
 
   For Free Users:
-  Daily reset: contrast_checks (5 per day)
-  Monthly reset (1st of month): asset_extractions, lottie_extractions, ai_generations
+  Monthly reset (1st of month): All usage counters reset to 0
+  - asset_extractions (50/month limit)
+  - contrast_checks (10/month limit)
+  - lottie_extractions (not available for free)
+  - ai_generations (not available for free)
 
-  Paid users reset all fields to 0 at end of billing cycle.
-  Free users reset selectively based on daily vs monthly limits.
+  Paid users reset all fields to 0 at end of their billing cycle (monthly or yearly).
+  Free users reset all fields to 0 on the 1st of each month.
 */
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -81,25 +84,24 @@ export default defineEventHandler(async (event) => {
             resetResults.paidUsersReset++
           }
         } else if (!user.premium_status) {
-          // FREE USERS: Different reset schedules for different features
+          // FREE USERS: Monthly reset on the 1st of each month
           const isFirstDayOfMonth = now.getDate() === 1
 
-          // Always reset contrast_checks daily (5 per day)
-          // Reset other fields monthly (on the 1st)
+          if (!isFirstDayOfMonth) {
+            // Skip free users if it's not the 1st of the month
+            continue
+          }
+
+          // Monthly reset: reset all usage counters (10 contrast checks/month, 50 assets/month)
           const updateData: any = {
+            asset_extractions: 0,
             contrast_checks: 0,
+            lottie_extractions: 0,
+            ai_generations: 0,
             updated_at: new Date().toISOString()
           }
 
-          if (isFirstDayOfMonth) {
-            // Monthly reset: reset asset extractions and other monthly limits
-            updateData.asset_extractions = 0
-            updateData.lottie_extractions = 0
-            updateData.ai_generations = 0
-            console.log(`🆓 Free user ${user.email}: daily + monthly reset (1st of month)`)
-          } else {
-            console.log(`🆓 Free user ${user.email}: daily reset (contrast checks only)`)
-          }
+          console.log(`🆓 Free user ${user.email}: monthly reset (1st of month)`)
 
           const { error: resetError } = await supabase
             .from('user_profiles')
