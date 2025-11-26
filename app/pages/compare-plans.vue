@@ -87,7 +87,7 @@ const tiers = computed(() => {
     {
       id: 'free',
       title: 'Free Plan',
-      price: '$0',
+      price: '€0',
       description: 'Perfect for trying MiroMiro and occasional use',
       billingCycle: '/month',
       button: {
@@ -99,8 +99,8 @@ const tiers = computed(() => {
     {
       id: 'starter',
       title: STRIPE_PLANS.starter.name,
-      price: yearly ? `$${STRIPE_PLANS.starter.price.year}` : `$${STRIPE_PLANS.starter.price.month}`,
-      originalPrice: yearly ? undefined : `$${STRIPE_PLANS.starter.price.originalPrice}`,
+      price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.month}`,
+      originalPrice: yearly ? undefined : `€${STRIPE_PLANS.starter.price.originalPrice}`,
       description: STRIPE_PLANS.starter.description,
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
@@ -117,7 +117,7 @@ const tiers = computed(() => {
     {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
-      price: yearly ? `$${STRIPE_PLANS.pro.price.year}` : `$${STRIPE_PLANS.pro.price.month}`,
+      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.month}`,
       description: STRIPE_PLANS.pro.description,
       billingCycle: yearly ? '/year' : '/month',
       badge: STRIPE_PLANS.pro.badge,

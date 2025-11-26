@@ -7,9 +7,9 @@ export const STRIPE_PLANS = {
     description: 'Best for: Freelancers working on 5-10 projects/month',
     price: {
       month: 9,
-      year: 86, // $7.17/month when billed yearly (20% savings)
+      year: 86, // €7.17/month when billed yearly (20% savings)
       originalPrice: 15,
-      currency: 'USD'
+      currency: 'EUR'
     },
     features: [
       'Everything in Free Plan, plus:',
@@ -35,8 +35,8 @@ export const STRIPE_PLANS = {
     description: 'Best for: Agencies, product teams, and daily users',
     price: {
       month: 24,
-      year: 230, // $19.17/month when billed yearly (20% savings)
-      currency: 'USD'
+      year: 230, // €19.17/month when billed yearly (20% savings)
+      currency: 'EUR'
     },
     features: [
       'Everything in Starter Plan, plus:',

@@ -156,7 +156,7 @@ const plans = computed(() => {
     {
       title: 'Free Plan',
       description: 'Perfect for trying MiroMiro and occasional use',
-      price: '$0',
+      price: '€0',
       billingCycle: '/month',
       features: [
         'Page Overview',
@@ -174,8 +174,8 @@ const plans = computed(() => {
     {
       title: STRIPE_PLANS.starter.name,
       description: STRIPE_PLANS.starter.description,
-      price: yearly ? `$${STRIPE_PLANS.starter.price.year}` : `$${STRIPE_PLANS.starter.price.originalPrice}`,
-      discount: yearly ? undefined : `$${STRIPE_PLANS.starter.price.month}`,
+      price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.originalPrice}`,
+      discount: yearly ? undefined : `€${STRIPE_PLANS.starter.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
       badge: STRIPE_PLANS.starter.badge,
@@ -193,7 +193,7 @@ const plans = computed(() => {
     {
       title: STRIPE_PLANS.pro.name,
       description: STRIPE_PLANS.pro.description,
-      price: yearly ? `$${STRIPE_PLANS.pro.price.year}` : `$${STRIPE_PLANS.pro.price.month}`,
+      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       features: STRIPE_PLANS.pro.features,
       button: {
@@ -217,11 +217,12 @@ const plans = computed(() => {
   <div>
     <CustomPageHero orientation="vertical">
       <template #background>
-        <img
-          src="/assets/bg.svg"
+        <NuxtImg
+          src="/bg.svg"
           class="absolute inset-0 w-full h-full object-cover -z-10"
           alt=""
-        >
+          loading="eager"
+        />
       </template>
 
       <template #headline>
@@ -263,7 +264,7 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           size="xl"
           color="primary"
           variant="outline"
-          class="rounded-lg border-primary-600 text-primary-600 hover:bg-purple-50 focus:bg-purple-100"
+          class="rounded-lg bg-primary-200 border-primary-900 text-primary-900 hover:bg-purple-50 focus:bg-purple-100"
         >
           See how It Works
         </UButton>
@@ -278,11 +279,12 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           description="See what makes any site look good. Get a complete snapshot of colors, fonts, and visual patterns the moment you land."
           class="col-span-2 lg:col-span-1"
         >
-          <img
-            src="assets/overview.png"
+          <NuxtImg
+            src="/overview.png"
             alt="Page Overview"
             class="w-full border lg:h-90 border-neutral-200 object-cover rounded-xl"
-          >
+            loading="lazy"
+          />
         </UPageCard>
 
         <UPageCard
@@ -291,11 +293,16 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           description="Hover to reveal everything. Point at anything—see exactly how it's built. Copy values in one click. Full CSS breakdown: spacing, shadows, borders, computed styles."
           class="col-span-2! lg:col-span-1"
         >
-          <img
-            src="assets/InspectorImg.png"
-            alt="Element Inspector"
-            class="w-full border lg:h-90 border-neutral-200 h-fit object-cover rounded-xl"
+           <video
+            src="/InspectorDemo.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-100 lg:object-cover"
           >
+            Your browser doesn't support video.
+          </video>
         </UPageCard>
 
         <UPageCard
@@ -304,11 +311,16 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           description="Download all images at once. Grab every image, video, and GIF from any page. No more right-click, save-as."
           class="col-span-2"
         >
-          <img
-            src="assets/demoImg.gif"
-            alt="Media Extraction"
+          <video
+            src="/AssetExtractDemo.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
             class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-110 lg:object-cover"
           >
+            Your browser doesn't support video.
+          </video>
         </UPageCard>
 
         <UPageCard
@@ -317,11 +329,12 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
           description="Grab icons as clean vectors. Extract SVGs individually or in bulk—fully editable, infinitely scalable."
           class="col-span-2 lg:col-span-1"
         >
-          <img
-            src="assets/svg.png"
+          <NuxtImg
+            src="/svg.png"
             alt="SVG Capture"
             class="w-full border h-100 border-neutral-200 object-cover rounded-xl"
-          >
+            loading="lazy"
+          />
         </UPageCard>
 
         <UPageCard
@@ -340,11 +353,16 @@ Find and export Lottie animations as JSON, ready for your projects."
               New
             </UBadge>
           </template>
-          <img
-            src="assets/test.gif"
-            alt="Lottie Export"
+          <video
+            src="/LottieDemo.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
             class="w-full border border-neutral-200 object-cover rounded-xl h-90"
           >
+            Your browser doesn't support video.
+          </video>
         </UPageCard>
 
         <UPageCard
@@ -356,11 +374,12 @@ AI extracts colors and builds complete, accessible palettes automatically."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
         >
-          <img
-            src="assets/AI.png"
+          <NuxtImg
+            src="/AI.png"
             alt="AI Design System"
             class="w-full border border-neutral-200 h-90 object-cover rounded-xl"
-          >
+            loading="lazy"
+          />
         </UPageCard>
         <UPageCard
           spotlight
@@ -369,11 +388,13 @@ AI extracts colors and builds complete, accessible palettes automatically."
           class="col-span-2 lg:col-span-3!"
         >
           <video
-            src="/assets/demo.mp4"
+            src="/demo.mp4"
             controls
             autoplay
             class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"
-          />
+          >
+            Your browser doesn't support video.
+          </video>
         </UPageCard>
       </UPageGrid>
     </UPageSection>
