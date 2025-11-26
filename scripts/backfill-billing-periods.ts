@@ -20,6 +20,10 @@ config({ path: resolve(process.cwd(), '.env') })
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 const SUPABASE_URL = process.env.SUPABASE_URL
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY
+const STRIPE_STARTER_PRICE_ID = process.env.STRIPE_STARTER_PRICE_ID
+const STRIPE_STARTER_YEARLY_PRICE_ID = process.env.STRIPE_STARTER_YEARLY_PRICE_ID
+const STRIPE_PRO_PRICE_ID = process.env.STRIPE_PRO_PRICE_ID
+const STRIPE_PRO_YEARLY_PRICE_ID = process.env.STRIPE_PRO_YEARLY_PRICE_ID
 
 if (!STRIPE_SECRET_KEY || !SUPABASE_URL || !SUPABASE_SECRET_KEY) {
   console.error('❌ Missing required environment variables')
@@ -88,10 +92,25 @@ async function backfillBillingPeriods() {
 
       console.log(`  📅 Period: ${periodStart} to ${periodEnd}`)
 
+      // Determine the correct tier from the subscription price ID
+      let correctTier = 'free'
+      const priceId = subscription.items.data[0]?.price.id
+
+      if (priceId === STRIPE_STARTER_PRICE_ID || priceId === STRIPE_STARTER_YEARLY_PRICE_ID) {
+        correctTier = 'starter'
+      } else if (priceId === STRIPE_PRO_PRICE_ID || priceId === STRIPE_PRO_YEARLY_PRICE_ID) {
+        correctTier = 'pro'
+      }
+
+      if (correctTier !== user.premium_tier) {
+        console.log(`  🔄 Updating tier from "${user.premium_tier}" to "${correctTier}"`)
+      }
+
       // Update database
       const { error: updateError } = await supabase
         .from('user_profiles')
         .update({
+          premium_tier: correctTier,
           current_period_start: periodStart,
           current_period_end: periodEnd,
           updated_at: new Date().toISOString()

@@ -39,15 +39,20 @@ export default defineEventHandler(async (event) => {
     }
 
     // Determine the plan tier from the price ID
+    const config = useRuntimeConfig()
     let premiumTier = 'free'
     const priceId = session.line_items?.data?.[0]?.price?.id || session.metadata?.price_id
 
-    // Import pricing config to match price IDs
-    const { STRIPE_PLANS } = await import('../../../config/pricing')
-
-    if (priceId === STRIPE_PLANS.starter.priceId) {
+    // Check against all price IDs (monthly and yearly)
+    if (
+      priceId === config.public.stripe.starterPriceId ||
+      priceId === config.public.stripe.starterYearlyPriceId
+    ) {
       premiumTier = 'starter'
-    } else if (priceId === STRIPE_PLANS.pro.priceId) {
+    } else if (
+      priceId === config.public.stripe.proPriceId ||
+      priceId === config.public.stripe.proYearlyPriceId
+    ) {
       premiumTier = 'pro'
     }
 
@@ -66,6 +71,16 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    // Get subscription details for period dates
+    let currentPeriodStart = null
+    let currentPeriodEnd = null
+
+    if (session.subscription) {
+      const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
+      currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
+      currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
+    }
+
     const { error: updateError } = await supabase
       .from('user_profiles')
       .update({
@@ -73,6 +88,8 @@ export default defineEventHandler(async (event) => {
         premium_tier: premiumTier,
         stripe_subscription_id: session.subscription,
         stripe_customer_id: session.customer,
+        current_period_start: currentPeriodStart,
+        current_period_end: currentPeriodEnd,
         updated_at: new Date().toISOString()
       })
       .eq('id', profile.id)
