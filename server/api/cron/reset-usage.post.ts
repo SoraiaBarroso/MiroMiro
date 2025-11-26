@@ -2,29 +2,21 @@ import { defineEventHandler, readBody } from 'h3'
 import { serverSupabaseServiceRole } from '#supabase/server'
 
 /*
-  It fetches every user from the user_profiles table and checks:
+  Monthly usage reset for FREE users only.
 
-  For Paid Users (Starter/Pro):
-  Is today's date >= their current_period_end?
-  ├─ YES → Reset their usage counters to 0
-  └─ NO → Skip (billing period not ended yet)
+  FREE USERS:
+  - Reset on the 1st of each month
+  - Resets: asset_extractions (50/month limit), contrast_checks (10/month limit)
 
-  For Free Users:
-  Monthly reset (1st of month): All usage counters reset to 0
-  - asset_extractions (50/month limit)
-  - contrast_checks (10/month limit)
-  - lottie_extractions (not available for free)
-  - ai_generations (not available for free)
-
-  Paid users reset all fields to 0 at end of their billing cycle (monthly or yearly).
-  Free users reset all fields to 0 on the 1st of each month.
+  PAID USERS:
+  - Usage counters are reset by the invoice.payment_succeeded webhook when they renew
+  - This cron job does NOT handle paid users
 */
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const supabase = serverSupabaseServiceRole(event)
 
   // Security: Verify the request is coming from your cron service
-  // You can use a secret token or API key
   const body = await readBody(event)
   const cronSecret = body?.secret || event.node.req.headers['x-cron-secret']
 
@@ -35,112 +27,68 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  console.log('🔄 Starting usage reset...')
+  console.log('🔄 Starting monthly usage reset for free users...')
 
   const now = new Date()
+
+  // Only run on the 1st of the month
+  if (now.getDate() !== 1) {
+    console.log('⏭️ Not the 1st of the month - skipping')
+    return {
+      success: true,
+      message: 'Only runs on 1st of month',
+      date: now.toISOString()
+    }
+  }
+
   const resetResults = {
-    paidUsersReset: 0,
     freeUsersReset: 0,
     errors: [] as string[]
   }
 
   try {
-    // Fetch all users
+    // Fetch all FREE users
     const { data: users, error: fetchError } = await supabase
       .from('user_profiles')
-      .select('id, email, premium_status, premium_tier, current_period_end, stripe_subscription_id')
+      .select('id, email')
+      .eq('premium_status', false)
 
     if (fetchError) {
       throw new Error(`Failed to fetch users: ${fetchError.message}`)
     }
 
     if (!users || users.length === 0) {
-      console.log('No users found to reset')
+      console.log('No free users found to reset')
       return {
         success: true,
-        message: 'No users to reset',
+        message: 'No free users to reset',
         results: resetResults
       }
     }
 
-    console.log(`📊 Processing ${users.length} users...`)
+    console.log(`📊 Processing ${users.length} free users...`)
 
-    // Process each user
+    // Reset usage counters for all free users
     for (const user of users) {
       try {
-        let shouldReset = false
-
-        if (user.premium_status && user.current_period_end) {
-          // PAID USERS: Check if billing cycle has ended
-          const periodEnd = new Date(user.current_period_end)
-
-          if (now >= periodEnd) {
-            shouldReset = true
-            console.log(`💳 Paid user ${user.email}: billing period ended (${periodEnd.toISOString()})`)
-
-            // For paid users, we also need to update the billing period
-            // This will be fetched from Stripe in a separate process
-            // For now, we'll just reset the counters
-            resetResults.paidUsersReset++
-          }
-        } else if (!user.premium_status) {
-          // FREE USERS: Monthly reset on the 1st of each month
-          const isFirstDayOfMonth = now.getDate() === 1
-
-          if (!isFirstDayOfMonth) {
-            // Skip free users if it's not the 1st of the month
-            continue
-          }
-
-          // Monthly reset: reset all usage counters (10 contrast checks/month, 50 assets/month)
-          const updateData: any = {
+        const { error: resetError } = await supabase
+          .from('user_profiles')
+          .update({
             asset_extractions: 0,
             contrast_checks: 0,
             lottie_extractions: 0,
             ai_generations: 0,
             updated_at: new Date().toISOString()
-          }
+          })
+          .eq('id', user.id)
 
-          console.log(`🆓 Free user ${user.email}: monthly reset (1st of month)`)
-
-          const { error: resetError } = await supabase
-            .from('user_profiles')
-            .update(updateData)
-            .eq('id', user.id)
-
-          if (resetError) {
-            const errorMsg = `Failed to reset ${user.email}: ${resetError.message}`
-            console.error(errorMsg)
-            resetResults.errors.push(errorMsg)
-          } else {
-            console.log(`✅ Reset counters for ${user.email}`)
-            resetResults.freeUsersReset++
-          }
-
-          // Skip the generic shouldReset block for free users
-          continue
-        }
-
-        // Reset usage counters if needed (for paid users)
-        if (shouldReset) {
-          const { error: resetError } = await supabase
-            .from('user_profiles')
-            .update({
-              asset_extractions: 0,
-              contrast_checks: 0,
-              lottie_extractions: 0,
-              ai_generations: 0,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', user.id)
-
-          if (resetError) {
-            const errorMsg = `Failed to reset ${user.email}: ${resetError.message}`
-            console.error(errorMsg)
-            resetResults.errors.push(errorMsg)
-          } else {
-            console.log(`✅ Reset counters for ${user.email}`)
-          }
+        if (resetError) {
+          const errorMsg = `Failed to reset ${user.email}: ${resetError.message}`
+          console.error(errorMsg)
+          resetResults.errors.push(errorMsg)
+        } else {
+          console.log(`✅ Reset counters for ${user.email}`)
+          resetResults.freeUsersReset++
         }
       } catch (userError: unknown) {
         const errorMsg = `Error processing user ${user.email}: ${userError instanceof Error ? userError.message : String(userError)}`
@@ -149,8 +97,8 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    console.log('✅ Usage reset completed')
-    console.log(`📊 Results: ${resetResults.paidUsersReset} paid users, ${resetResults.freeUsersReset} free users reset`)
+    console.log('✅ Monthly usage reset completed')
+    console.log(`📊 Results: ${resetResults.freeUsersReset} free users reset`)
 
     if (resetResults.errors.length > 0) {
       console.error(`⚠️ ${resetResults.errors.length} errors occurred`)
@@ -158,7 +106,7 @@ export default defineEventHandler(async (event) => {
 
     return {
       success: true,
-      message: 'Usage reset completed',
+      message: 'Monthly usage reset completed',
       results: resetResults,
       timestamp: now.toISOString()
     }

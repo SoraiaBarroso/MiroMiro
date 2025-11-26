@@ -2,6 +2,12 @@ import { defineEventHandler, readBody } from 'h3'
 import { useServerStripe } from '#stripe/server'
 import { serverSupabaseServiceRole } from '#supabase/server'
 
+/**
+ * Fallback endpoint to verify checkout session
+ *
+ * NOTE: Webhooks are the primary method for subscription updates.
+ * This endpoint is a backup in case webhooks are delayed.
+ */
 export default defineEventHandler(async (event) => {
   const stripe = await useServerStripe(event)
   const supabase = serverSupabaseServiceRole(event)
@@ -16,9 +22,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Retrieve the session from Stripe
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items']
-    })
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
 
     // Check if payment was successful
     if (session.payment_status !== 'paid') {
@@ -36,24 +40,6 @@ export default defineEventHandler(async (event) => {
         statusCode: 400,
         statusMessage: 'No customer email found'
       })
-    }
-
-    // Determine the plan tier from the price ID
-    const config = useRuntimeConfig()
-    let premiumTier = 'free'
-    const priceId = session.line_items?.data?.[0]?.price?.id || session.metadata?.price_id
-
-    // Check against all price IDs (monthly and yearly)
-    if (
-      priceId === config.public.stripe.starterPriceId ||
-      priceId === config.public.stripe.starterYearlyPriceId
-    ) {
-      premiumTier = 'starter'
-    } else if (
-      priceId === config.public.stripe.proPriceId ||
-      priceId === config.public.stripe.proYearlyPriceId
-    ) {
-      premiumTier = 'pro'
     }
 
     // Check if user exists and get current status
@@ -78,58 +64,55 @@ export default defineEventHandler(async (event) => {
         success: true,
         tier: profile.premium_tier,
         email: customerEmail,
-        alreadyProcessed: true
+        source: 'webhook'
       }
     }
 
-    // Get subscription details for period end date
-    let currentPeriodEnd = null
+    // Fallback: Webhook hasn't processed yet, update manually
+    const config = useRuntimeConfig()
+    let premiumTier = 'free'
+    const priceId = session.line_items?.data?.[0]?.price?.id || session.metadata?.price_id
 
-    if (session.subscription) {
-      const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
-      if (subscription.current_period_end) {
-        currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
-      }
+    if (
+      priceId === config.public.stripe.starterPriceId ||
+      priceId === config.public.stripe.starterYearlyPriceId
+    ) {
+      premiumTier = 'starter'
+    } else if (
+      priceId === config.public.stripe.proPriceId ||
+      priceId === config.public.stripe.proYearlyPriceId
+    ) {
+      premiumTier = 'pro'
     }
 
-    const updateData = {
-      premium_status: true,
-      premium_tier: premiumTier,
-      stripe_subscription_id: session.subscription,
-      stripe_customer_id: session.customer,
-      current_period_end: currentPeriodEnd,
-      updated_at: new Date().toISOString()
-    }
-
-    console.log(`Updating profile for ${customerEmail}:`, {
-      tier: premiumTier,
-      subscriptionId: session.subscription,
-      customerId: session.customer
-    })
+    console.log(`⚠️ Webhook hasn't processed yet, updating manually for ${customerEmail}`)
 
     const { error: updateError } = await supabase
       .from('user_profiles')
-      .update(updateData)
+      .update({
+        premium_status: true,
+        premium_tier: premiumTier,
+        stripe_subscription_id: session.subscription,
+        stripe_customer_id: session.customer,
+        updated_at: new Date().toISOString()
+      })
       .eq('id', profile.id)
 
     if (updateError) {
       console.error('❌ Failed to update user profile:', updateError)
-      console.error('Update error details:', JSON.stringify(updateError, null, 2))
-      console.error('Attempted update data:', updateData)
-      console.error('Session ID:', session.id)
-      console.error('Subscription ID:', session.subscription)
       throw createError({
         statusCode: 500,
-        statusMessage: `Failed to update user profile: ${updateError.message || updateError.code || 'Unknown error'}`
+        statusMessage: `Failed to update user profile: ${updateError.message || 'Unknown error'}`
       })
     }
 
-    console.log(`✅ Updated ${customerEmail} to ${premiumTier} tier via session verification (fallback)`)
+    console.log(`✅ Updated ${customerEmail} to ${premiumTier} tier (fallback)`)
 
     return {
       success: true,
       tier: premiumTier,
-      email: customerEmail
+      email: customerEmail,
+      source: 'fallback'
     }
   } catch (error: any) {
     console.error('Session verification error:', error)
