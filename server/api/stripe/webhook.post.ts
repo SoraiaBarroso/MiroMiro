@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody, getHeader } from 'h3'
+import { defineEventHandler, readRawBody, getHeader } from 'h3'
 import { useServerStripe } from '#stripe/server'
 import { serverSupabaseServiceRole } from '#supabase/server'
 
@@ -7,14 +7,28 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const supabase = serverSupabaseServiceRole(event)
 
-  // Get raw body for signature verification
-  const body = await readBody(event)
+  // Get raw body for signature verification - MUST be raw, not parsed
+  const rawBody = await readRawBody(event)
   const signature = getHeader(event, 'stripe-signature')
+
+  console.log('🔔 Webhook received')
+  console.log('   Has signature header:', !!signature)
+  console.log('   Has raw body:', !!rawBody)
+  console.log('   Raw body length:', rawBody?.length || 0)
+  console.log('   Webhook secret configured:', !!config.stripeWebhookSecret)
+  console.log('   Webhook secret prefix:', config.stripeWebhookSecret?.substring(0, 7))
 
   if (!signature) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Missing stripe signature'
+      message: 'Missing stripe signature'
+    })
+  }
+
+  if (!rawBody) {
+    throw createError({
+      statusCode: 400,
+      message: 'Missing request body'
     })
   }
 
@@ -26,26 +40,28 @@ export default defineEventHandler(async (event) => {
 
     if (webhookSecret) {
       // Production: Verify signature with webhook secret
-      // Note: We need the raw body as a string for signature verification
-      const rawBody = typeof body === 'string' ? body : JSON.stringify(body)
-
+      // IMPORTANT: Must use raw body string exactly as received from Stripe
+      console.log('🔐 Attempting signature verification...')
       stripeEvent = stripe.webhooks.constructEvent(
         rawBody,
         signature,
         webhookSecret
       )
-      console.log('✅ Webhook signature verified')
+      console.log('✅ Webhook signature verified successfully')
     } else {
       // Development: Skip verification (NOT recommended for production)
       console.warn('⚠️ Webhook signature verification skipped - no STRIPE_WEBHOOK_SECRET configured')
-      stripeEvent = body
+      stripeEvent = JSON.parse(rawBody)
     }
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : String(err)
-    console.error('Webhook signature verification failed:', errorMessage)
+    console.error('❌ Webhook signature verification failed:', errorMessage)
+    console.error('   Signature header:', signature)
+    console.error('   Webhook secret starts with whsec_:', config.stripeWebhookSecret?.startsWith('whsec_'))
+    console.error('   Raw body first 100 chars:', rawBody?.substring(0, 100))
     throw createError({
       statusCode: 400,
-      statusMessage: `Webhook Error: ${errorMessage}`
+      message: `Webhook Error: ${errorMessage}`
     })
   }
 
