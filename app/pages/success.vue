@@ -135,12 +135,6 @@ onMounted(async () => {
         <p class="text-muted text-center">
           Thank you for subscribing to <strong>{{ planDetails?.name || 'MiroMiro Premium' }}</strong>
         </p>
-        <p
-          v-if="planDetails"
-          class="text-sm text-muted text-center"
-        >
-          {{ planDetails.price }}
-        </p>
       </div>
 
       <UAlert

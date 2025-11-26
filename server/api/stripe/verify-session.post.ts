@@ -82,15 +82,11 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    // Get subscription details for period dates
-    let currentPeriodStart = null
+    // Get subscription details for period end date
     let currentPeriodEnd = null
 
     if (session.subscription) {
       const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
-      if (subscription.current_period_start) {
-        currentPeriodStart = new Date(subscription.current_period_start * 1000).toISOString()
-      }
       if (subscription.current_period_end) {
         currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString()
       }
@@ -101,7 +97,6 @@ export default defineEventHandler(async (event) => {
       premium_tier: premiumTier,
       stripe_subscription_id: session.subscription,
       stripe_customer_id: session.customer,
-      current_period_start: currentPeriodStart,
       current_period_end: currentPeriodEnd,
       updated_at: new Date().toISOString()
     }

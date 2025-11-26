@@ -1,7 +1,7 @@
 /**
  * One-time script to backfill billing periods for existing premium users
  *
- * This script fetches all premium users who don't have current_period_start/end set,
+ * This script fetches all premium users who don't have current_period_end set,
  * retrieves their subscription data from Stripe, and updates the database.
  *
  * Usage:
@@ -43,9 +43,9 @@ async function backfillBillingPeriods() {
   // Fetch users who are premium but don't have billing period set
   const { data: users, error: fetchError } = await supabase
     .from('user_profiles')
-    .select('id, email, premium_status, premium_tier, stripe_subscription_id, current_period_start, current_period_end')
+    .select('id, email, premium_status, premium_tier, stripe_subscription_id, current_period_end')
     .eq('premium_status', true)
-    .is('current_period_start', null)
+    .is('current_period_end', null)
 
   if (fetchError) {
     console.error('❌ Error fetching users:', fetchError)
@@ -87,10 +87,9 @@ async function backfillBillingPeriods() {
         continue
       }
 
-      const periodStart = new Date(subscription.current_period_start * 1000).toISOString()
       const periodEnd = new Date(subscription.current_period_end * 1000).toISOString()
 
-      console.log(`  📅 Period: ${periodStart} to ${periodEnd}`)
+      console.log(`  📅 Period ends: ${periodEnd}`)
 
       // Determine the correct tier from the subscription price ID
       let correctTier = 'free'
@@ -111,7 +110,6 @@ async function backfillBillingPeriods() {
         .from('user_profiles')
         .update({
           premium_tier: correctTier,
-          current_period_start: periodStart,
           current_period_end: periodEnd,
           updated_at: new Date().toISOString()
         })
