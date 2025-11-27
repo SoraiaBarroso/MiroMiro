@@ -68,6 +68,15 @@ useHead({
   link: [
     { rel: 'icon', href: '/logo.png' }
   ],
+  script: [
+    {
+      defer: true,
+      'data-website-id': 'dfid_1dUh3lMSsn8sGRnb3Rnac',
+      'data-domain': 'miromiro.app',
+      'data-allow-localhost': 'true',
+      src: 'https://datafa.st/js/script.js'
+    }
+  ],
   htmlAttrs: {
     lang: 'en'
   }
