@@ -132,21 +132,38 @@ export default defineEventHandler(async (event) => {
         console.log(`⏳ Subscription ${subscription.id} will be canceled at period end`)
         console.log('   User keeps premium access until then')
 
-        // Optional: Store cancellation info for display to user
-        const { data: profile } = await supabase
+        // Store cancellation info for display to user
+        const { data: profile, error: fetchError } = await supabase
           .from('user_profiles')
-          .select('id')
+          .select('id, email')
           .eq('stripe_subscription_id', subscription.id)
           .single()
 
-        if (profile) {
-          await supabase
+        if (fetchError) {
+          console.error('❌ Failed to find user for subscription:', subscription.id, fetchError)
+        } else if (profile) {
+          const cancelAt = subscription.cancel_at
+            ? new Date(subscription.cancel_at * 1000).toISOString()
+            : null
+
+          console.log(`📅 Setting cancel_at to ${cancelAt} for user ${profile.email}`)
+
+          const { error: updateError } = await supabase
             .from('user_profiles')
             .update({
-              subscription_cancel_at: subscription.cancel_at,
+              subscription_cancel_at: cancelAt,
               updated_at: new Date().toISOString()
             })
             .eq('id', profile.id)
+
+          if (updateError) {
+            console.error('❌ Failed to update subscription_cancel_at:', updateError)
+          } else {
+            console.log(`✅ Subscription sub_${subscription.id} will be canceled at period end for user ${profile.email}`)
+            console.log(`   Access ends: ${cancelAt}`)
+          }
+        } else {
+          console.error('❌ User not found for subscription:', subscription.id)
         }
       }
 
