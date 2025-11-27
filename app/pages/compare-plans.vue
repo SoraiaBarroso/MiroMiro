@@ -7,6 +7,7 @@ const toast = useToast()
 const checkoutLoading = ref(false)
 const userProfile = ref<any>(null)
 const config = useRuntimeConfig()
+const { gtag } = useGtag()
 
 // Billing cycle toggle
 const isYearly = ref('0')
@@ -24,6 +25,12 @@ const billingItems = ref([
 
 // Load user profile to check current plan
 onMounted(async () => {
+  // Track plan viewing
+  gtag('event', 'view_item_list', {
+    event_category: 'ecommerce',
+    event_label: 'pricing_plans'
+  })
+
   if (user.value?.sub) {
     const { data } = await supabase
       .from('user_profiles')
@@ -50,6 +57,20 @@ async function handleCheckout(priceId: string, planName: string) {
     navigateTo('/signup')
     return
   }
+
+  // Track checkout initiation
+  const billingCycle = isYearly.value === '1' ? 'yearly' : 'monthly'
+  const planPrice = planName === 'Starter'
+    ? (billingCycle === 'yearly' ? STRIPE_PLANS.starter.price.year : STRIPE_PLANS.starter.price.month)
+    : (billingCycle === 'yearly' ? STRIPE_PLANS.pro.price.year : STRIPE_PLANS.pro.price.month)
+
+  gtag('event', 'begin_checkout', {
+    event_category: 'ecommerce',
+    plan_tier: planName.toLowerCase(),
+    billing_cycle: billingCycle,
+    value: planPrice,
+    currency: 'EUR'
+  })
 
   checkoutLoading.value = true
 

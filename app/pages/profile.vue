@@ -48,7 +48,7 @@ async function loadProfile() {
       .select('*')
       .eq('id', user.value.sub)
       .single()
-
+    
     if (error) throw error
     profile.value = data
     // Populate form state
@@ -222,8 +222,9 @@ const subscriptionCancelled = computed(() => {
 
 // Format the cancellation date
 const accessEndsDate = computed(() => {
+  console.log('Calculating access ends date:', profile.value?.subscription_cancel_at)
   if (!profile.value?.subscription_cancel_at) return null
-  const date = new Date(profile.value.subscription_cancel_at * 1000)
+  const date = new Date(profile.value.subscription_cancel_at)
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',

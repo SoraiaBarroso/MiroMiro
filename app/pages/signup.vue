@@ -6,6 +6,7 @@ const supabase = useSupabaseClient()
 const toast = useToast()
 const route = useRoute()
 const loading = ref(false)
+const { gtag } = useGtag()
 
 // Check if signup was initiated from extension
 const extensionRedirect = ref<string | null>(null)
@@ -69,6 +70,11 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
     userEmail.value = payload.data.email
     hasDiscount.value = response.has_waitlist_discount
     showConfirmation.value = true
+
+    // Track signup event in Google Analytics
+    gtag('event', 'sign_up', {
+      method: 'email'
+    })
 
     toast.add({
       title: 'Success!',

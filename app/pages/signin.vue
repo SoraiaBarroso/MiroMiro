@@ -8,6 +8,7 @@
   const route = useRoute() // Add this
   const loading = ref(false)
   const config = useRuntimeConfig()
+  const { gtag } = useGtag()
 
   // Add extension redirect handling
   const extensionRedirect = ref<string | null>(null)
@@ -49,6 +50,11 @@
     label: 'Google',
     icon: 'i-simple-icons-google',
     onClick: async () => {
+      // Track OAuth login attempt
+      gtag('event', 'login', {
+        method: 'google'
+      })
+
       // Preserve extensionRedirect for OAuth flow
       const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
       if (extensionRedirect.value) {
@@ -73,6 +79,11 @@
     label: 'GitHub',
     icon: 'i-simple-icons-github',
     onClick: async () => {
+      // Track OAuth login attempt
+      gtag('event', 'login', {
+        method: 'github'
+      })
+
       // Preserve extensionRedirect for OAuth flow
       const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
       if (extensionRedirect.value) {
@@ -146,6 +157,11 @@
         title: 'Success!',
         description: 'Welcome back!',
         color: 'success'
+      })
+
+      // Track login event in Google Analytics
+      gtag('event', 'login', {
+        method: 'email'
       })
 
       // Send notification to admin (non-blocking)

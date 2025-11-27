@@ -7,6 +7,7 @@ const confetti = ref<any>(null)
 const verifying = ref(true)
 const error = ref<string | null>(null)
 const planTier = ref<string>('free')
+const { gtag } = useGtag()
 
 const sessionId = route.query.session_id
 
@@ -39,6 +40,19 @@ onMounted(async () => {
       console.log('Payment verified:', response)
       planTier.value = response.tier || 'free'
       verifying.value = false
+
+      // Track successful purchase in Google Analytics
+      const planPrice = planTier.value === 'starter'
+        ? STRIPE_PLANS.starter.price.month
+        : STRIPE_PLANS.pro.price.month
+
+      gtag('event', 'purchase', {
+        event_category: 'ecommerce',
+        transaction_id: sessionId,
+        value: planPrice,
+        currency: 'EUR',
+        plan_tier: planTier.value
+      })
     } catch (err: any) {
       console.error('Verification failed:', err)
       error.value = err.data?.statusMessage || 'Failed to verify payment'
