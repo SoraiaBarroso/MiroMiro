@@ -13,6 +13,11 @@ onMounted(async () => {
     if (event === 'SIGNED_IN' && session) {
       console.log('User signed in successfully')
 
+      // Check waitlist and apply discount if applicable (non-blocking)
+      $fetch('/api/auth/check-waitlist', {
+        method: 'POST'
+      }).catch(err => console.error('Failed to check waitlist:', err))
+
       // Send notification to admin (non-blocking)
       $fetch('/api/auth/notify-signin', {
         method: 'POST',

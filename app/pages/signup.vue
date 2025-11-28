@@ -6,19 +6,86 @@ const supabase = useSupabaseClient()
 const toast = useToast()
 const route = useRoute()
 const loading = ref(false)
+const config = useRuntimeConfig()
 const { gtag } = useGtag()
 
 // Check if signup was initiated from extension
 const extensionRedirect = ref<string | null>(null)
 
 onMounted(() => {
+  // Check for extension redirect parameter
   if (route.query.extensionRedirect) {
     extensionRedirect.value = decodeURIComponent(route.query.extensionRedirect as string)
-    // Store in sessionStorage so it persists through OAuth flow
     sessionStorage.setItem('extensionRedirect', extensionRedirect.value)
-    console.log('Signup initiated from extension')
+    console.log('Signup initiated from extension:', extensionRedirect.value)
+  } else {
+    // Check if it was stored from OAuth flow
+    const stored = sessionStorage.getItem('extensionRedirect')
+    if (stored) {
+      extensionRedirect.value = stored
+    }
   }
 })
+
+const providers = [{
+  label: 'Google',
+  icon: 'i-simple-icons-google',
+  onClick: async () => {
+    // Track OAuth signup attempt
+    gtag('event', 'sign_up', {
+      method: 'google'
+    })
+
+    // Preserve extensionRedirect for OAuth flow
+    const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
+    if (extensionRedirect.value) {
+      redirectUrl.searchParams.set('extensionRedirect', extensionRedirect.value)
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: redirectUrl.toString()
+      }
+    })
+    if (error) {
+      toast.add({
+        title: 'Error',
+        description: error.message,
+        color: 'error'
+      })
+    }
+  }
+}, {
+  label: 'GitHub',
+  icon: 'i-simple-icons-github',
+  onClick: async () => {
+    // Track OAuth signup attempt
+    gtag('event', 'sign_up', {
+      method: 'github'
+    })
+
+    // Preserve extensionRedirect for OAuth flow
+    const redirectUrl = new URL(`${config.public.siteUrl}/confirm`)
+    if (extensionRedirect.value) {
+      redirectUrl.searchParams.set('extensionRedirect', extensionRedirect.value)
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: redirectUrl.toString()
+      }
+    })
+    if (error) {
+      toast.add({
+        title: 'Error',
+        description: error.message,
+        color: 'error'
+      })
+    }
+  }
+}]
 
 const fields: AuthFormField[] = [{
   name: 'email',
@@ -190,6 +257,7 @@ async function resendConfirmation() {
         description="Create your account to get started."
         icon="i-lucide-user-plus"
         :fields="fields"
+        :providers="providers"
         @submit="onSubmit"
       >
         <template #footer>
