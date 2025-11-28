@@ -220,8 +220,9 @@ const plans = computed(() => {
         <NuxtImg
           src="/bg.svg"
           class="absolute inset-0 w-full h-full object-cover -z-10"
-          alt=""
+          alt="background"
           loading="eager"
+          fetchpriority="high"
         />
       </template>
 

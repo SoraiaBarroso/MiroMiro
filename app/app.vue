@@ -141,10 +141,11 @@ const itemsFooter: NavigationMenuItem[] = [{
       mode="drawer"
     >
       <template #title>
-        <img src="/logo.png" class="w-8 h-8" alt="MiroMiro Logo">
+        <NuxtImg src="/logo.png" class="w-8 h-8" alt="MiroMiro Logo" />
         <h1>MiroMiro</h1>
       </template>
-      <UNavigationMenu :items="items" />
+      
+      <UNavigationMenu :items="items"/>
 
       <template #right>
         <!-- <UColorModeButton /> -->
@@ -174,6 +175,7 @@ const itemsFooter: NavigationMenuItem[] = [{
           <UAvatar
             :src="imgUser"
             class=" cursor-pointer"
+            alt="User profile"
           />
         </UDropdownMenu>
       </template>
