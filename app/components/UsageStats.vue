@@ -112,33 +112,33 @@ const aiGenerationsUsagePercent = computed(() => {
       </p>
     </div>
 
-    <!-- AI Design System Generations -->
+    <!-- Design System Extractions -->
     <div>
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <span class="font-medium">AI Design System Generations</span>
+          <span class="font-medium">Design System Extractions</span>
         </div>
         <span class="text-sm text-muted">
           {{ profile.ai_generations || 0 }} /
-          {{ planLimits?.aiGenerations === -1 ? 'Unlimited' : planLimits?.aiGenerations === 0 ? 'Not Available' : planLimits?.aiGenerations || 0 }}
+          {{ planLimits?.designSystemExtractions === -1 ? 'Unlimited' : planLimits?.designSystemExtractions === 0 ? 'Not Available' : planLimits?.designSystemExtractions || 0 }}
         </span>
       </div>
       <UProgress
-        v-if="planLimits?.aiGenerations !== 0"
+        v-if="planLimits?.designSystemExtractions !== 0"
         v-model="aiGenerationsUsagePercent"
         :color="aiGenerationsUsagePercent >= 80 ? 'error' : 'primary'"
       />
       <p
-        v-if="aiGenerationsUsagePercent >= 80 && planLimits?.aiGenerations !== -1 && planLimits?.aiGenerations !== 0"
+        v-if="aiGenerationsUsagePercent >= 80 && planLimits?.designSystemExtractions !== -1 && planLimits?.designSystemExtractions !== 0"
         class="text-xs text-error mt-1"
       >
-        You're running low on AI generations. Consider upgrading!
+        You're running low on design system extractions. Consider upgrading!
       </p>
       <p
-        v-if="planLimits?.aiGenerations === 0"
+        v-if="planLimits?.designSystemExtractions === 0"
         class="text-xs text-muted mt-1"
       >
-        Upgrade to Starter or Pro to unlock AI Design System generations
+        Upgrade to Starter or Pro to unlock Design System extractions
       </p>
     </div>
 

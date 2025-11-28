@@ -273,7 +273,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UPageCard
           spotlight
           title="See Any Site's Entire Visual System"
-          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work. Get the complete visual breakdown the moment you land—ready to reference or export."
+          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work. Get the complete visual breakdown the moment you land, ready to reference or export."
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
@@ -286,8 +286,8 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
 
         <UPageCard
           spotlight
-          title="Skip DevTools—Get Clean, Readable CSS"
-          description="Hover anything, see the exact rules behind it. Copy the CSS you actually want without digging through inspector hell. Full breakdown: spacing, shadows, borders, computed styles—all clean and ready to use."
+          title="Skip DevTools, Get Clean, Readable CSS"
+          description="Hover anything, see the exact rules behind it. Copy the CSS you actually want without digging through inspector hell. Full breakdown: spacing, shadows, borders, computed styles, all clean and ready to use."
           class="col-span-2! lg:col-span-1"
         >
            <video
@@ -323,7 +323,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UPageCard
           spotlight
           title="Copy Icons & Logos Straight Off the Page"
-          description="Grab icons as clean, editable vectors. Extract SVGs individually or in bulk—fully scalable for Figma, Sketch, or code. Make your MVP look legit by borrowing what already works."
+          description="Grab icons as clean, editable vectors. Extract SVGs individually or in bulk, fully scalable for Figma, Sketch, or code. Make your MVP look legit by borrowing what already works."
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
@@ -336,8 +336,8 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
 
         <UPageCard
           spotlight
-          title="Export Lottie Animations—Ready to Drop In"
-          description="Capture motion design effortlessly. Find and export Lottie animations as JSON files, ready for your project. No digging through network tabs—just hover, click, and download working animations."
+          title="Export Lottie Animations, Ready to Drop In"
+          description="Capture motion design effortlessly. Find and export Lottie animations as JSON files, ready for your project. No digging through network tabs, just hover, click, and download working animations."
           class="col-span-2 lg:col-span-1"
         >
           <template #icon>
@@ -364,7 +364,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UPageCard
           spotlight
           title="Turn Any Site Into a Shareable Style Guide"
-          description="Break down a competitor's interface without asking your designer for help. Automatically extract design patterns, semantic tags, and naming conventions from CSS files. See what the pros use—then make it yours."
+          description="Break down a competitor's interface without asking your designer for help. Automatically extract design patterns, semantic tags, and naming conventions from CSS files. See what the pros use, then make it yours."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
         >

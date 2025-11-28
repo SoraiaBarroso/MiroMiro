@@ -172,7 +172,7 @@ onMounted(async () => {
             </ul>
           </div>
           <p v-else>
-            You now have access to all premium features including unlimited asset extractions, Lottie animations, and AI Design System generation.
+            You now have access to all premium features including unlimited asset extractions, Lottie animations, and design system extractions.
           </p>
         </template>
       </UAlert>

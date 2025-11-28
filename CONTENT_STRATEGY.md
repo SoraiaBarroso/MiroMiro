@@ -10,7 +10,7 @@
 
 ### Competitor Analysis: CSS Scan
 - **Their strength**: CSS-only extraction, $100k+ revenue
-- **Our advantage**: Complete design toolkit (CSS + Assets + AI + Design Systems)
+- **Our advantage**: Complete design toolkit (CSS + Assets + Design System Extraction)
 - **Positioning**: "Like CSS Scan, but for your entire design workflow"
 
 ---
@@ -41,14 +41,14 @@ Just hover. No more digging through dev tools.
 2/ Bulk asset downloads
 Grab every image, video, SVG in one click.
 
-3/ AI design systems
-Turn any site into a complete design token library.
+3/ Design system extraction
+Extract semantic CSS variables and export to CSS or Tailwind.
 
 4/ Lottie animations
 Export animations as JSON, ready for your projects.
 
 5/ Color palette extraction
-AI-generated accessible color systems.
+Automatic color palette generation from any website.
 
 Stop view-sourcing. Start designing. 🎨
 ```
@@ -84,7 +84,7 @@ Stop view-sourcing. Start designing. 🎨
 
 ### Week 2: Solution Introduction
 - **Monday**: Product demo thread on X
-- **Wednesday**: Feature highlight (AI design systems)
+- **Wednesday**: Feature highlight (design system extraction)
 - **Friday**: TikTok/Reel showing before/after
 
 ### Week 3: Social Proof
@@ -115,7 +115,7 @@ I'm genuinely curious what I'm missing!
 
 **LinkedIn:**
 ```
-I'm building MiroMiro - a Chrome extension for extracting CSS, assets, and AI-generated design systems from any website.
+I'm building MiroMiro - a Chrome extension for extracting CSS, assets, and design systems from any website.
 
 But I want to know from YOU:
 • What would you use this for?
@@ -218,8 +218,8 @@ Since X algorithm is now evaluated by Grok:
 - Use: "If you like CSS Scan, you'll love MiroMiro for..."
 
 **Example posts:**
-- "Love CSS Scan? MiroMiro takes it further with asset extraction, semantic CSS pattern extraction, and Lottie exports. Both tools can coexist in your workflow."
-- "CSS Scan nails CSS extraction. We add everything else: images, videos, SVGs, and automatic semantic pattern discovery from CSS files."
+- "Love CSS Scan? MiroMiro takes it further with asset extraction, design system extraction, and Lottie exports. Both tools can coexist in your workflow."
+- "CSS Scan nails CSS extraction. We add everything else: images, videos, SVGs, and automatic design system extraction from CSS files."
 
 ---
 

@@ -16,7 +16,7 @@
                 <ul>
                     <li><strong>Authentication Information</strong>: Email address, name, and profile information obtained through OAuth authentication providers (Google, GitHub, etc.)</li>
                     <li><strong>Account Data</strong>: User ID, authentication tokens (access and refresh tokens), and session data</li>
-                    <li><strong>Usage Metrics</strong>: Asset extraction counts, contrast check counts, Lottie extraction counts, and AI generation counts to enforce usage limits based on your subscription tier</li>
+                    <li><strong>Usage Metrics</strong>: Asset extraction counts, contrast check counts, Lottie extraction counts, and design system extraction counts to enforce usage limits based on your subscription tier</li>
                 </ul>
 
                 <h3 class="text-highlighted font-semibold text-xl">Automatically Collected Information</h3>
@@ -48,7 +48,7 @@
                 <h2 class="text-highlighted font-semibold text-2xl">Data Sharing and Disclosure</h2>
                 <p>We do NOT sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:</p>
                 <ul>
-                    <li><strong>Service Providers</strong>: With Supabase (backend infrastructure) and Google Cloud (AI features) to provide core functionality</li>
+                    <li><strong>Service Providers</strong>: With Supabase (backend infrastructure) to provide core functionality</li>
                     <li><strong>Legal Requirements</strong>: When required by law, court order, or government regulation</li>
                     <li><strong>Business Transfers</strong>: In connection with any merger, sale of company assets, or acquisition (users will be notified)</li>
                     <li><strong>With Your Consent</strong>: When you explicitly authorize us to share specific information</li>
@@ -103,7 +103,6 @@
                 <p>Our extension integrates with the following third-party services:</p>
                 <ul>
                     <li><strong>Supabase</strong>: Backend infrastructure and authentication (<a href="https://supabase.com/privacy">Supabase Privacy Policy</a>)</li>
-                    <li><strong>Google Cloud APIs</strong>: AI-powered design system generation (if applicable) (<a href="https://policies.google.com/privacy">Google Privacy Policy</a>)</li>
                     <li><strong>OAuth Providers</strong>: Google, GitHub, or other authentication providers you choose to use</li>
                 </ul>
                 <p>These third parties have their own privacy policies governing their use of your information.</p>
