@@ -35,8 +35,8 @@ const features = computed(() => {
     },
     {
       icon: 'i-lucide-code-xml',
-      label: `${props.limits.designSystemExtractions === -1 ? 'Unlimited' : props.limits.designSystemExtractions} design system extractions/month`,
-      available: props.limits.designSystemExtractions > 0 || props.limits.designSystemExtractions === -1
+      label: `${props.limits.aiGenerations === -1 ? 'Unlimited' : props.limits.aiGenerations} design system extractions/month`,
+      available: props.limits.aiGenerations > 0 || props.limits.aiGenerations === -1
     },
     {
       icon: 'i-lucide-headphones',
