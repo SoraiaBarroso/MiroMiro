@@ -139,9 +139,11 @@ const tiers = computed(() => {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
       price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.month}`,
+      originalPrice: yearly ? undefined : (STRIPE_PLANS.pro.price.originalPrice ? `€${STRIPE_PLANS.pro.price.originalPrice}` : undefined),
       description: STRIPE_PLANS.pro.description,
       billingCycle: yearly ? '/year' : '/month',
-      badge: STRIPE_PLANS.pro.badge,
+      scale: true,
+      badge: STRIPE_PLANS.pro.tagline || STRIPE_PLANS.pro.badge,
       button: {
         label: currentTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
         color: 'neutral',
@@ -168,15 +170,7 @@ const sections = ref([
         }
       },
       {
-        title: 'Inspect Mode',
-        tiers: {
-          free: true,
-          starter: true,
-          pro: true
-        }
-      },
-      {
-        title: 'Individual Downloads',
+        title: 'Inspect Mode (Hover for CSS)',
         tiers: {
           free: true,
           starter: true,
@@ -202,18 +196,49 @@ const sections = ref([
     ]
   },
   {
+    title: 'Design System Tools',
+    features: [
+      {
+        title: 'Design System Extraction',
+        description: 'Extract semantic CSS variables and export to CSS or Tailwind',
+        tiers: {
+          free: 'Preview only',
+          starter: `${STRIPE_PLANS.starter.limits.designSystemExtractions}/month`,
+          pro: STRIPE_PLANS.pro.limits.designSystemExtractions === -1 ? 'Unlimited' : `${STRIPE_PLANS.pro.limits.designSystemExtractions}/month`
+        }
+      },
+      {
+        title: 'Export to CSS',
+        tiers: {
+          free: false,
+          starter: true,
+          pro: true
+        }
+      },
+      {
+        title: 'Export to Tailwind Config',
+        tiers: {
+          free: false,
+          starter: true,
+          pro: true
+        }
+      }
+    ]
+  },
+  {
     title: 'Asset Extraction',
     features: [
       {
-        title: 'Total Asset Extractions (Images, Videos, SVGs)',
+        title: 'Total Asset Extractions',
+        description: 'Images, Videos, SVGs per month',
         tiers: {
           free: '50/month',
           starter: `${STRIPE_PLANS.starter.limits.assetExtractions}/month`,
-          pro: `${STRIPE_PLANS.pro.limits.assetExtractions === -1 ? 'Unlimited' : STRIPE_PLANS.pro.limits.assetExtractions + '/month'}`
+          pro: `${STRIPE_PLANS.pro.limits.assetExtractions}/month`
         }
       },
       {
-        title: 'Image Extractions',
+        title: 'Individual Downloads',
         tiers: {
           free: true,
           starter: true,
@@ -221,17 +246,9 @@ const sections = ref([
         }
       },
       {
-        title: 'Video Extractions',
+        title: 'Bulk Export (All Assets at Once)',
         tiers: {
-          free: true,
-          starter: true,
-          pro: true
-        }
-      },
-      {
-        title: 'SVG Extractions',
-        tiers: {
-          free: true,
+          free: false,
           starter: true,
           pro: true
         }
@@ -241,28 +258,7 @@ const sections = ref([
         tiers: {
           free: false,
           starter: `${STRIPE_PLANS.starter.limits.lottieExtractions}/month`,
-          pro: STRIPE_PLANS.pro.limits.lottieExtractions === -1 ? 'Unlimited' : `${STRIPE_PLANS.pro.limits.lottieExtractions}/month`
-        }
-      },
-      {
-        title: 'Bulk Export',
-        tiers: {
-          free: false,
-          starter: STRIPE_PLANS.starter.limits.bulkExport,
-          pro: STRIPE_PLANS.pro.limits.bulkExport
-        }
-      }
-    ]
-  },
-  {
-    title: 'AI Features',
-    features: [
-      {
-        title: 'AI Design System Generations',
-        tiers: {
-          free: false,
-          starter: `${STRIPE_PLANS.starter.limits.aiGenerations}/month`,
-          pro: STRIPE_PLANS.pro.limits.aiGenerations === -1 ? 'Unlimited' : `${STRIPE_PLANS.pro.limits.aiGenerations}/month`
+          pro: 'Unlimited'
         }
       }
     ]
@@ -274,8 +270,8 @@ const sections = ref([
         title: 'Priority Support',
         tiers: {
           free: false,
-          starter: STRIPE_PLANS.starter.limits.prioritySupport,
-          pro: STRIPE_PLANS.pro.limits.prioritySupport
+          starter: false,
+          pro: true
         }
       }
     ]

@@ -75,6 +75,46 @@ useHead({
       'data-domain': 'miromiro.app',
       'data-allow-localhost': 'true',
       src: 'https://datafa.st/js/script.js'
+    },
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        'name': 'MiroMiro',
+        'applicationCategory': 'BrowserApplication',
+        'applicationSubCategory': 'DesignTool',
+        'operatingSystem': 'Chrome',
+        'offers': {
+          '@type': 'AggregateOffer',
+          'lowPrice': '0',
+          'highPrice': '9',
+          'priceCurrency': 'EUR',
+          'offerCount': '3'
+        },
+        'description': 'Chrome extension for designers, developers, and low-code users to copy CSS, colors, fonts, spacing, and download all media files (images, videos, SVGs, Lottie) from any website in one click. Extracts semantic CSS patterns from design files automatically.',
+        'featureList': [
+          'One-click CSS extraction for any element',
+          'Instant color, font, and spacing detection',
+          'Bulk media downloads: images, videos, SVGs, Lottie',
+          'Automatic semantic CSS pattern extraction',
+          'Design token discovery from CSS files',
+          'No DevTools needed - hover and copy',
+          'Complete asset library export',
+          'Design inspiration and competitor analysis'
+        ],
+        'screenshot': `${baseUrl}/og-image.png`,
+        'aggregateRating': {
+          '@type': 'AggregateRating',
+          'ratingValue': '5.0',
+          'reviewCount': '1'
+        },
+        'author': {
+          '@type': 'Person',
+          'name': 'Soraia',
+          'url': 'https://x.com/SoraiaDev'
+        }
+      })
     }
   ],
   htmlAttrs: {
@@ -82,8 +122,8 @@ useHead({
   }
 })
 
-const title = 'MiroMiro – Chrome Extension for Designers & Developers'
-const description = 'Inspect elements, extract assets, and generate design systems effortlessly. MiroMiro lets you analyze any website\'s visuals, reveal brand identity insights, and export everything in production-ready formats.'
+const title = `MiroMiro - Copy Any Website's Design & Assets in One Click`;
+const description = `Chrome Extension that grabs CSS, colors, fonts, spacing, and all media files (SVGs, Lottie, images) instantly. No more digging through DevTools. For designers, developers, and low-code users.`;
 
 useSeoMeta({
   title,

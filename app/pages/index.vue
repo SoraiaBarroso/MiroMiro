@@ -163,6 +163,7 @@ const plans = computed(() => {
         'Inspect Mode',
         'Individual Downloads',
         'Color Palette Viewer',
+        'Design System Preview',
         '50 asset extractions/month',
         '10 contrast checks/month'
       ],
@@ -193,7 +194,8 @@ const plans = computed(() => {
     {
       title: STRIPE_PLANS.pro.name,
       description: STRIPE_PLANS.pro.description,
-      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.month}`,
+      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.originalPrice}`,
+      discount: yearly ? undefined : `€${STRIPE_PLANS.pro.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       features: STRIPE_PLANS.pro.features,
       button: {
@@ -208,9 +210,6 @@ const plans = computed(() => {
     }
   ]
 })
-
-// const headline = `Soon on the Chrome Store ${i-logos:chrome-web-store}`
-
 </script>
 
 <template>
@@ -231,24 +230,21 @@ const plans = computed(() => {
       </template>
 
       <template #title>
-        Reverse-Engineer Any Website: <span class="relative inline-block px-3 py-2">Inspect UI<svg class="absolute w-full h-full left-0 top-0 z-10 pointer-events-none" viewBox="0 0 2727 626" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-<path d="M49.828 50.1708L49.8633 574.942L2675.17 575.066L2675.14 50.2952L49.828 50.1708Z" fill="#3491FF" fill-opacity="0.06" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M29.0002 40.0084L29.0371 585.102L2696 585.229L2695.96 40.1349L29.0002 40.0084Z" fill="#3491FF" fill-opacity="0.06"/>
-<path d="M2633.35 6.31239L2633.36 93.6847L2720.73 93.6906L2720.72 6.31833L2633.35 6.31239Z" fill="#F5F5F5"/>
-<path d="M2633.35 6.31239L2633.36 93.6847L2720.73 93.6906L2720.72 6.31834L2633.35 6.31239Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+        <span class="relative inline-block px-3 py-2">Copy<svg class="absolute w-full h-full left-0 top-0 z-10 pointer-events-none" viewBox="0 0 1299 626" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+<path d="M49.8276 50.1697L49.8438 574.941L1249 575.02L1248.98 50.2493L49.8276 50.1697Z" fill="#3491FF" fill-opacity="0.06" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M1205.35 6.31239L1205.36 93.6847L1292.73 93.6906L1292.72 6.31833L1205.35 6.31239Z" fill="#F5F5F5"/>
+<path d="M1205.35 6.31239L1205.36 93.6847L1292.73 93.6906L1292.72 6.31834L1205.35 6.31239Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
 <path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00583L6.35031 5.99989Z" fill="#F5F5F5"/>
 <path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00584L6.35031 5.99989Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M2633.35 532.313L2633.35 619.685L2720.73 619.691L2720.72 532.319L2633.35 532.313Z" fill="#F5F5F5"/>
-<path d="M2633.35 532.313L2633.35 619.685L2720.73 619.691L2720.72 532.319L2633.35 532.313Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M1205.35 532.313L1205.35 619.685L1292.73 619.691L1292.72 532.319L1205.35 532.313Z" fill="#F5F5F5"/>
+<path d="M1205.35 532.313L1205.35 619.685L1292.73 619.691L1292.72 532.319L1205.35 532.313Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
 <path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" fill="#F5F5F5"/>
 <path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-</svg></span> & Extract Assets Instantly
+</svg></span> Any Website's Design & Assets, In One Click
       </template>
 
       <template #description>
-Hover over any element to see its complete CSS breakdown. Extract entire design systems, color       
-  palettes, typography, spacing, and all media assets in one click. Turn any website into your
-  design reference and asset library instantly.      </template>
+The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all media files (SVGs, Lottie, images) with one click. No more digging through DevTools.      </template>
 
       <template #links>
         <UButton
@@ -276,8 +272,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
       <UPageGrid>
         <UPageCard
           spotlight
-          title="Instant Page Overview"
-          description="See what makes any site look good. Get a complete snapshot of colors, fonts, and visual patterns the moment you land."
+          title="See Any Site's Entire Visual System"
+          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work. Get the complete visual breakdown the moment you land—ready to reference or export."
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
@@ -290,8 +286,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
 
         <UPageCard
           spotlight
-          title="Smart Element Inspector"
-          description="Hover to reveal everything. Point at anything—see exactly how it's built. Copy values in one click. Full CSS breakdown: spacing, shadows, borders, computed styles."
+          title="Skip DevTools—Get Clean, Readable CSS"
+          description="Hover anything, see the exact rules behind it. Copy the CSS you actually want without digging through inspector hell. Full breakdown: spacing, shadows, borders, computed styles—all clean and ready to use."
           class="col-span-2! lg:col-span-1"
         >
            <video
@@ -308,8 +304,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
 
         <UPageCard
           spotlight
-          title="One-Click Media Extraction"
-          description="Download all images at once. Grab every image, video, and GIF from any page. No more right-click, save-as."
+          title="Grab Every Asset to Show Your Team"
+          description="Never right-click, save-as again. Download all images, videos, and GIFs in one click. Build a reference library instantly or grab exactly what you need to say: 'Make it like this.'"
           class="col-span-2"
         >
           <video
@@ -326,8 +322,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
 
         <UPageCard
           spotlight
-          title="SVG & Icon Capture"
-          description="Grab icons as clean vectors. Extract SVGs individually or in bulk—fully editable, infinitely scalable."
+          title="Copy Icons & Logos Straight Off the Page"
+          description="Grab icons as clean, editable vectors. Extract SVGs individually or in bulk—fully scalable for Figma, Sketch, or code. Make your MVP look legit by borrowing what already works."
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
@@ -340,9 +336,8 @@ Hover over any element to see its complete CSS breakdown. Extract entire design 
 
         <UPageCard
           spotlight
-          title="Lottie Animation Export"
-          description="
-Find and export Lottie animations as JSON, ready for your projects."
+          title="Export Lottie Animations—Ready to Drop In"
+          description="Capture motion design effortlessly. Find and export Lottie animations as JSON files, ready for your project. No digging through network tabs—just hover, click, and download working animations."
           class="col-span-2 lg:col-span-1"
         >
           <template #icon>
@@ -368,16 +363,14 @@ Find and export Lottie animations as JSON, ready for your projects."
 
         <UPageCard
           spotlight
-          icon="i-lucide-sparkles"
-          title="AI Design System Generator"
-          description="Turn any site into a design system.
-AI extracts colors and builds complete, accessible palettes automatically."
+          title="Turn Any Site Into a Shareable Style Guide"
+          description="Break down a competitor's interface without asking your designer for help. Automatically extract design patterns, semantic tags, and naming conventions from CSS files. See what the pros use—then make it yours."
           class="col-span-2"
           :ui="{ icon: 'text-purple-500' }"
         >
           <NuxtImg
             src="/AI.png"
-            alt="AI Design System"
+            alt="Semantic CSS Pattern Extraction"
             class="w-full border border-neutral-200 h-90 object-cover rounded-xl"
             loading="lazy"
           />
