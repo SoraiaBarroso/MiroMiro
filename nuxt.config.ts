@@ -35,7 +35,10 @@ export default defineNuxtConfig({
         starterYearlyPriceId: process.env.STRIPE_STARTER_YEARLY_PRICE_ID || 'price_starter_yearly',
         proPriceId: process.env.STRIPE_PRO_PRICE_ID || 'price_1STjdMAaZdcZr0Eu9hu7u4a4',
         proYearlyPriceId: process.env.STRIPE_PRO_YEARLY_PRICE_ID || 'price_pro_yearly'
-      }
+      },
+      posthogPublicKey: 'phc_I1oHHIswVhcLg8QLAFQIbmSe6wUSnqluJkNdS8A8qsH',
+      posthogHost: 'https://eu.i.posthog.com',
+      posthogDefaults: '2025-05-24'
     }
   },
 
