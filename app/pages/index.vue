@@ -219,9 +219,12 @@ const plans = computed(() => {
         <NuxtImg
           src="/bg.svg"
           class="absolute inset-0 w-full h-full object-cover -z-10"
-          alt="background"
+          alt="Decorative background pattern"
+          width="1920"
+          height="1080"
           loading="eager"
           fetchpriority="high"
+          preload
         />
       </template>
 
@@ -278,8 +281,13 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         >
           <NuxtImg
             src="/Overview.png"
-            alt="Page Overview"
-            class="w-full border lg:h-90 border-neutral-200 object-cover rounded-xl"
+            alt="Page Overview showing complete visual system breakdown with colors, fonts, and spacing"
+            width="800"
+            height="600"
+            sizes="100vw sm:50vw lg:800px"
+            format="webp"
+            quality="100"
+            class="w-full border lg:h-80 border-neutral-200 object-cover rounded-xl"
             loading="lazy"
           />
         </UPageCard>
@@ -328,8 +336,13 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         >
           <NuxtImg
             src="/svg.png"
-            alt="SVG Capture"
-            class="w-full border h-100 border-neutral-200 object-cover rounded-xl"
+            alt="SVG icon extraction interface showing clean, editable vector graphics"
+            width="800"
+            height="600"
+            sizes="100vw sm:50vw lg:800px"
+            format="webp"
+            quality="100"
+            class="w-full border h-fit lg:h-100 border-neutral-200 object-cover rounded-xl"
             loading="lazy"
           />
         </UPageCard>
@@ -340,22 +353,13 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           description="Capture motion design effortlessly. Find and export Lottie animations as JSON files, ready for your project. No digging through network tabs, just hover, click, and download working animations."
           class="col-span-2 lg:col-span-1"
         >
-          <template #icon>
-            <UBadge
-              color="primary"
-              variant="subtle"
-              class="mb-4"
-            >
-              New
-            </UBadge>
-          </template>
           <video
             src="/LottieDemo.mp4"
             autoplay
             loop
             muted
             playsinline
-            class="w-full border border-neutral-200 object-cover rounded-xl h-90"
+            class="w-full border border-neutral-200 object-cover rounded-xl h-fit lg:h-80"
           >
             Your browser doesn't support video.
           </video>
@@ -366,12 +370,16 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           title="Turn Any Site Into a Shareable Style Guide"
           description="Break down a competitor's interface without asking your designer for help. Automatically extract design patterns, semantic tags, and naming conventions from CSS files. See what the pros use, then make it yours."
           class="col-span-2"
-          :ui="{ icon: 'text-purple-500' }"
         >
           <NuxtImg
             src="/AI.png"
-            alt="Semantic CSS Pattern Extraction"
-            class="w-full border border-neutral-200 h-90 object-cover rounded-xl"
+            alt="Semantic CSS pattern extraction showing design system breakdown with naming conventions"
+            width="1200"
+            height="600"
+            sizes="100vw md:800px lg:1000px"
+            format="webp"
+            quality="100"
+            class="w-full border border-neutral-200 h-fit object-cover rounded-xl"
             loading="lazy"
           />
         </UPageCard>

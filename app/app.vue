@@ -181,7 +181,14 @@ const itemsFooter: NavigationMenuItem[] = [{
       mode="drawer"
     >
       <template #title>
-        <NuxtImg src="/logo.png" class="w-8 h-8" alt="MiroMiro Logo" />
+        <NuxtImg
+          src="/logo.png"
+          width="32"
+          height="32"
+          alt="MiroMiro Logo"
+          loading="eager"
+          preload
+        />
         <h1>MiroMiro</h1>
       </template>
       
