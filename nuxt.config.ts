@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image', '@unlok-co/nuxt-stripe', '@vueuse/motion/nuxt', 'nuxt-gtag'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', 'nuxt-nodemailer', '@nuxtjs/supabase', '@nuxt/image', '@unlok-co/nuxt-stripe', '@vueuse/motion/nuxt', 'nuxt-gtag', '@nuxtjs/robots', '@nuxtjs/sitemap'],
   devtools: {
     enabled: true
   },
@@ -77,5 +77,34 @@ export default defineNuxtConfig({
       exclude: ['/signin', '/', '/compare-plans', '/forgot-password', '/reset-password', '/privacy-policy', '/contact', '/terms-of-service'], // These paths won't be protected and require no authentication.
       cookieRedirect: false
     }
-  }
+  },
+  robots: {
+    // Disallow routes that require authentication or are not useful for SEO
+    disallow: [
+      '/signup',
+      '/signin',
+      '/success',
+      '/reset-password',
+      '/forgot-password',
+      '/profile',
+      '/confirm' 
+    ],
+    // Add sitemap reference for search engines
+    sitemap: '/sitemap.xml'
+  },
+  site: {
+    url: process.env.SITE_URL || 'https://miromiro.app',
+    name: 'MiroMiro',
+  },
+  sitemap: {
+     exclude: [
+      '/signup',
+      '/signin',
+      '/success',
+      '/reset-password',
+      '/forgot-password',
+      '/confirm',
+      '/profile'
+    ]
+  },
 })
