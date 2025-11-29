@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
+const hasProcessedSignIn = ref(false)
 
 onMounted(async () => {
   console.log('Confirm page loaded')
@@ -7,10 +8,12 @@ onMounted(async () => {
   // Supabase will automatically handle the OAuth callback from the URL
   // We just need to wait for the auth state to change
 
-  supabase.auth.onAuthStateChange(async (event, session) => {
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
     console.log('Auth state changed:', event)
 
-    if (event === 'SIGNED_IN' && session) {
+    if (event === 'SIGNED_IN' && session && !hasProcessedSignIn.value) {
+      // Prevent duplicate processing
+      hasProcessedSignIn.value = true
       console.log('User signed in successfully')
 
       // Check waitlist and apply discount if applicable (non-blocking)
@@ -45,6 +48,11 @@ onMounted(async () => {
       // Handle password recovery
       await navigateTo('/reset-password')
     }
+  })
+
+  // Clean up subscription on unmount
+  onUnmounted(() => {
+    subscription?.unsubscribe()
   })
 })
 </script>
