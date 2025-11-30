@@ -359,7 +359,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             loop
             muted
             playsinline
-            class="w-full border border-neutral-200 object-cover rounded-xl h-fit lg:h-80"
+            class="w-full border border-neutral-200 object-cover rounded-xl h-100 lg:h-80"
           >
             Your browser doesn't support video.
           </video>
@@ -368,18 +368,18 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UPageCard
           spotlight
           title="Turn Any Site Into a Shareable Style Guide"
-          description="Break down a competitor's interface without asking your designer for help. Automatically extract design patterns, semantic tags, and naming conventions from CSS files. See what the pros use, then make it yours."
+          description="Instantly generate a color design system from any site and export organized tokens you can use right away"
           class="col-span-2"
         >
           <NuxtImg
-            src="/AI.png"
+            src="/DesignSystem.png"
             alt="Semantic CSS pattern extraction showing design system breakdown with naming conventions"
             width="1200"
             height="600"
             sizes="100vw md:800px lg:1000px"
             format="webp"
             quality="100"
-            class="w-full border border-neutral-200 h-fit object-cover rounded-xl"
+            class="w-full border border-neutral-200 h-fit lg:h-100 object-cover rounded-xl"
             loading="lazy"
           />
         </UPageCard>
