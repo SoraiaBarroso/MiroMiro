@@ -78,10 +78,10 @@ const linksClasses = computed(() => {
 
           <!-- Headline slot -->
           <div v-if="$slots.headline" :class="headlineClasses" class="flex gap-2 w-fit mx-auto rounded-full pr-2.5 pl-1 py-1 border border-white text-black bg-muted shadow-lg">
-            <div class="flex text-warning border border-white items-center gap-2 rounded-full px-2.5 py-1 bg-muted shadow-sm">
+            <div class="flex text-warning-700 border border-white items-center gap-2 rounded-full px-2.5 py-1 bg-muted shadow-sm">
               <span class="relative flex size-2">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-warning opacity-75"></span>
-                <span class="relative inline-flex size-2 rounded-full bg-warning"></span>
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-warning-700 opacity-75"></span>
+                <span class="relative inline-flex size-2 rounded-full bg-warning-700"></span>
               </span>
               <span class="text-sm">Coming Soon</span>
             </div>

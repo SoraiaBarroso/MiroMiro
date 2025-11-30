@@ -168,8 +168,8 @@ const plans = computed(() => {
         '10 contrast checks/month'
       ],
       button: {
+        disabled: true,
         label: 'Current Plan',
-        disabled: true
       }
     },
     {
@@ -425,11 +425,12 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             v-model="state.email"
             placeholder="name@mail.com"
             class="w-full"
+            :ui="{base: 'placeholder:text-muted'}"
           />
         </UFormField>
         <UButton
           type="submit"
-          class="w-full flex justify-center items-center cursor-pointer rounded-lg bg-purple-800 text-white hover:bg-purple-700 focus:bg-purple-300"
+          class="w-full flex justify-center items-center cursor-pointer rounded-lg  disabled:bg-purple-700! bg-purple-700 text-white hover:bg-purple-500 focus:bg-purple-300"
           :disabled="!isEmailValid || isSubmitting"
           :loading="isSubmitting"
         >
@@ -461,28 +462,12 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         />
       </template>
 
-      <!-- Waitlist Discount Banner -->
-      <UAlert
-        v-if="userProfile?.has_waitlist_discount"
-        title="Waitlist Discount Available!"
-        color="primary"
-        variant="soft"
-        icon="i-heroicons-gift"
-        class="mb-8"
-      >
-        <template #description>
-          <p class="mt-1 text-sm">
-            Use code <span class="font-mono font-semibold bg-primary-100 dark:bg-primary-900 px-2 py-1 rounded">WAITLIST20</span> at checkout to get 20% off forever on any plan.
-          </p>
-        </template>
-      </UAlert>
-
       <UPricingPlans>
         <UPricingPlan
           v-for="(plan, index) in plans"
           :key="index"
           v-bind="plan"
-          :ui="{ badge: '!text-primary-800', button: 'bg-purple-400 hover:bg-purple-500 disabled:bg-purple-200! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
+          :ui="{ badge: '!text-primary-800', button: 'bg-purple-700 hover:bg-purple-500 disabled:bg-purple-700! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
         />
       </UPricingPlans>
     </UPageSection>
