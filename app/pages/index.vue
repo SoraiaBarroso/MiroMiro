@@ -401,44 +401,40 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
       </UPageGrid>
     </UPageSection>
 
-    <UPageCTA
-      id="waitlist"
-      title="Be First to Know"
-      description="Sign up for our waitlist and get 20% off of any plan forever!"
-      variant="subtle"
-      :ui="{
-        title: 'relative',
-        container: 'flex flex-col items-center justify-center !gap-8'
-      }"
+    
+    <UPageSection
+      :ui="{container: '!gap-4', root: 'bg-muted'}"
     >
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-4 w-xs sm:w-sm md:w-xl lg:w-auto 2xl:w-auto"
-        @submit="onSubmit"
-      >
-        <UFormField
-          name="email"
-          class="w-full"
+        <div class="w-fit mx-auto rounded-full px-3 py-1.5 border border-white text-muted shadow-lg mb-2">45+ users waiting 🎉</div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl text-pretty tracking-tight font-bold text-highlighted text-center">Be First to Know</h2>
+        <p class="text-base sm:text-lg text-muted text-center text-balance mt-6">Sign up for our waitlist and get 20% off of any plan forever!</p>
+        <UForm
+          :schema="schema"
+          :state="state"
+          class="space-y-4 w-sm sm:w-xl md:w-xl lg:w-xl 2xl:w-xl mx-auto mt-4"
+          @submit="onSubmit"
         >
-          <UInput
-            v-model="state.email"
-            placeholder="name@mail.com"
+          <UFormField
+            name="email"
             class="w-full"
-            :ui="{base: 'placeholder:text-muted'}"
+          >
+            <UInput
+              v-model="state.email"
+              placeholder="name@mail.com"
+              class="w-full"
+              :ui="{base: 'placeholder:text-muted'}"
+            />
+          </UFormField>
+          <UButton
+            type="submit"
+            label="Join Waitlist"
+            class="w-full flex justify-center items-center cursor-pointer rounded-lg  disabled:bg-purple-700! bg-purple-700 text-white hover:bg-purple-500 focus:bg-purple-300"
+            :disabled="!isEmailValid || isSubmitting"
+            :loading="isSubmitting"
           />
-        </UFormField>
-        <UButton
-          type="submit"
-          class="w-full flex justify-center items-center cursor-pointer rounded-lg  disabled:bg-purple-700! bg-purple-700 text-white hover:bg-purple-500 focus:bg-purple-300"
-          :disabled="!isEmailValid || isSubmitting"
-          :loading="isSubmitting"
-        >
-          Join Waitlist
-        </UButton>
       </UForm>
-    </UPageCTA>
-
+    </UPageSection>
+   
     <UPageSection
       id="pricing"
       title="Pricing"
