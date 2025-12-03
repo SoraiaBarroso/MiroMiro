@@ -283,11 +283,10 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             src="/Overview.png"
             alt="Page Overview showing complete visual system breakdown with colors, fonts, and spacing"
             width="800"
-            height="600"
-            sizes="100vw sm:50vw lg:800px"
+            height="800"
             format="webp"
             quality="100"
-            class="w-full border lg:h-80 border-neutral-200 object-cover rounded-xl"
+            class="border border-neutral-200 rounded-xl"
             loading="lazy"
           />
         </UPageCard>
@@ -338,11 +337,10 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             src="/svg.png"
             alt="SVG icon extraction interface showing clean, editable vector graphics"
             width="800"
-            height="600"
-            sizes="100vw sm:50vw lg:800px"
+            height="900"
             format="webp"
             quality="100"
-            class="w-full border h-fit lg:h-100 border-neutral-200 object-cover rounded-xl"
+            class="border border-neutral-200 rounded-xl"
             loading="lazy"
           />
         </UPageCard>
@@ -359,7 +357,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             loop
             muted
             playsinline
-            class="w-full border border-neutral-200 object-cover rounded-xl h-100 lg:h-80"
+            class="border border-neutral-200 rounded-xl"
           >
             Your browser doesn't support video.
           </video>
@@ -375,11 +373,10 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             src="/DesignSystem.png"
             alt="Semantic CSS pattern extraction showing design system breakdown with naming conventions"
             width="1200"
-            height="600"
-            sizes="100vw md:800px lg:1000px"
+            height="800"
             format="webp"
             quality="100"
-            class="w-full border border-neutral-200 h-fit lg:h-100 object-cover rounded-xl"
+            class="border border-neutral-200 rounded-xl"
             loading="lazy"
           />
         </UPageCard>
