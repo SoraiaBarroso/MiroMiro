@@ -403,7 +403,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
       id="waitlist"
       :ui="{container: '!gap-4', root: 'bg-muted'}"
     >
-        <div class="w-fit mx-auto rounded-full px-3 py-1.5 border border-white text-muted shadow-lg mb-2">45+ users waiting 🎉</div>
+        <div class="w-fit mx-auto rounded-full px-3 py-1.5 border border-white text-muted shadow-lg mb-2">50+ users waiting 🎉</div>
         <h2 class="text-3xl sm:text-4xl lg:text-5xl text-pretty tracking-tight font-bold text-highlighted text-center">Be First to Know</h2>
         <p class="text-base sm:text-lg text-muted text-center text-balance mt-6">Sign up for our waitlist and get 20% off of any plan forever!</p>
         <UForm
