@@ -400,6 +400,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
 
     
     <UPageSection
+      id="waitlist"
       :ui="{container: '!gap-4', root: 'bg-muted'}"
     >
         <div class="w-fit mx-auto rounded-full px-3 py-1.5 border border-white text-muted shadow-lg mb-2">45+ users waiting 🎉</div>
