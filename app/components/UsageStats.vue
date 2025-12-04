@@ -28,7 +28,7 @@ const lottieUsagePercent = computed(() => {
 
 const aiGenerationsUsagePercent = computed(() => {
   if (!props.profile || !props.planLimits) return 0
-  const limit = props.planLimits.aiGenerations
+  const limit = props.planLimits.designSystemExtractions
   if (limit === -1 || limit === 0) return 0 // unlimited or not available
   return Math.min(((props.profile.ai_generations || 0) / limit) * 100, 100)
 })
@@ -67,7 +67,7 @@ const aiGenerationsUsagePercent = computed(() => {
         </div>
         <span class="text-sm text-muted">
           {{ profile.contrast_checks || 0 }} /
-          {{ profile.premium_tier === 'free' ? 5 : 'Unlimited' }}
+          {{ planLimits?.contrastChecks === -1 ? 'Unlimited' : planLimits?.contrastChecks || 10 }}
         </span>
       </div>
       <UProgress
@@ -75,10 +75,10 @@ const aiGenerationsUsagePercent = computed(() => {
         :color="contrastUsagePercent >= 80 ? 'error' : 'primary'"
       />
       <p
-        v-if="contrastUsagePercent >= 80 && profile.premium_tier === 'free'"
+        v-if="contrastUsagePercent >= 80 && planLimits?.contrastChecks !== -1"
         class="text-xs text-error mt-1"
       >
-        You've used most of your contrast checks. Upgrade for unlimited!
+        You're running low on contrast checks. Consider upgrading!
       </p>
     </div>
 

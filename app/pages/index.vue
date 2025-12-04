@@ -409,7 +409,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UForm
           :schema="schema"
           :state="state"
-          class="space-y-4 w-sm sm:w-xl md:w-xl lg:w-xl 2xl:w-xl mx-auto mt-4"
+          class="space-y-4 w-xs sm:w-xl md:w-xl lg:w-xl 2xl:w-xl mx-auto mt-4"
           @submit="onSubmit"
         >
           <UFormField

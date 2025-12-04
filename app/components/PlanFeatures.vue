@@ -2,7 +2,8 @@
 interface PlanLimits {
   assetExtractions: number
   lottieExtractions: number
-  aiGenerations: number
+  designSystemExtractions: number
+  contrastChecks: number
   bulkExport: boolean
   prioritySupport: boolean
 }
@@ -35,8 +36,13 @@ const features = computed(() => {
     },
     {
       icon: 'i-lucide-code-xml',
-      label: `${props.limits.aiGenerations === -1 ? 'Unlimited' : props.limits.aiGenerations} design system extractions/month`,
-      available: props.limits.aiGenerations > 0 || props.limits.aiGenerations === -1
+      label: `${props.limits.designSystemExtractions === -1 ? 'Unlimited' : props.limits.designSystemExtractions} design system extractions/month`,
+      available: props.limits.designSystemExtractions > 0 || props.limits.designSystemExtractions === -1
+    },
+    {
+      icon: 'i-lucide-contrast',
+      label: `${props.limits.contrastChecks === -1 ? 'Unlimited' : props.limits.contrastChecks} contrast checks/month`,
+      available: props.limits.contrastChecks > 0 || props.limits.contrastChecks === -1
     },
     {
       icon: 'i-lucide-headphones',

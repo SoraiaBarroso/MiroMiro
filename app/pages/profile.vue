@@ -178,7 +178,7 @@ const planLimits = computed(() => {
   return {
     assetExtractions: 50,
     lottieExtractions: 0,
-    aiGenerations: 0,
+    designSystemExtractions: 0,
     contrastChecks: 10,
     bulkExport: false,
     prioritySupport: false
