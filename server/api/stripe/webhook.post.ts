@@ -102,7 +102,7 @@ export default defineEventHandler(async (event) => {
         break
       }
 
-      // Grant premium access
+      // Grant premium access and clear any cancellation date
       const { error: updateError } = await supabase
         .from('user_profiles')
         .update({
@@ -110,6 +110,7 @@ export default defineEventHandler(async (event) => {
           premium_tier: premiumTier,
           stripe_subscription_id: subscription.id,
           stripe_customer_id: subscription.customer,
+          subscription_cancel_at: null, // Clear cancellation date for new subscription
           updated_at: new Date().toISOString()
         })
         .eq('id', profile.id)

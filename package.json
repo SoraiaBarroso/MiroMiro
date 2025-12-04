@@ -9,7 +9,9 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "backfill-billing": "tsx scripts/backfill-billing-periods.ts"
+    "backfill-billing": "tsx scripts/backfill-billing-periods.ts",
+    "send-launch-email": "tsx scripts/send-launch-email.ts",
+    "test-launch-email": "tsx scripts/send-launch-email.ts --test"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.71",
