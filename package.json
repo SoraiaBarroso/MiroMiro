@@ -26,7 +26,8 @@
     "@vueuse/motion": "^3.0.3",
     "js-confetti": "^0.13.1",
     "nuxt": "^4.2.0",
-    "nuxt-gtag": "4.1.0"
+    "nuxt-gtag": "4.1.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.9.0",
@@ -43,7 +44,9 @@
   "packageManager": "pnpm@10.19.0",
   "pnpm": {
     "overrides": {
-      "cookie": "0.7.2"
+      "cookie": "0.7.2",
+      "glob": "^11.0.0",
+      "inflight": "npm:@jsdevtools/inflight@^2.0.0"
     }
   }
 }
