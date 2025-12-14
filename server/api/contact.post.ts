@@ -1,7 +1,14 @@
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    const { message } = body
+    const { email, message } = body
+
+    if (!email || !email.trim()) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Email is required'
+      })
+    }
 
     if (!message || !message.trim()) {
       throw createError({
@@ -23,10 +30,12 @@ export default defineEventHandler(async (event) => {
             <p style="font-size: 16px; color: #333; white-space: pre-wrap;">${message}</p>
           </div>
           <p style="font-size: 14px; color: #999;">
+            <strong>From:</strong> ${email}<br/>
             <strong>Date:</strong> ${new Date().toLocaleString()}<br/>
           </p>
         </div>
-      `
+      `,
+      replyTo: email
     })
 
     return {

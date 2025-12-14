@@ -62,12 +62,20 @@ const itemsDropdown = ref<DropdownMenuItem[]>([
 ])
 
 useHead({
+  title: 'MiroMiro – UI Inspector & Asset Extractor',
+
   meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { name: 'description', content: description },
+    { name: 'keywords', content: 'ui inspector, asset extractor, css viewer, chrome extension, web design tool, extract images, copy css, tailwind generator' },
+    { name: 'robots', content: 'index, follow' }
   ],
+
   link: [
-    { rel: 'icon', href: '/logo.png' }
+    { rel: 'icon', href: '/logo.png' },
+    { rel: 'canonical', href: baseUrl }
   ],
+
   script: [
     {
       defer: true,
@@ -76,15 +84,18 @@ useHead({
       'data-allow-localhost': 'true',
       src: 'https://datafa.st/js/script.js'
     },
+
+    // SoftwareApplication schema
     {
       type: 'application/ld+json',
       children: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         'name': 'MiroMiro',
-        'applicationCategory': 'BrowserApplication',
+        'applicationCategory': 'BrowserExtension',
         'applicationSubCategory': 'DesignTool',
         'operatingSystem': 'Chrome',
+        'browserRequirements': 'Requires Chrome browser',
         'offers': {
           '@type': 'AggregateOffer',
           'lowPrice': '0',
@@ -92,7 +103,7 @@ useHead({
           'priceCurrency': 'EUR',
           'offerCount': '3'
         },
-        'description': 'Chrome extension for designers, developers, and low-code users to copy CSS, colors, fonts, spacing, and download all media files (images, videos, SVGs, Lottie) from any website in one click. Extracts semantic CSS patterns from design files automatically.',
+        'description': description,
         'featureList': [
           'One-click CSS extraction for any element',
           'Instant color, font, and spacing detection',
@@ -115,11 +126,26 @@ useHead({
           'url': 'https://x.com/SoraiaDev'
         }
       })
+    },
+
+    // Website schema
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        'name': 'MiroMiro',
+        'url': baseUrl,
+        'potentialAction': {
+          '@type': 'SearchAction',
+          'target': `${baseUrl}/?q={search_term_string}`,
+          'query-input': 'required name=search_term_string'
+        }
+      })
     }
   ],
-  htmlAttrs: {
-    lang: 'en'
-  }
+
+  htmlAttrs: { lang: 'en' }
 })
 
 const title = `MiroMiro - Copy Any Website's Design & Assets in One Click`;
@@ -148,10 +174,6 @@ useSeoMeta({
 const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Features',
   to: '#features'
-},
-{
-  label: 'Waitlist',
-  to: '#waitlist'
 },
 {
   label: 'Pricing',
@@ -201,15 +223,13 @@ const itemsFooter: NavigationMenuItem[] = [{
           to="/signin"
           variant="outline"
           color="neutral"
-          disabled
         >
           Sign In
         </UButton>
         <UButton
           v-if="!user"
           to="/signup"
-          color="neutral"
-          disabled
+          color="primary"
         >
           Sign Up
         </UButton>

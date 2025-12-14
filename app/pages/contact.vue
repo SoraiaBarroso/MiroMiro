@@ -1,7 +1,36 @@
 <script setup lang="ts">
+import * as z from 'zod'
+
+const user = useSupabaseUser()
 const message = ref('')
+const email = ref('')
 const loading = ref(false)
 const toast = useToast()
+
+// Fetch user email if logged in
+onMounted(async () => {
+  if (user.value?.email) {
+    email.value = user.value.email
+  }
+})
+
+// Watch for user changes
+watch(user, (newUser) => {
+  if (newUser?.email) {
+    email.value = newUser.email
+  }
+})
+
+// Email validation
+const isEmailValid = computed(() => {
+  if (!email.value) return false
+  try {
+    z.string().email().parse(email.value)
+    return true
+  } catch {
+    return false
+  }
+})
 
 const handleSubmit = async () => {
   if (!message.value.trim()) {
@@ -13,12 +42,22 @@ const handleSubmit = async () => {
     return
   }
 
+  if (!isEmailValid.value) {
+    toast.add({
+      title: 'Error',
+      description: 'Please enter a valid email address',
+      color: 'error'
+    })
+    return
+  }
+
   loading.value = true
 
   try {
     const response = await $fetch('/api/contact', {
       method: 'POST',
       body: {
+        email: email.value.toLowerCase(),
         message: message.value
       }
     })
@@ -30,6 +69,10 @@ const handleSubmit = async () => {
     })
 
     message.value = ''
+    // Reset email only if user is not logged in
+    if (!user.value) {
+      email.value = ''
+    }
   } catch (error) {
     toast.add({
       title: 'Error',
@@ -65,6 +108,21 @@ useHead({
         <form @submit.prevent="handleSubmit">
           <div class="space-y-4">
             <UFormField
+              label="Your Email"
+              name="email"
+              required
+              :hint="user ? 'Using your account email' : ''"
+            >
+              <UInput
+                v-model="email"
+                type="email"
+                placeholder="your.email@example.com"
+                :disabled="loading || !!user"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField
               label="Your Message"
               name="message"
               required
@@ -82,7 +140,7 @@ useHead({
               <UButton
                 type="submit"
                 :loading="loading"
-                :disabled="loading || !message.trim()"
+                :disabled="loading || !message.trim() || !isEmailValid"
               >
                 Send Message
               </UButton>

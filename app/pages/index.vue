@@ -1,21 +1,8 @@
 <script setup lang="ts">
-import * as z from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
 import { STRIPE_PLANS } from '../../config/pricing'
 const config = useRuntimeConfig()
 
-const schema = z.object({
-  email: z.string().email('Invalid email')
-})
-
-type Schema = z.output<typeof schema>
-
-const state = reactive<Partial<Schema>>({
-  email: undefined
-})
-
 const toast = useToast()
-const isSubmitting = ref(false)
 const checkoutLoading = ref(false)
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
@@ -49,58 +36,6 @@ onMounted(async () => {
     }
   }
 })
-
-// Check if email is valid
-const isEmailValid = computed(() => {
-  if (!state.email) return false
-  try {
-    schema.parse({ email: state.email })
-    return true
-  } catch {
-    return false
-  }
-})
-
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  if (isSubmitting.value) return
-
-  isSubmitting.value = true
-
-  try {
-    const response = await $fetch('/api/waitlist', {
-      method: 'POST',
-      body: {
-        email: event.data.email.toLowerCase()
-      }
-    })
-
-    toast.add({
-      title: 'Success!',
-      description: 'You\'ve been added to the waitlist. Check your email!',
-      color: 'success'
-    })
-
-    // Reset the form
-    state.email = undefined
-  } catch (error: any) {
-    // Check if it's a duplicate email error (409)
-    if (error.statusCode === 409) {
-      toast.add({
-        title: 'Already Registered',
-        description: error.data?.message || 'You are already on the waitlist!',
-        color: 'warning'
-      })
-    } else {
-      toast.add({
-        title: 'Error',
-        description: error.data?.message || 'Failed to join waitlist. Please try again.',
-        color: 'error'
-      })
-    }
-  } finally {
-    isSubmitting.value = false
-  }
-}
 
 async function handleCheckout(priceId: string) {
   console.log('Initiating checkout for priceId:', priceId)
@@ -168,7 +103,6 @@ const plans = computed(() => {
         '10 contrast checks/month'
       ],
       button: {
-        disabled: true,
         label: 'Current Plan',
       }
     },
@@ -182,7 +116,6 @@ const plans = computed(() => {
       badge: STRIPE_PLANS.starter.badge,
       features: STRIPE_PLANS.starter.features,
       button: {
-        disabled: true,
         label: 'Upgrade to Starter',
         onClick: () => {
           handleCheckout(
@@ -199,7 +132,6 @@ const plans = computed(() => {
       billingCycle: yearly ? '/year' : '/month',
       features: STRIPE_PLANS.pro.features,
       button: {
-        disabled: true,
         label: 'Upgrade to Pro',
         onClick: () => {
           handleCheckout(
@@ -251,22 +183,14 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
 
       <template #links>
         <UButton
-          to="#waitlist"
-          trailing-icon="i-lucide-arrow-right"
+          to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl?hl=es"
+          trailing-icon="i-logos:chrome"
           size="xl"
           variant="soft"
-          class="rounded-lg bg-purple-800 text-white hover:bg-purple-700 focus:bg-purple-300"
+          target="_blank"
+          class="rounded-lg bg-purple-500 text-white hover:bg-purple-600 "
         >
-          Join Waitlist
-        </UButton>
-        <UButton
-          to="#features"
-          size="xl"
-          color="primary"
-          variant="outline"
-          class="rounded-lg bg-white border-primary-900 text-primary-900 hover:bg-purple-50 focus:bg-purple-100"
-        >
-          See how It Works
+          Try it For Free
         </UButton>
       </template>
     </CustomPageHero>
@@ -276,17 +200,15 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <UPageCard
           spotlight
           title="See Any Site's Entire Visual System"
-          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work. Get the complete visual breakdown the moment you land, ready to reference or export."
+          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work."
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
-            src="/Overview.png"
+            src="landing//Overview.png"
             alt="Page Overview showing complete visual system breakdown with colors, fonts, and spacing"
-            width="800"
-            height="800"
-            format="webp"
+            sizes="100vw sm:90vw md:80vw lg:70vw xl:2000vw"
             quality="100"
-            class="border border-neutral-200 rounded-xl"
+            class="border border-neutral-200 rounded-xl w-full lg:h-full"
             loading="lazy"
           />
         </UPageCard>
@@ -298,12 +220,12 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2! lg:col-span-1"
         >
            <video
-            src="/InspectorDemo.mp4"
+            src="/landing/InspectorDemo.mp4"
             autoplay
             loop
             muted
             playsinline
-            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-100 lg:object-cover"
+            class="w-full border border-neutral-200 bg-whiterounded-xl rounded-xl object-contain lg:h-100 lg:object-cover"
           >
             Your browser doesn't support video.
           </video>
@@ -316,7 +238,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2"
         >
           <video
-            src="/AssetExtractDemo.mp4"
+            src="/landing/AssetExtractDemo.mp4"
             autoplay
             loop
             muted
@@ -334,13 +256,13 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2 lg:col-span-1"
         >
           <NuxtImg
-            src="/svg.png"
+            src="/landing/svg.png"
             alt="SVG icon extraction interface showing clean, editable vector graphics"
             width="800"
             height="900"
             format="webp"
             quality="100"
-            class="border border-neutral-200 rounded-xl"
+            class="border border-neutral-200 rounded-xl w-full"
             loading="lazy"
           />
         </UPageCard>
@@ -352,12 +274,12 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2 lg:col-span-1"
         >
           <video
-            src="/LottieDemo.mp4"
+            src="/landing/LottieDemo.mp4"
             autoplay
             loop
             muted
             playsinline
-            class="border border-neutral-200 rounded-xl"
+            class="border border-neutral-200 rounded-xl h-100 bg-white"
           >
             Your browser doesn't support video.
           </video>
@@ -370,7 +292,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2"
         >
           <NuxtImg
-            src="/DesignSystem.png"
+            src="/landing/DesignSystem.png"
             alt="Semantic CSS pattern extraction showing design system breakdown with naming conventions"
             width="1200"
             height="800"
@@ -387,7 +309,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           class="col-span-2 lg:col-span-3!"
         >
           <video
-            src="/demo.mp4"
+            src="/landing/demo.mp4"
             controls
             autoplay
             class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"
@@ -396,41 +318,6 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           </video>
         </UPageCard>
       </UPageGrid>
-    </UPageSection>
-
-    
-    <UPageSection
-      id="waitlist"
-      :ui="{container: '!gap-4', root: 'bg-muted'}"
-    >
-        <div class="w-fit mx-auto rounded-full px-3 py-1.5 border border-white text-muted shadow-lg mb-2">50+ users waiting 🎉</div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl text-pretty tracking-tight font-bold text-highlighted text-center">Be First to Know</h2>
-        <p class="text-base sm:text-lg text-muted text-center text-balance mt-6">Sign up for our waitlist and get 20% off of any plan forever!</p>
-        <UForm
-          :schema="schema"
-          :state="state"
-          class="space-y-4 w-xs sm:w-xl md:w-xl lg:w-xl 2xl:w-xl mx-auto mt-4"
-          @submit="onSubmit"
-        >
-          <UFormField
-            name="email"
-            class="w-full"
-          >
-            <UInput
-              v-model="state.email"
-              placeholder="name@mail.com"
-              class="w-full"
-              :ui="{base: 'placeholder:text-muted'}"
-            />
-          </UFormField>
-          <UButton
-            type="submit"
-            label="Join Waitlist"
-            class="w-full flex justify-center items-center cursor-pointer rounded-lg  disabled:bg-purple-700! bg-purple-700 text-white hover:bg-purple-500 focus:bg-purple-300"
-            :disabled="!isEmailValid || isSubmitting"
-            :loading="isSubmitting"
-          />
-      </UForm>
     </UPageSection>
    
     <UPageSection
@@ -461,7 +348,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           v-for="(plan, index) in plans"
           :key="index"
           v-bind="plan"
-          :ui="{ badge: '!text-primary-800', button: 'bg-purple-700 hover:bg-purple-500 disabled:bg-purple-700! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
+          :ui="{ badge: '!text-primary-800', button: 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
         />
       </UPricingPlans>
     </UPageSection>
