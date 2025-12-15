@@ -183,7 +183,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
 
       <template #links>
         <UButton
-          to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl?hl=es"
+          to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl"
           trailing-icon="i-logos:chrome"
           size="xl"
           variant="soft"
