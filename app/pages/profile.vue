@@ -298,6 +298,35 @@ watch(user, loadProfile, { immediate: true })
             </div>
           </UPageCard>
 
+           <!-- Extension Download Section -->
+          <UPageCard>
+            <template #title>
+              <div class="flex items-center gap-2">
+                <UIcon
+                  name="i-logos:chrome"
+                  class="text-xl"
+                />
+                <span>Chrome Extension</span>
+              </div>
+            </template>
+
+            <div class="flex flex-col gap-4">
+              <p class="text-muted">
+                Download the MiroMiro Chrome Extension to start extracting CSS, colors, fonts, and assets from any website.
+              </p>
+              <UButton
+                to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl"
+                target="_blank"
+                trailing-icon="i-lucide-external-link"
+                color="primary"
+                variant="soft"
+                class="w-fit"
+              >
+                Get Chrome Extension
+              </UButton>
+            </div>
+          </UPageCard>
+
           <!-- Personal Information Section -->
           <UPageCard>
             <template #title>

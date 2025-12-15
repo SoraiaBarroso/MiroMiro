@@ -171,6 +171,14 @@ useSeoMeta({
   twitterCreator: '@SoraiaDev'
 })
 
+// Detect current route
+const route = useRoute()
+
+// Hide navigation menu on profile page
+const showNavigation = computed(() => {
+  return route.path !== '/profile'
+})
+
 const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Features',
   to: '#features'
@@ -213,8 +221,8 @@ const itemsFooter: NavigationMenuItem[] = [{
         />
         <h1>MiroMiro</h1>
       </template>
-      
-      <UNavigationMenu :items="items"/>
+
+      <UNavigationMenu v-if="showNavigation" :items="items"/>
 
       <template #right>
         <!-- <UColorModeButton /> -->
@@ -249,6 +257,7 @@ const itemsFooter: NavigationMenuItem[] = [{
 
       <template #body>
         <UNavigationMenu
+          v-if="showNavigation"
           :items="items"
           orientation="vertical"
           class="-mx-2.5"
