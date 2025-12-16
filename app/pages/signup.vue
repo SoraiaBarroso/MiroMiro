@@ -12,12 +12,21 @@ const { gtag } = useGtag()
 // Check if signup was initiated from extension
 const extensionRedirect = ref<string | null>(null)
 
-onMounted(() => {
+onMounted(async () => {
   // Check for extension redirect parameter
   if (route.query.extensionRedirect) {
     extensionRedirect.value = decodeURIComponent(route.query.extensionRedirect as string)
     sessionStorage.setItem('extensionRedirect', extensionRedirect.value)
     console.log('Signup initiated from extension:', extensionRedirect.value)
+    
+    // AUTO-REDIRECT: If user is already logged in, send them back to extension
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      console.log('User already logged in, redirecting to extension...')
+      const redirectUrl = `${extensionRedirect.value}#access_token=${session.access_token}&refresh_token=${session.refresh_token}&token_type=bearer`
+      window.location.href = redirectUrl
+      return
+    }
   } else {
     // Check if it was stored from OAuth flow
     const stored = sessionStorage.getItem('extensionRedirect')
@@ -26,6 +35,7 @@ onMounted(() => {
     }
   }
 })
+
 
 const providers = [{
   label: 'Google',
@@ -196,6 +206,8 @@ async function resendConfirmation() {
     resendingEmail.value = false
   }
 }
+
+
 </script>
 
 <template>
