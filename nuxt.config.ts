@@ -29,6 +29,9 @@ export default defineNuxtConfig({
     cronSecret: process.env.CRON_SECRET,
     public: {
       siteUrl: process.env.SITE_URL || 'https://miromiro.app',
+      // Allowlist for Chrome extension redirects
+      // Set CHROME_EXTENSION_ID to your published extension ID
+      chromeExtensionId: process.env.CHROME_EXTENSION_ID || undefined,
       stripe: {
         key: process.env.STRIPE_PUBLIC_KEY,
         starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1STjbEAaZdcZr0Eum9VuWWJ6',

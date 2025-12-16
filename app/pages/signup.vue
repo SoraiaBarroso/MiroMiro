@@ -9,20 +9,48 @@ const loading = ref(false)
 const config = useRuntimeConfig()
 const { gtag } = useGtag()
 
-// Check if signup was initiated from extension
+// Check if signup was initiated from extension (validated allowlist)
 const extensionRedirect = ref<string | null>(null)
+
+// Helper: validate allowed redirect origins (only Chrome extension origin)
+function isAllowedExtensionRedirect(urlString: string): boolean {
+  try {
+    const url = new URL(urlString)
+    // Allow Chrome extension direct origin AND Chrome Identity OAuth redirect domain
+    const isChromeExt = url.protocol === 'chrome-extension:'
+    const allowedId = (config.public as any).chromeExtensionId as string | undefined
+    if (!allowedId) return false
+
+    // Case 1: chrome-extension://<ID>/...
+    if (isChromeExt) {
+      return url.host === allowedId
+    }
+
+    // Case 2: https://<ID>.chromiumapp.org for Chrome Identity OAuth
+    const isChromiumApp = url.protocol === 'https:' && url.host === `${allowedId}.chromiumapp.org`
+    return isChromiumApp
+  } catch {
+    return false
+  }
+}
 
 onMounted(async () => {
   // Check for extension redirect parameter
   if (route.query.extensionRedirect) {
-    extensionRedirect.value = decodeURIComponent(route.query.extensionRedirect as string)
-    sessionStorage.setItem('extensionRedirect', extensionRedirect.value)
-    console.log('Signup initiated from extension:', extensionRedirect.value)
+    const candidate = decodeURIComponent(route.query.extensionRedirect as string)
+    if (isAllowedExtensionRedirect(candidate)) {
+      extensionRedirect.value = candidate
+      sessionStorage.setItem('extensionRedirect', extensionRedirect.value)
+      console.log('Signup initiated from allowed extension origin:', extensionRedirect.value)
+    } else {
+      // Reject unsafe redirect targets to prevent token leak
+      console.warn('Blocked unsafe extensionRedirect:', candidate)
+    }
     
     // AUTO-REDIRECT: If user is already logged in, send them back to extension
     const { data: { session } } = await supabase.auth.getSession()
-    if (session) {
-      console.log('User already logged in, redirecting to extension...')
+    if (session && extensionRedirect.value && isAllowedExtensionRedirect(extensionRedirect.value)) {
+      console.log('User already logged in, redirecting to trusted extension origin...')
       const redirectUrl = `${extensionRedirect.value}#access_token=${session.access_token}&refresh_token=${session.refresh_token}&token_type=bearer`
       window.location.href = redirectUrl
       return
@@ -30,8 +58,11 @@ onMounted(async () => {
   } else {
     // Check if it was stored from OAuth flow
     const stored = sessionStorage.getItem('extensionRedirect')
-    if (stored) {
+    if (stored && isAllowedExtensionRedirect(stored)) {
       extensionRedirect.value = stored
+    } else if (stored) {
+      // Clear any previously stored unsafe value
+      sessionStorage.removeItem('extensionRedirect')
     }
   }
 })
