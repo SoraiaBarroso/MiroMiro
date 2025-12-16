@@ -186,7 +186,11 @@ const items = computed<NavigationMenuItem[]>(() => [{
 {
   label: 'Pricing',
   to: '#pricing'
-}])
+},{
+  label: 'Testimonials',
+  to: '#testimonials'
+}
+])
 
 const itemsFooter: NavigationMenuItem[] = [{
   label: 'Privacy Policy',

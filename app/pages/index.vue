@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { STRIPE_PLANS } from '../../config/pricing'
-const config = useRuntimeConfig()
 
+const config = useRuntimeConfig()
 const toast = useToast()
 const checkoutLoading = ref(false)
 const user = useSupabaseUser()
@@ -10,6 +10,13 @@ const userProfile = ref<any>(null)
 
 // Billing cycle toggle
 const isYearly = ref('0')
+
+const id = "2000802594604904612";
+const id2 = "2000673997713764527";
+const id3 = "2000543455009996839";
+const id4 = "2000795479693779422";
+const id5 = "2000925048069349528";
+const id6 = "2000626087001559120";
 
 const billingItems = ref([
   {
@@ -21,6 +28,12 @@ const billingItems = ref([
     value: '1'
   }
 ])
+
+const redirectToPost = (tweetId: string) => {
+  console.log('Redirecting to tweet:', tweetId);
+  const tweetUrl = `https://twitter.com/i/status/${tweetId}`;
+  window.open(tweetUrl, '_blank');
+}
 
 // Load user profile to check for waitlist discount
 onMounted(async () => {
@@ -319,7 +332,27 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         </UPageCard>
       </UPageGrid>
     </UPageSection>
-   
+    
+    <UPageSection
+      id="testimonials"
+      title="What Our Users Say"
+      description="Real feedback from our community"
+    >
+      <template #headline>
+        <div class="flex gap-2 w-fit mx-auto rounded-full px-3 py-1 border border-white text-black bg-muted shadow-lg mb-6">
+          <span class="flex items-center text-sm font-medium">50K+ views on launch</span>
+        </div>
+      </template>
+      <UPageColumns>
+        <NuxtTweet :id="id" :show-media="false"/>
+        <NuxtTweet :id="id2" :show-media="false" />
+        <NuxtTweet :id="id3" :show-media="false" />
+        <NuxtTweet :id="id4" :show-media="false" />
+        <NuxtTweet :id="id5" :show-media="false" />
+        <NuxtTweet :id="id6" :show-media="false" />
+      </UPageColumns>
+    </UPageSection>
+ 
     <UPageSection
       id="pricing"
       title="Pricing"
