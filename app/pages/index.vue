@@ -18,6 +18,7 @@ const id4 = "2000795479693779422";
 const id5 = "2000925048069349528";
 const id6 = "2000626087001559120";
 const id7 = "2000938450342830224";
+const id8 = "2001258705128665303";
 
 const billingItems = ref([
   {
@@ -340,8 +341,9 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
       description="Real feedback from our community"
     >
       <template #headline>
-        <div class="flex gap-2 w-fit mx-auto rounded-full px-3 py-1 border border-white text-black bg-muted shadow-lg mb-6">
-          <span class="flex items-center text-sm font-medium">60K+ views on launch</span>
+        <div class="flex gap-2 w-fit mx-auto items-center rounded-full px-3 py-2 border border-white text-black bg-muted shadow-lg mb-6">
+          <UIcon name="i-garden:twitter-stroke-12" />
+          <span class="flex items-center text-sm font-medium">1.5M views on launch</span>
         </div>
       </template>
       <UPageColumns>
@@ -352,6 +354,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <NuxtTweet :id="id5" :show-media="false" />
         <NuxtTweet :id="id6" :show-media="false" />
         <NuxtTweet :id="id7" :show-media="false" />
+        <NuxtTweet :id="id8" :show-media="false" />
       </UPageColumns>
     </UPageSection>
  
