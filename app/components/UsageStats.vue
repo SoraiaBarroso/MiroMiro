@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { FREE_LIMITS } from '../../config/pricing'
+
 const props = defineProps<{
   profile: any
   planLimits: any
@@ -44,7 +46,7 @@ const aiGenerationsUsagePercent = computed(() => {
         </div>
         <span class="text-sm text-muted">
           {{ profile.asset_extractions || 0 }} /
-          {{ planLimits?.assetExtractions === -1 ? 'Unlimited' : planLimits?.assetExtractions || 50 }}
+          {{ planLimits?.assetExtractions === -1 ? 'Unlimited' : planLimits?.assetExtractions || FREE_LIMITS.assetExtractions }}
         </span>
       </div>
       <UProgress
@@ -67,7 +69,7 @@ const aiGenerationsUsagePercent = computed(() => {
         </div>
         <span class="text-sm text-muted">
           {{ profile.contrast_checks || 0 }} /
-          {{ planLimits?.contrastChecks === -1 ? 'Unlimited' : planLimits?.contrastChecks || 10 }}
+          {{ planLimits?.contrastChecks === -1 ? 'Unlimited' : planLimits?.contrastChecks || FREE_LIMITS.contrastChecks }}
         </span>
       </div>
       <UProgress

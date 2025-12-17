@@ -1,14 +1,24 @@
 // config/pricing.ts
 
+// Free tier limits - centralized here for easy updates
+export const FREE_LIMITS = {
+  assetExtractions: 15,
+  lottieExtractions: 0,
+  designSystemExtractions: 0,
+  contrastChecks: 3,
+  bulkExport: false,
+  prioritySupport: false
+}
+
 export const STRIPE_PLANS = {
   starter: {
     name: 'Starter',
-    tagline: 'Launch Price',
-    description: 'Best for: Freelancers working on 5-10 projects/month',
+    tagline: 'Less than a coffee',
+    description: 'Save hours every week on design research',
     price: {
-      month: 9,
-      year: 86, // €7.17/month when billed yearly (20% savings)
-      originalPrice: 15,
+      month: 4,
+      year: 38, // €3.17/month when billed yearly (20% savings)
+      originalPrice: 9,
       currency: 'EUR'
     },
     features: [
@@ -27,12 +37,12 @@ export const STRIPE_PLANS = {
       bulkExport: true,
       prioritySupport: false
     },
-    badge: 'Launch Price',
+    badge: 'Save 60$/year',
     comingSoon: false
   },
   pro: {
     name: 'Pro',
-    tagline: 'Launch Price',
+    tagline: 'Most Popular',
     description: 'Best for: Agencies, product teams, and daily users',
     price: {
       month: 19,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as z from 'zod'
-import { STRIPE_PLANS } from '../../config/pricing'
+import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
 
 definePageMeta({
   middleware: 'auth'
@@ -175,14 +175,7 @@ const planLimits = computed(() => {
   if (tier === 'pro') return STRIPE_PLANS.pro.limits
 
   // Free tier limits
-  return {
-    assetExtractions: 50,
-    lottieExtractions: 0,
-    designSystemExtractions: 0,
-    contrastChecks: 10,
-    bulkExport: false,
-    prioritySupport: false
-  }
+  return FREE_LIMITS
 })
 
 // Cancel subscription

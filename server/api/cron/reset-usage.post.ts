@@ -6,7 +6,7 @@ import { serverSupabaseServiceRole } from '#supabase/server'
 
   FREE USERS:
   - Reset on the 1st of each month
-  - Resets: asset_extractions (50/month limit), contrast_checks (10/month limit)
+  - Resets: asset_extractions (15/month free limit), contrast_checks (3/month free limit)
 
   PAID USERS:
   - Usage counters are reset by the invoice.payment_succeeded webhook when they renew

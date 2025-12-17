@@ -27,3 +27,21 @@
   --color-purple-800: #574870;
   --color-purple-900: #3F345A;
 }
+
+@keyframes borderGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-gradient {
+  background: linear-gradient(90deg, #9f8ab8, #7c3aed, #22d3ee, #9f8ab8);
+  background-size: 200% 200%;
+  animation: borderGradient 5s ease infinite;
+}

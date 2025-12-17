@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STRIPE_PLANS } from '../../config/pricing'
+import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
 
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
@@ -113,7 +113,7 @@ const tiers = computed(() => {
       billingCycle: '/month',
       button: {
         label: currentTier === 'free' ? 'Current Plan' : 'Downgrade to Free',
-        variant: 'subtle',
+        variant: 'subtle' as const,
         disabled: true
       }
     },
@@ -144,9 +144,10 @@ const tiers = computed(() => {
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
       badge: STRIPE_PLANS.pro.tagline || STRIPE_PLANS.pro.badge,
+      highlight: true,
       button: {
         label: currentTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro',
-        color: 'neutral',
+        color: 'primary' as const,
         disabled: currentTier === 'pro',
         onClick: () => handleCheckout(
           yearly ? config.public.stripe.proYearlyPriceId : config.public.stripe.proPriceId,
@@ -188,7 +189,7 @@ const sections = ref([
       {
         title: 'Contrast Checks',
         tiers: {
-          free: '10/month',
+          free: `${FREE_LIMITS.contrastChecks}/month`,
           starter: '50/month',
           pro: 'Unlimited'
         }
@@ -232,7 +233,7 @@ const sections = ref([
         title: 'Total Asset Extractions',
         description: 'Images, Videos, SVGs per month',
         tiers: {
-          free: '50/month',
+          free: `${FREE_LIMITS.assetExtractions}/month`,
           starter: `${STRIPE_PLANS.starter.limits.assetExtractions}/month`,
           pro: `${STRIPE_PLANS.pro.limits.assetExtractions}/month`
         }
@@ -284,6 +285,9 @@ const sections = ref([
     <UPageSection>
       <div class="flex flex-col items-center gap-6 mb-8 sm:ml-36">
         <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1>
+        <p class="text-muted text-center max-w-md">
+          Join designers and developers who save hours every week. Cancel anytime.
+        </p>
         <UTabs
           v-model="isYearly"
           :items="billingItems"

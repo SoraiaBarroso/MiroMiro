@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STRIPE_PLANS } from '../../config/pricing'
+import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
 
 const config = useRuntimeConfig()
 const toast = useToast()
@@ -109,19 +109,18 @@ const plans = computed(() => {
       price: '€0',
       billingCycle: '/month',
       features: [
-        'Page Overview',
         'Inspect Mode',
-        'Individual Downloads',
         'Color Palette Viewer',
         'Design System Preview',
-        '50 asset extractions/month',
-        '10 contrast checks/month'
+        `${FREE_LIMITS.assetExtractions} asset extractions/month`,
+        `${FREE_LIMITS.contrastChecks} contrast checks/month`
       ],
       button: {
         label: 'Current Plan',
       }
     },
     {
+      id: 'starter',
       title: STRIPE_PLANS.starter.name,
       description: STRIPE_PLANS.starter.description,
       price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.originalPrice}`,
@@ -140,12 +139,14 @@ const plans = computed(() => {
       }
     },
     {
+      id: 'pro',
       title: STRIPE_PLANS.pro.name,
       description: STRIPE_PLANS.pro.description,
       price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.originalPrice}`,
       discount: yearly ? undefined : `€${STRIPE_PLANS.pro.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       features: STRIPE_PLANS.pro.features,
+      badge: 'Most Popular',
       button: {
         label: 'Upgrade to Pro',
         onClick: () => {
@@ -386,7 +387,12 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           v-for="(plan, index) in plans"
           :key="index"
           v-bind="plan"
-          :ui="{ badge: '!text-primary-800', button: 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600!', featureIcon: '!bg-purple-300' }"
+          :ui="{
+            root: plan.id === 'starter' ? 'overflow-visible bg-gradient-to-r from-(--ui-primary)/10 to-(--ui-secondary)/10' : (plan.badge ? 'overflow-visible' : ''),
+            badge: plan.badge ? 'absolute -top-3 left-1/2 -translate-x-1/2 transform rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-white shadow-lg' : '',
+            button: plan.id === 'starter' ? 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl ring-4 ring-purple-500/20' : 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl',
+            featureIcon: '!bg-purple-300'
+          }"
         />
       </UPricingPlans>
     </UPageSection>
