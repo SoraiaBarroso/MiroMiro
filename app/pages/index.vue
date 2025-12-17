@@ -19,6 +19,7 @@ const id5 = "2000925048069349528";
 const id6 = "2000626087001559120";
 const id7 = "2000938450342830224";
 const id8 = "2001258705128665303";
+const id9 = "2001372792487579736";
 
 const billingItems = ref([
   {
@@ -347,6 +348,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
         <NuxtTweet :id="id6" :show-media="false" />
         <NuxtTweet :id="id7" :show-media="false" />
         <NuxtTweet :id="id8" :show-media="false" />
+        <NuxtTweet :id="id9" :show-media="false" />
       </UPageColumns>
     </UPageSection>
  
