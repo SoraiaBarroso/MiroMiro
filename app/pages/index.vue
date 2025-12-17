@@ -162,7 +162,7 @@ const plans = computed(() => {
 
 <template>
   <div>
-    <CustomPageHero orientation="vertical">
+    <CustomPageHero orientation="vertical" headline-link="https://x.com/SoraiaDev/status/2000625339068731586">
       <template #background>
         <NuxtImg
           src="/bg.svg"
@@ -177,21 +177,11 @@ const plans = computed(() => {
       </template>
 
       <template #headline>
-        On the Chrome Store
+        1.7M views on X
       </template>
 
       <template #title>
-        <span class="relative inline-block px-3 py-2">Copy<svg class="absolute w-full h-full left-0 top-0 z-10 pointer-events-none" viewBox="0 0 1299 626" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-<path d="M49.8276 50.1697L49.8438 574.941L1249 575.02L1248.98 50.2493L49.8276 50.1697Z" fill="#3491FF" fill-opacity="0.06" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M1205.35 6.31239L1205.36 93.6847L1292.73 93.6906L1292.72 6.31833L1205.35 6.31239Z" fill="#F5F5F5"/>
-<path d="M1205.35 6.31239L1205.36 93.6847L1292.73 93.6906L1292.72 6.31834L1205.35 6.31239Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00583L6.35031 5.99989Z" fill="#F5F5F5"/>
-<path d="M6.35031 5.99989L6.35352 93.3722L93.7258 93.3781L93.7226 6.00584L6.35031 5.99989Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M1205.35 532.313L1205.35 619.685L1292.73 619.691L1292.72 532.319L1205.35 532.313Z" fill="#F5F5F5"/>
-<path d="M1205.35 532.313L1205.35 619.685L1292.73 619.691L1292.72 532.319L1205.35 532.313Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-<path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" fill="#F5F5F5"/>
-<path d="M6.35031 526.312L6.35352 613.685L93.7258 613.691L93.7226 526.318L6.35031 526.312Z" stroke="#3491FF" stroke-width="7.919" stroke-miterlimit="10" stroke-linecap="round"/>
-</svg></span> Any Website's Design & Assets, In One Click
+       Copy Any Website's Design & Assets, In One Click
       </template>
 
       <template #description>
@@ -206,12 +196,34 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           target="_blank"
           class="rounded-lg bg-purple-500 text-white hover:bg-purple-600 "
         >
-          Try it For Free
+          Try For Free
         </UButton>
+        <UButton
+          to="#testimonials"
+          size="xl"
+          variant="outline"
+          color="neutral"
+        >
+          See Testimonials
+        </UButton>
+      </template>
+
+      <template #video-demo>
+        <video
+          src="/landing/MiroMiro.mp4"
+          controls
+          autoplay
+          loop
+          muted
+          playsinline
+          class="w-full border border-neutral-200 rounded-xl object-cover"
+        >
+          Your browser doesn't support video.
+        </video>
       </template>
     </CustomPageHero>
 
-    <UPageSection id="features">
+    <UPageSection id="features" title="Powerful Features" description="Everything you need to inspect, extract, and build faster">
       <UPageGrid>
         <UPageCard
           spotlight
@@ -318,21 +330,6 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
             loading="lazy"
           />
         </UPageCard>
-        <UPageCard
-          spotlight
-          title="See MiroMiro in Action"
-          description="Watch how we inspect a button element with its embedded image, extract exact styles, spacing, and assets—then recreate a pixel-perfect copy in Figma. From hover to export in seconds."
-          class="col-span-2 lg:col-span-3!"
-        >
-          <video
-            src="/landing/demo.mp4"
-            controls
-            autoplay
-            class="w-full border h-fit lg:h-100 object-cover border-neutral-200 bg-[#fefcf4] rounded-xl"
-          >
-            Your browser doesn't support video.
-          </video>
-        </UPageCard>
       </UPageGrid>
     </UPageSection>
     
@@ -341,12 +338,6 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
       title="What Our Users Say"
       description="Real feedback from our community"
     >
-      <template #headline>
-        <div class="flex gap-2 w-fit mx-auto items-center rounded-full px-3 py-2 border border-white text-black bg-muted shadow-lg mb-6">
-          <UIcon name="i-garden:twitter-stroke-12" />
-          <span class="flex items-center text-sm font-medium">1.5M views on launch</span>
-        </div>
-      </template>
       <UPageColumns>
         <NuxtTweet :id="id" :show-media="false"/>
         <NuxtTweet :id="id2" :show-media="false" />

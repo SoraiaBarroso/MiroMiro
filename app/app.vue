@@ -184,11 +184,11 @@ const items = computed<NavigationMenuItem[]>(() => [{
   to: '#features'
 },
 {
-  label: 'Pricing',
-  to: '#pricing'
-},{
   label: 'Testimonials',
   to: '#testimonials'
+},{
+  label: 'Pricing',
+  to: '#pricing'
 }
 ])
 
