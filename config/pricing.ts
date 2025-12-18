@@ -37,7 +37,7 @@ export const STRIPE_PLANS = {
       bulkExport: true,
       prioritySupport: false
     },
-    badge: 'Save 60$/year',
+    badge: 'Recommended',
     comingSoon: false
   },
   pro: {
@@ -46,7 +46,7 @@ export const STRIPE_PLANS = {
     description: 'Best for: Agencies, product teams, and daily users',
     price: {
       month: 19,
-      year: 182, // €15.17/month when billed yearly (20% savings)
+      year: 140, // €11.67/month when billed yearly (39% savings)
       originalPrice: 24,
       currency: 'EUR'
     },

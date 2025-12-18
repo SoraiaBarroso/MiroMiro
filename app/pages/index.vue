@@ -128,7 +128,7 @@ const plans = computed(() => {
       discount: yearly ? undefined : `€${STRIPE_PLANS.starter.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
-      badge: STRIPE_PLANS.starter.badge,
+      badge: yearly ? undefined : 'Recommended',
       features: STRIPE_PLANS.starter.features,
       button: {
         label: 'Upgrade to Starter',
@@ -142,12 +142,12 @@ const plans = computed(() => {
     {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
-      description: STRIPE_PLANS.pro.description,
+      description: yearly ? 'Save €88/year compared to monthly' : STRIPE_PLANS.pro.description,
       price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.originalPrice}`,
       discount: yearly ? undefined : `€${STRIPE_PLANS.pro.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
       features: STRIPE_PLANS.pro.features,
-      badge: 'Most Popular',
+      badge: yearly ? 'Best Deal' : undefined,
       button: {
         label: 'Upgrade to Pro',
         onClick: () => {
@@ -178,7 +178,7 @@ const plans = computed(() => {
       </template>
 
       <template #headline>
-        1.7M views on X
+        2M views on X
       </template>
 
       <template #title>
@@ -208,16 +208,26 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           See Testimonials
         </UButton>
       </template>
-<!-- 
       <template #video-demo>
-      <iframe 
-  src="https://www.youtube.com/watch?v=gSf-PhTplJ0"
-  frameborder="0"
-  allow="autoplay; encrypted-media"
-  allowfullscreen
-  class="w-full aspect-video"
-></iframe>
-      </template> -->
+        <ScriptYouTubePlayer
+          video-id="gSf-PhTplJ0"
+          above-the-fold
+          class="w-full aspect-video rounded-xl overflow-hidden shadow-xl"
+        >
+          <template #awaitingLoad>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+              <div class="bg-red-600 rounded-full p-4 shadow-lg">
+                <UIcon name="i-heroicons-play-solid" class="w-8 h-8 text-white" />
+              </div>
+            </div>
+          </template>
+          <template #loading>
+            <div class="absolute inset-0 flex items-center justify-center bg-black/30">
+              <UIcon name="i-heroicons-arrow-path" class="w-8 h-8 text-white animate-spin" />
+            </div>
+          </template>
+        </ScriptYouTubePlayer>
+      </template>
     </CustomPageHero>
 
     <UPageSection id="features" title="Powerful Features" description="Everything you need to inspect, extract, and build faster">

@@ -41,7 +41,7 @@ const headlineClasses = computed(() => {
 })
 
 const descriptionClasses = computed(() => {
-  const classes = ['text-lg', 'sm:text-xl/8', 'text-muted']
+  const classes = [ 'text-muted']
 
   if (props.orientation === 'horizontal') {
     classes.push('text-pretty')
@@ -127,17 +127,36 @@ const linksClasses = computed(() => {
   opacity: 1;
   transform: translateX(-50%) translateY(-12px);
 }
+
+.headline-badge {
+  position: relative;
+  background: var(--ui-bg-muted);
+}
+
+.headline-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #f43f5e, #6366f1);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
 </style>
 
 <template>
   <div class="relative isolate overflow-hidden">
     <!-- Dot background pattern with radial fade -->
     <div class="absolute inset-0 -z-10">
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_1.5px,transparent_1.5px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_at_center,black_0%,transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-transparent lg:bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_1.5px,transparent_1.5px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_at_center,black_0%,transparent_70%)]"></div>
     </div>
 
     <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-10">
-      <div :class="['flex flex-col lg:grid py-24 sm:py-32 lg:py-40 gap-16 sm:gap-y-24', orientationClasses]">
+      <div :class="['flex flex-col lg:grid py-24 sm:py-32 lg:py-32 gap-16 sm:gap-y-24', orientationClasses]">
 
         <!-- Main content wrapper -->
         <div :class="wrapperClasses">
@@ -153,12 +172,12 @@ const linksClasses = computed(() => {
               :to="headlineLink"
               target="_blank"
               rel="noopener noreferrer"
-              class="arrow-animate flex items-center gap-2 bg-muted border-2 border-white rounded-full px-3 py-1 w-fit mx-auto shadow-lg transition-all hover:shadow-xl"
+              class="headline-badge arrow-animate flex items-center gap-2 bg-muted rounded-full px-3 py-1 w-fit mx-auto shadow-lg transition-all hover:shadow-xl"
             >
               <span class="bg-linear-to-r from-rose-500 to-indigo-500 font-medium bg-clip-text text-transparent">
                 <slot name="headline"/>
               </span>
-              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon  w-4 h-4 transition-transform" />
+              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-4 h-4 transition-transform text-indigo-500" />
             </NuxtLink>
             <div v-else class="flex gap-2 w-fit mx-auto rounded-full px-3 py-2 border border-white text-black bg-muted shadow-lg">
               <slot name="headline"/>
@@ -166,12 +185,12 @@ const linksClasses = computed(() => {
           </div>
 
           <!-- Title slot -->
-          <h1 v-if="$slots.title" class="text-5xl sm:text-7xl text-pretty tracking-tight font-bold text-highlighted">
+          <h1 v-if="$slots.title" class="text-4xl sm:text-7xl text-pretty tracking-tight font-bold text-highlighted">
             <slot name="title" />
           </h1>
 
           <!-- Description slot -->
-          <p v-if="$slots.description" :class="['mt-6', descriptionClasses]">
+          <p v-if="$slots.description" :class="['mt-6 text-sm lg:text-xl', descriptionClasses]">
             <slot name="description" />
           </p>
 
@@ -204,3 +223,4 @@ const linksClasses = computed(() => {
     </div>
   </div>
 </template>
+ss="t

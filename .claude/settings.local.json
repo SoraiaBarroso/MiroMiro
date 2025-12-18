@@ -4,7 +4,8 @@
       "Bash(pnpm list:*)",
       "Bash(cat:*)",
       "Bash(find:*)",
-      "Bash(npx supabase:*)"
+      "Bash(npx supabase:*)",
+      "Bash(pnpm add:*)"
     ],
     "deny": [],
     "ask": []
