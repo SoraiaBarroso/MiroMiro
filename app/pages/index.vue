@@ -208,7 +208,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           See Testimonials
         </UButton>
       </template>
-
+<!-- 
       <template #video-demo>
       <iframe 
   src="https://www.youtube.com/watch?v=gSf-PhTplJ0"
@@ -217,7 +217,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
   allowfullscreen
   class="w-full aspect-video"
 ></iframe>
-      </template>
+      </template> -->
     </CustomPageHero>
 
     <UPageSection id="features" title="Powerful Features" description="Everything you need to inspect, extract, and build faster">

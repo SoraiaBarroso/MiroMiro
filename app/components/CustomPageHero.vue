@@ -137,7 +137,7 @@ const linksClasses = computed(() => {
     </div>
 
     <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-10">
-      <div :class="['flex flex-col lg:grid py-24 sm:py-32 lg:py-26 gap-16 sm:gap-y-24', orientationClasses]">
+      <div :class="['flex flex-col lg:grid py-24 sm:py-32 lg:py-40 gap-16 sm:gap-y-24', orientationClasses]">
 
         <!-- Main content wrapper -->
         <div :class="wrapperClasses">
