@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       routes: ['/sitemap.xml', '/robots.txt']
     }
   },
-  
+
   router: {
     options: {
       scrollBehaviorType: 'smooth'
@@ -54,9 +54,12 @@ export default defineNuxtConfig({
     }
   },
 
+  // Cambia prerender: true a false
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: false },
+    '/api/**': { prerender: false }
   },
+
 
   compatibilityDate: '2025-01-15',
 
