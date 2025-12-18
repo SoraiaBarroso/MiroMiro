@@ -7,6 +7,15 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // Añade esto para Cloudflare Pages
+  nitro: {
+    preset: 'cloudflare-pages',
+    prerender: {
+      crawlLinks: false,
+      routes: ['/sitemap.xml', '/robots.txt']
+    }
+  },
+  
   router: {
     options: {
       scrollBehaviorType: 'smooth'
