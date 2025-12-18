@@ -9,7 +9,6 @@ export default defineNuxtConfig({
 
   // Añade esto para Cloudflare Pages
   nitro: {
-    preset: 'cloudflare-pages',
     prerender: {
       crawlLinks: false,
       routes: ['/sitemap.xml', '/robots.txt']
@@ -56,10 +55,9 @@ export default defineNuxtConfig({
 
   // Cambia prerender: true a false
   routeRules: {
-    '/': { prerender: false },
-    '/api/**': { prerender: false }
+    '/': { prerender: true },
   },
-
+  
 
   compatibilityDate: '2025-01-15',
 
