@@ -210,17 +210,13 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
       </template>
 
       <template #video-demo>
-        <video
-          src="/landing/MiroMiro.mp4"
-          controls
-          autoplay
-          loop
-          muted
-          playsinline
-          class="w-full border border-neutral-200 rounded-xl object-cover"
-        >
-          Your browser doesn't support video.
-        </video>
+      <iframe 
+  src="https://www.youtube.com/watch?v=gSf-PhTplJ0"
+  frameborder="0"
+  allow="autoplay; encrypted-media"
+  allowfullscreen
+  class="w-full aspect-video"
+></iframe>
       </template>
     </CustomPageHero>
 
