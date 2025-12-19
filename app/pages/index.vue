@@ -179,11 +179,11 @@ const plans = computed(() => {
       </template>
 
       <template #title>
-        Extract CSS, Colors & Assets From Any Website
+        Copy Any Website's Design & Assets, In One Click
       </template>
 
       <template #description>
-        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations — no DevTools needed.
+        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations, no DevTools needed.
       </template>
 
       <template #links>
