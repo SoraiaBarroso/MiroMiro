@@ -139,7 +139,7 @@ const linksClasses = computed(() => {
   inset: 0;
   padding: 2px;
   border-radius: 9999px;
-  background: linear-gradient(to right, #f43f5e, #6366f1);
+  background: linear-gradient(to right, var(--ui-primary), var(--ui-secondary));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -174,10 +174,10 @@ const linksClasses = computed(() => {
               rel="noopener noreferrer"
               class="headline-badge arrow-animate flex items-center gap-2 bg-muted rounded-full px-3 py-1 w-fit mx-auto shadow-lg transition-all hover:shadow-xl"
             >
-              <span class="bg-linear-to-r from-rose-500 to-indigo-500 font-medium bg-clip-text text-transparent">
+              <span class="bg-linear-to-r from-primary to-secondary font-medium bg-clip-text text-transparent">
                 <slot name="headline"/>
               </span>
-              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-4 h-4 transition-transform text-indigo-500" />
+              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-4 h-4 transition-transform text-secondary" />
             </NuxtLink>
             <div v-else class="flex gap-2 w-fit mx-auto rounded-full px-3 py-2 border border-white text-black bg-muted shadow-lg">
               <slot name="headline"/>

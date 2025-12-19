@@ -20,6 +20,8 @@ const id6 = "2000626087001559120";
 const id7 = "2000938450342830224";
 const id8 = "2001258705128665303";
 const id9 = "2001372792487579736";
+const id10 = "2001711166263878052";
+const id11 = "2000914381002170585";
 
 const billingItems = ref([
   {
@@ -111,7 +113,8 @@ const plans = computed(() => {
         `${FREE_LIMITS.contrastChecks} contrast checks/month`
       ],
       button: {
-        label: 'Current Plan',
+        label: 'Get Started Free',
+        to: 'https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl'
       }
     },
     {
@@ -193,7 +196,7 @@ const plans = computed(() => {
           size="xl"
           variant="soft"
           target="_blank"
-          class="rounded-lg bg-purple-500 text-white hover:bg-purple-600"
+          class="rounded-lg bg-linear-to-r from-primary to-secondary/80 text-white hover:opacity-90 shadow-lg"
         >
           Add to Chrome - Free
         </UButton>
@@ -355,6 +358,8 @@ const plans = computed(() => {
         <NuxtTweet :id="id7" :show-media="false" />
         <NuxtTweet :id="id8" :show-media="false" />
         <NuxtTweet :id="id9" :show-media="false" />
+        <NuxtTweet :id="id10" :show-media="false" />
+        <NuxtTweet :id="id11" :show-media="false" />
       </UPageColumns>
     </UPageSection>
  
@@ -363,7 +368,7 @@ const plans = computed(() => {
       title="Pricing"
       description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
       :ui="{
-        headline: 'rounded-full border border-white bg-muted shadow-lg w-fit mx-auto',
+        headline: 'rounded-full border border-purple-500 bg-purple-50 text-purple-700 shadow-lg w-fit mx-auto font-medium',
       }"
     >
       <template #links>
