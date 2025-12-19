@@ -32,12 +32,6 @@ const billingItems = ref([
   }
 ])
 
-const redirectToPost = (tweetId: string) => {
-  console.log('Redirecting to tweet:', tweetId);
-  const tweetUrl = `https://twitter.com/i/status/${tweetId}`;
-  window.open(tweetUrl, '_blank');
-}
-
 // Load user profile to check for waitlist discount
 onMounted(async () => {
   if (user.value?.sub) {
@@ -127,7 +121,8 @@ const plans = computed(() => {
       price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.originalPrice}`,
       discount: yearly ? undefined : `€${STRIPE_PLANS.starter.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
-      scale: true,
+      scale: !yearly,
+      highlight: !yearly,
       badge: yearly ? undefined : 'Recommended',
       features: STRIPE_PLANS.starter.features,
       button: {
@@ -146,6 +141,8 @@ const plans = computed(() => {
       price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.originalPrice}`,
       discount: yearly ? undefined : `€${STRIPE_PLANS.pro.price.month}`,
       billingCycle: yearly ? '/year' : '/month',
+      scale: yearly,
+      highlight: yearly,
       features: STRIPE_PLANS.pro.features,
       badge: yearly ? 'Best Deal' : undefined,
       button: {
@@ -182,11 +179,12 @@ const plans = computed(() => {
       </template>
 
       <template #title>
-       Copy Any Website's Design & Assets, In One Click
+        Extract CSS, Colors & Assets From Any Website
       </template>
 
       <template #description>
-The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all media files (SVGs, Lottie, images) with one click. No more digging through DevTools.      </template>
+        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations — no DevTools needed.
+      </template>
 
       <template #links>
         <UButton
@@ -195,19 +193,21 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           size="xl"
           variant="soft"
           target="_blank"
-          class="rounded-lg bg-purple-500 text-white hover:bg-purple-600 "
+          class="rounded-lg bg-purple-500 text-white hover:bg-purple-600"
         >
-          Try For Free
+          Add to Chrome - Free
         </UButton>
         <UButton
-          to="#testimonials"
+          to="#features"
           size="xl"
           variant="outline"
           color="neutral"
         >
-          See Testimonials
+          See How It Works
         </UButton>
       </template>
+
+   
       <template #video-demo>
         <ScriptYouTubePlayer
           video-id="gSf-PhTplJ0"
@@ -343,7 +343,7 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
     <UPageSection
       id="testimonials"
       title="What Our Users Say"
-      description="Real feedback from our community"
+      description="See what our community is saying"
     >
       <UPageColumns>
         <NuxtTweet :id="id" :show-media="false"/>
@@ -387,9 +387,9 @@ The Chrome Extension that lets you grab CSS, colors, fonts, spacing, and all med
           :key="index"
           v-bind="plan"
           :ui="{
-            root: plan.id === 'starter' ? 'overflow-visible bg-gradient-to-r from-(--ui-primary)/10 to-(--ui-secondary)/10' : (plan.badge ? 'overflow-visible' : ''),
+            root: plan.highlight ? 'overflow-visible bg-gradient-to-r from-(--ui-primary)/10 to-(--ui-secondary)/10' : (plan.badge ? 'overflow-visible' : ''),
             badge: plan.badge ? 'absolute -top-3 left-1/2 -translate-x-1/2 transform rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-white shadow-lg' : '',
-            button: plan.id === 'starter' ? 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl ring-4 ring-purple-500/20' : 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl',
+            button: plan.highlight ? 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl ring-4 ring-purple-500/20' : 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl',
             featureIcon: '!bg-purple-300'
           }"
         />
