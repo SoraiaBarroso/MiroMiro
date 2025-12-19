@@ -1,9 +1,19 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
+const route = useRoute()
 const hasProcessedSignIn = ref(false)
 
 onMounted(async () => {
   console.log('Confirm page loaded')
+
+  // Check for extensionRedirect in URL query params FIRST (from OAuth flow)
+  // Then fall back to sessionStorage
+  let extensionRedirect = route.query.extensionRedirect as string | null
+  if (!extensionRedirect) {
+    extensionRedirect = sessionStorage.getItem('extensionRedirect')
+  }
+
+  console.log('Extension redirect:', extensionRedirect)
 
   // Supabase will automatically handle the OAuth callback from the URL
   // We just need to wait for the auth state to change
@@ -26,9 +36,6 @@ onMounted(async () => {
         method: 'POST',
         body: { method: 'oauth' }
       }).catch(err => console.error('Failed to send signin notification:', err))
-
-      // Check if this auth was initiated from the extension
-      const extensionRedirect = sessionStorage.getItem('extensionRedirect')
 
       if (extensionRedirect) {
         console.log('Redirecting to extension with tokens...')
