@@ -174,7 +174,7 @@ const linksClasses = computed(() => {
               rel="noopener noreferrer"
               class="headline-badge arrow-animate flex items-center gap-2 bg-muted rounded-full px-3 py-1 w-fit mx-auto shadow-lg transition-all hover:shadow-xl"
             >
-              <span class="bg-linear-to-r from-primary to-secondary font-medium bg-clip-text text-transparent">
+              <span class="bg-linear-to-r from-primary to-secondary/60 font-medium bg-clip-text text-transparent">
                 <slot name="headline"/>
               </span>
               <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-4 h-4 transition-transform text-secondary" />

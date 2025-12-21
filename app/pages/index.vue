@@ -177,8 +177,8 @@ const plans = computed(() => {
         />
       </template>
 
-      <template #headline>
-        2M views on X
+      <template #headline> 
+        2M views on launch 
       </template>
 
       <template #title>
@@ -345,8 +345,12 @@ const plans = computed(() => {
     
     <UPageSection
       id="testimonials"
+      headline="Trusted by 400+ users"
       title="What Our Users Say"
       description="See what our community is saying"
+      :ui="{
+        headline: 'text-black border border-muted w-fit  shadow-lg mx-auto rounded-full px-3 py-1 mb-6'
+      }"
     >
       <UPageColumns>
         <NuxtTweet :id="id" :show-media="false"/>
