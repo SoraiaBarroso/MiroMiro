@@ -13,6 +13,9 @@ const hoveredCard = defineModel<string | null>('hoveredCard')
         <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 border border-zinc-300 px-2 py-0.5 rounded bg-zinc-50">
           Organize
         </span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 border border-amber-300 px-2 py-0.5 rounded bg-amber-50">
+          Coming Soon
+        </span>
       </div>
       <h3 class="text-2xl md:text-3xl font-extrabold mt-6 mb-3 tracking-tight group-hover:translate-x-1 transition-transform text-zinc-900">
         Save Assets for Later
