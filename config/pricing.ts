@@ -14,7 +14,7 @@ export const STRIPE_PLANS = {
   starter: {
     name: 'Starter',
     tagline: 'Less than a coffee',
-    description: 'Save hours every week on design research',
+    description: 'Ship side projects without design bottlenecks',
     price: {
       month: 4,
       year: 38, // €3.17/month when billed yearly (20% savings)
@@ -22,12 +22,11 @@ export const STRIPE_PLANS = {
       currency: 'EUR'
     },
     features: [
-      'Everything in Free Plan, plus:',
-      '500 asset extractions/month',
-      'Bulk Export',
-      '50 Lottie Animation Extractions/month',
-      '50 Design System Extractions/month',
-      '50 Contrast Checks'
+      'Handle 10+ projects/month (500 extractions)',
+      'Grab entire asset folders in seconds',
+      'Ship with pro animations (50 Lottie exports)',
+      'Match any brand instantly (50 token exports)',
+      'Never guess on accessibility (50 contrast checks)'
     ],
     limits: {
       assetExtractions: 500,
@@ -43,7 +42,7 @@ export const STRIPE_PLANS = {
   pro: {
     name: 'Pro',
     tagline: 'Most Popular',
-    description: 'Best for: Agencies, product teams, and daily users',
+    description: 'Run an agency without tool limitations',
     price: {
       month: 19,
       year: 140, // €11.67/month when billed yearly (39% savings)
@@ -51,11 +50,11 @@ export const STRIPE_PLANS = {
       currency: 'EUR'
     },
     features: [
-      'Everything in Starter Plan, plus:',
-      '2,000 asset extractions/month',
-      'Unlimited Lottie extractions',
-      'Unlimited Design System extractions',
-      'Priority support'
+      'Never hit limits mid-project (2,000 extractions)',
+      'Handle unlimited client design systems',
+      'Grab every animation, no restrictions',
+      'Export tokens for entire brand portfolios',
+      'Get unstuck fast with priority support'
     ],
     limits: {
       assetExtractions: 2000,

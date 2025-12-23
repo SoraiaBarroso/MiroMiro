@@ -7,6 +7,7 @@ const checkoutLoading = ref(false)
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const userProfile = ref<any>(null)
+const hoveredCard = ref<string | null>(null)
 
 // Billing cycle toggle
 const isYearly = ref('0')
@@ -102,15 +103,15 @@ const plans = computed(() => {
   return [
     {
       title: 'Free Plan',
-      description: 'Perfect for trying MiroMiro and occasional use',
+      description: 'See if MiroMiro fits your workflow',
       price: '€0',
       billingCycle: '/month',
       features: [
-        'Inspect Mode',
-        'Color Palette Viewer',
-        'Design System Preview',
-        `${FREE_LIMITS.assetExtractions} asset extractions/month`,
-        `${FREE_LIMITS.contrastChecks} contrast checks/month`
+        'Inspect any element, skip DevTools',
+        'See the exact CSS behind any design',
+        'Preview any site\'s full color system',
+        'Test on a few projects (15 extractions)',
+        'Check key contrasts (3 checks/month)'
       ],
       button: {
         label: 'Get Started Free',
@@ -164,29 +165,16 @@ const plans = computed(() => {
 <template>
   <div>
     <CustomPageHero orientation="vertical" headline-link="https://x.com/SoraiaDev/status/2000625339068731586">
-      <template #background>
-        <NuxtImg
-          src="/bg.svg"
-          class="absolute inset-0 w-full h-full object-cover -z-10"
-          alt="Decorative background pattern"
-          width="1920"
-          height="1080"
-          loading="eager"
-          fetchpriority="high"
-          preload
-        />
-      </template>
-
       <template #headline> 
         2M views on launch 
       </template>
 
       <template #title>
-        Copy Any Website's Design & Assets, In One Click
+        Copy Any Website's Design & Assets, <span class="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">In One Click</span>
       </template>
 
       <template #description>
-        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations, no DevTools needed.
+        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations — no DevTools needed.
       </template>
 
       <template #links>
@@ -194,17 +182,17 @@ const plans = computed(() => {
           to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl"
           trailing-icon="i-logos:chrome"
           size="xl"
-          variant="soft"
           target="_blank"
-          class="rounded-lg bg-linear-to-r from-primary to-secondary/80 text-white hover:opacity-90 shadow-lg"
+          class="rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
         >
-          Add to Chrome - Free
+          Add to Chrome — Free
         </UButton>
         <UButton
           to="#features"
           size="xl"
-          variant="outline"
           color="neutral"
+          variant="outline"
+          class="rounded-xl "
         >
           See How It Works
         </UButton>
@@ -233,124 +221,34 @@ const plans = computed(() => {
       </template>
     </CustomPageHero>
 
-    <UPageSection id="features" title="Powerful Features" description="Everything you need to inspect, extract, and build faster">
-      <UPageGrid>
-        <UPageCard
-          spotlight
-          title="See Any Site's Entire Visual System"
-          description="Click once and see every color, font, shadow, and spacing value instantly. No more guessing what makes a design work."
-          class="col-span-2 lg:col-span-1"
-        >
-          <NuxtImg
-            src="landing//Overview.png"
-            alt="Page Overview showing complete visual system breakdown with colors, fonts, and spacing"
-            sizes="100vw sm:90vw md:80vw lg:70vw xl:2000vw"
-            quality="100"
-            class="border border-neutral-200 rounded-xl w-full lg:h-full"
-            loading="lazy"
-          />
-        </UPageCard>
+    <!-- Tech-Noir Features Section -->
+    <section id="features" class="py-16 md:py-24 px-6 md:px-12 selection:bg-black selection:text-white">
+      <div class="max-w-6xl mx-auto">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-4">Powerful Features</h2>
+          <p class="text-lg text-zinc-500 max-w-2xl mx-auto">Everything you need to inspect, extract, and build faster</p>
+        </div>
 
-        <UPageCard
-          spotlight
-          title="Skip DevTools, Get Clean, Readable CSS"
-          description="Hover anything, see the exact rules behind it. Copy the CSS you actually want without digging through inspector hell. Full breakdown: spacing, shadows, borders, computed styles, all clean and ready to use."
-          class="col-span-2! lg:col-span-1"
-        >
-           <video
-            src="/landing/InspectorDemo.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            class="w-full border border-neutral-200 bg-whiterounded-xl rounded-xl object-contain lg:h-100 lg:object-cover"
-          >
-            Your browser doesn't support video.
-          </video>
-        </UPageCard>
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <FeaturesFeatureInspector v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureAssetSnatcher v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureSvgExtractor v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureLottie v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureSaveAssets v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureContrastCheck v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureDesignTokens v-model:hovered-card="hoveredCard" />
+        </div>
 
-        <UPageCard
-          spotlight
-          title="Grab Every Asset to Show Your Team"
-          description="Never right-click, save-as again. Download all images, videos, and GIFs in one click. Build a reference library instantly or grab exactly what you need to say: 'Make it like this.'"
-          class="col-span-2"
-        >
-          <video
-            src="/landing/AssetExtractDemo.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            class="w-full border border-neutral-200 bg-whiterounded-xl h-fit rounded-xl object-contain lg:h-110 lg:object-cover"
-          >
-            Your browser doesn't support video.
-          </video>
-        </UPageCard>
-
-        <UPageCard
-          spotlight
-          title="Copy Icons & Logos Straight Off the Page"
-          description="Grab icons as clean, editable vectors. Extract SVGs individually or in bulk, fully scalable for Figma, Sketch, or code. Make your MVP look legit by borrowing what already works."
-          class="col-span-2 lg:col-span-1"
-        >
-          <NuxtImg
-            src="/landing/svg.png"
-            alt="SVG icon extraction interface showing clean, editable vector graphics"
-            width="800"
-            height="900"
-            format="webp"
-            quality="100"
-            class="border border-neutral-200 rounded-xl w-full"
-            loading="lazy"
-          />
-        </UPageCard>
-
-        <UPageCard
-          spotlight
-          title="Export Lottie Animations, Ready to Drop In"
-          description="Capture motion design effortlessly. Find and export Lottie animations as JSON files, ready for your project. No digging through network tabs, just hover, click, and download working animations."
-          class="col-span-2 lg:col-span-1"
-        >
-          <video
-            src="/landing/LottieDemo.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            class="border border-neutral-200 rounded-xl h-100 bg-white"
-          >
-            Your browser doesn't support video.
-          </video>
-        </UPageCard>
-
-        <UPageCard
-          spotlight
-          title="Turn Any Site Into a Shareable Style Guide"
-          description="Instantly generate a color design system from any site and export organized tokens you can use right away"
-          class="col-span-2"
-        >
-          <NuxtImg
-            src="/landing/DesignSystem.png"
-            alt="Semantic CSS pattern extraction showing design system breakdown with naming conventions"
-            width="1200"
-            height="800"
-            format="webp"
-            quality="100"
-            class="border border-neutral-200 rounded-xl"
-            loading="lazy"
-          />
-        </UPageCard>
-      </UPageGrid>
-    </UPageSection>
+      </div>
+    </section>
     
     <UPageSection
       id="testimonials"
-      headline="Trusted by 400+ users"
-      title="What Our Users Say"
-      description="See what our community is saying"
-      :ui="{
-        headline: 'text-black border border-muted w-fit  shadow-lg mx-auto rounded-full px-3 py-1 mb-6'
-      }"
+      title="Trusted by 500+ Builders"
+      description="Designers and developers who've made MiroMiro part of their daily workflow."
     >
       <UPageColumns>
         <NuxtTweet :id="id" :show-media="false"/>

@@ -130,29 +130,31 @@ const linksClasses = computed(() => {
 
 .headline-badge {
   position: relative;
-  background: var(--ui-bg-muted);
+  background: #fafafa;
+  border: 1px solid #e4e4e7;
 }
 
 .headline-badge::before {
   content: '';
   position: absolute;
-  inset: 0;
-  padding: 2px;
+  inset: -1px;
+  padding: 1px;
   border-radius: 9999px;
-  background: linear-gradient(to right, var(--ui-primary), var(--ui-secondary));
+  background: linear-gradient(to right, #a855f7, #7c3aed);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   pointer-events: none;
+  opacity: 0.6;
 }
 </style>
 
 <template>
-  <div class="relative isolate overflow-hidden">
-    <!-- Dot background pattern with radial fade -->
+  <div class="relative isolate overflow-hidden bg-gradient-to-b from-zinc-50 to-white">
+    <!-- Subtle grid background pattern -->
     <div class="absolute inset-0 -z-10">
-      <div class="absolute inset-0 bg-transparent lg:bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_1.5px,transparent_1.5px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_at_center,black_0%,transparent_70%)]"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#e4e4e7_1px,transparent_1px),linear-gradient(to_bottom,#e4e4e7_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]"></div>
     </div>
 
     <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-10">
@@ -172,12 +174,12 @@ const linksClasses = computed(() => {
               :to="headlineLink"
               target="_blank"
               rel="noopener noreferrer"
-              class="headline-badge arrow-animate flex items-center gap-2 bg-muted rounded-full px-3 py-1 w-fit mx-auto shadow-lg transition-all hover:shadow-xl"
+              class="headline-badge arrow-animate flex items-center gap-2 rounded-full px-4 py-1.5 w-fit mx-auto shadow-sm transition-all hover:shadow-md group"
             >
-              <span class="bg-linear-to-r from-primary to-secondary/60 font-medium bg-clip-text text-transparent">
+              <span class="text-xs font-bold uppercase tracking-widest text-zinc-600">
                 <slot name="headline"/>
               </span>
-              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-4 h-4 transition-transform text-secondary" />
+              <UIcon name="i-heroicons:arrow-up-right-20-solid" class="arrow-icon w-3.5 h-3.5 transition-transform text-purple-500 group-hover:text-purple-600" />
             </NuxtLink>
             <div v-else class="flex gap-2 w-fit mx-auto rounded-full px-3 py-2 border border-white text-black bg-muted shadow-lg">
               <slot name="headline"/>
@@ -185,12 +187,12 @@ const linksClasses = computed(() => {
           </div>
 
           <!-- Title slot -->
-          <h1 v-if="$slots.title" class="text-4xl sm:text-7xl text-pretty tracking-tight font-bold text-highlighted">
+          <h1 v-if="$slots.title" class="text-4xl sm:text-6xl lg:text-7xl text-pretty tracking-tight font-black text-zinc-900">
             <slot name="title" />
           </h1>
 
           <!-- Description slot -->
-          <p v-if="$slots.description" :class="['mt-6 text-sm lg:text-xl', descriptionClasses]">
+          <p v-if="$slots.description" :class="['mt-6 text-base lg:text-lg text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto', descriptionClasses]">
             <slot name="description" />
           </p>
 
@@ -210,8 +212,12 @@ const linksClasses = computed(() => {
           </div>
 
           <!-- Video demo slot -->
-          <div v-if="$slots['video-demo']" class="mt-14 w-full">
-            <slot name="video-demo" />
+          <div v-if="$slots['video-demo']" class="mt-14 w-full max-w-4xl mx-auto">
+            <div class="relative rounded-2xl overflow-hidden border border-zinc-200 shadow-2xl bg-zinc-900 p-1">
+              <div class="rounded-xl overflow-hidden">
+                <slot name="video-demo" />
+              </div>
+            </div>
           </div>
         </div>
 
