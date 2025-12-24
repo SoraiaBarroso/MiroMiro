@@ -1,3 +1,19 @@
+<script setup lang="ts">
+// SEO Meta
+const { setSeoMeta, setBreadcrumbs } = useSeo()
+
+setSeoMeta({
+  title: 'Terms of Service',
+  description: 'MiroMiro Terms of Service. Read our terms and conditions for using the CSS inspector and asset extractor Chrome extension.',
+  keywords: ['terms of service', 'terms and conditions', 'miromiro terms', 'user agreement']
+})
+
+setBreadcrumbs([
+  { name: 'Home', url: '/' },
+  { name: 'Terms of Service', url: '/terms-of-service' }
+])
+</script>
+
 <template>
     <UPage>
         <UPageSection

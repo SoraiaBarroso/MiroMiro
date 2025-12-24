@@ -1,3 +1,19 @@
+<script setup lang="ts">
+// SEO Meta
+const { setSeoMeta, setBreadcrumbs } = useSeo()
+
+setSeoMeta({
+  title: 'Privacy Policy',
+  description: 'MiroMiro Privacy Policy. Learn how we collect, use, and protect your data. GDPR and CCPA compliant. We never sell your personal information.',
+  keywords: ['privacy policy', 'data protection', 'gdpr', 'ccpa', 'miromiro privacy']
+})
+
+setBreadcrumbs([
+  { name: 'Home', url: '/' },
+  { name: 'Privacy Policy', url: '/privacy-policy' }
+])
+</script>
+
 <template>
     <UPage>
         <UPageSection

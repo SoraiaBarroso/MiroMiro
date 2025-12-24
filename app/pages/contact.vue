@@ -84,12 +84,19 @@ const handleSubmit = async () => {
   }
 }
 
-useHead({
-  title: 'Contact Us - MiroMiro',
-  meta: [
-    { name: 'description', content: 'Get in touch with the MiroMiro team. Report bugs, ask questions, or share your feedback.' }
-  ]
+// SEO Meta
+const { setSeoMeta, setBreadcrumbs } = useSeo()
+
+setSeoMeta({
+  title: 'Contact Us',
+  description: 'Get in touch with the MiroMiro team. Report bugs, request features, ask questions, or share your feedback about our CSS inspector and asset extractor.',
+  keywords: ['contact miromiro', 'miromiro support', 'report bug', 'feature request', 'chrome extension support']
 })
+
+setBreadcrumbs([
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact' }
+])
 </script>
 
 <template>

@@ -1,6 +1,30 @@
 <script setup lang="ts">
 import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
 
+// SEO Meta
+const { setSeoMeta, setBreadcrumbs, setProductSchema } = useSeo()
+
+setSeoMeta({
+  title: 'Compare Plans & Pricing',
+  description: 'Compare MiroMiro pricing plans. Free, Starter (€4/mo), and Pro (€19/mo) plans for designers and developers. Extract CSS, assets, colors, and more.',
+  keywords: ['miromiro pricing', 'css inspector pricing', 'asset extractor plans', 'design tool pricing', 'chrome extension plans']
+})
+
+setBreadcrumbs([
+  { name: 'Home', url: '/' },
+  { name: 'Compare Plans', url: '/compare-plans' }
+])
+
+setProductSchema({
+  name: 'MiroMiro Chrome Extension',
+  description: 'UI Inspector & Asset Extractor for designers and developers',
+  offers: [
+    { name: 'Free Plan', price: 0, priceCurrency: 'EUR' },
+    { name: 'Starter Plan', price: 4, priceCurrency: 'EUR' },
+    { name: 'Pro Plan', price: 19, priceCurrency: 'EUR' }
+  ]
+})
+
 const user = useSupabaseUser()
 const supabase = useSupabaseClient()
 const toast = useToast()

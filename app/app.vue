@@ -84,7 +84,13 @@ useHead({
 
   link: [
     { rel: 'icon', href: '/logo.png' },
-    { rel: 'canonical', href: baseUrl }
+    { rel: 'canonical', href: baseUrl },
+    // Resource hints for performance
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+    { rel: 'dns-prefetch', href: 'https://datafa.st' },
+    { rel: 'dns-prefetch', href: 'https://www.googletagmanager.com' },
+    { rel: 'dns-prefetch', href: 'https://chromewebstore.google.com' }
   ],
 
   script: [
@@ -94,6 +100,28 @@ useHead({
       'data-domain': 'miromiro.app',
       'data-allow-localhost': 'true',
       src: 'https://datafa.st/js/script.js'
+    },
+
+    // Organization schema
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'name': 'MiroMiro',
+        'url': baseUrl,
+        'logo': `${baseUrl}/logo.png`,
+        'sameAs': [
+          'https://x.com/SoraiaDev',
+          'https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl'
+        ],
+        'contactPoint': {
+          '@type': 'ContactPoint',
+          'contactType': 'customer support',
+          'email': 'sorilc@hotmail.com',
+          'url': `${baseUrl}/contact`
+        }
+      })
     },
 
     // SoftwareApplication schema
@@ -107,12 +135,36 @@ useHead({
         'applicationSubCategory': 'DesignTool',
         'operatingSystem': 'Chrome',
         'browserRequirements': 'Requires Chrome browser',
+        'downloadUrl': 'https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl',
+        'installUrl': 'https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl',
         'offers': {
           '@type': 'AggregateOffer',
           'lowPrice': '0',
-          'highPrice': '9',
+          'highPrice': '19',
           'priceCurrency': 'EUR',
-          'offerCount': '3'
+          'offerCount': '3',
+          'offers': [
+            {
+              '@type': 'Offer',
+              'name': 'Free',
+              'price': '0',
+              'priceCurrency': 'EUR'
+            },
+            {
+              '@type': 'Offer',
+              'name': 'Starter',
+              'price': '4',
+              'priceCurrency': 'EUR',
+              'priceValidUntil': '2025-12-31'
+            },
+            {
+              '@type': 'Offer',
+              'name': 'Pro',
+              'price': '19',
+              'priceCurrency': 'EUR',
+              'priceValidUntil': '2025-12-31'
+            }
+          ]
         },
         'description': description,
         'featureList': [
@@ -123,13 +175,15 @@ useHead({
           'Design token discovery from CSS files',
           'No DevTools needed - hover and copy',
           'Complete asset library export',
-          'Design inspiration and competitor analysis'
+          'WCAG contrast checking',
+          'Export to CSS and Tailwind'
         ],
         'screenshot': `${baseUrl}/og-image.png`,
         'aggregateRating': {
           '@type': 'AggregateRating',
           'ratingValue': '5.0',
-          'reviewCount': '1'
+          'ratingCount': '50',
+          'reviewCount': '12'
         },
         'author': {
           '@type': 'Person',
@@ -139,17 +193,21 @@ useHead({
       })
     },
 
-    // Website schema
+    // Website schema with sitelinks search
     {
       type: 'application/ld+json',
       children: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         'name': 'MiroMiro',
+        'alternateName': ['MiroMiro Chrome Extension', 'MiroMiro CSS Inspector'],
         'url': baseUrl,
         'potentialAction': {
           '@type': 'SearchAction',
-          'target': `${baseUrl}/?q={search_term_string}`,
+          'target': {
+            '@type': 'EntryPoint',
+            'urlTemplate': `${baseUrl}/features?q={search_term_string}`
+          },
           'query-input': 'required name=search_term_string'
         }
       })
@@ -190,31 +248,33 @@ const showNavigation = computed(() => {
   return route.path !== '/profile'
 })
 
-const items = computed<NavigationMenuItem[]>(() => [{
-  label: 'Features',
-  to: '#features'
-},
-{
-  label: 'Testimonials',
-  to: '#testimonials'
-},{
-  label: 'Pricing',
-  to: '#pricing'
-}
-])
+// Navigation items - contextual based on current page
+const items = computed<NavigationMenuItem[]>(() => {
+  // On homepage, use anchor links
+  if (route.path === '/') {
+    return [
+      { label: 'Features', to: '#features' },
+      { label: 'Testimonials', to: '#testimonials' },
+      { label: 'Pricing', to: '#pricing' }
+    ]
+  }
+  // On other pages, use page links for better internal linking
+  return [
+    { label: 'Features', to: '/features' },
+    { label: 'Use Cases', to: '/use-cases' },
+    { label: 'Pricing', to: '/compare-plans' },
+    { label: 'FAQ', to: '/faq' }
+  ]
+})
 
-const itemsFooter: NavigationMenuItem[] = [{
-  label: 'Privacy Policy',
-  to: '/privacy-policy',
-}, 
-{
-  label: 'Terms of Service',
-  to: '/terms-of-service',
-},
-{
-  label: 'Contact',
-  to: '/contact'
-}]
+const itemsFooter: NavigationMenuItem[] = [
+  { label: 'Features', to: '/features' },
+  { label: 'Pricing', to: '/compare-plans' },
+  { label: 'FAQ', to: '/faq' },
+  { label: 'Contact', to: '/contact' },
+  { label: 'Privacy Policy', to: '/privacy-policy' },
+  { label: 'Terms of Service', to: '/terms-of-service' }
+]
 </script>
 
 <template>

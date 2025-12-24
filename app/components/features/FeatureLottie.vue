@@ -27,9 +27,10 @@ const hoveredCard = defineModel<string | null>('hoveredCard')
       <!-- Animation Preview Container -->
       <div class="relative w-full aspect-square max-w-50 flex items-center justify-center  bg-white/90 rounded-xl border border-zinc-200 overflow-hidden">
         <!-- GIF/Image Preview -->
-        <img 
-          src="/landing/lottie-demo.gif" 
-          alt="Lottie animation preview"
+        <NuxtImg
+          src="/landing/lottie-demo.gif"
+          alt="Lottie animation export preview - download animations as JSON"
+          loading="lazy"
           class="w-full h-full object-contain p-4 transition-all duration-300 group-hover:scale-105 group-hover:opacity-20"
         />
         

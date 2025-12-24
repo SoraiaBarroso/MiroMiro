@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
 
   const resetResults = {
     freeUsersReset: 0,
+    resetUsersList: [] as string[],
     errors: [] as string[]
   }
 
@@ -67,6 +68,7 @@ export default defineEventHandler(async (event) => {
     }
 
     console.log(`📊 Processing ${users.length} free users...`)
+    console.log('👥 Free users to reset:', users.map(u => u.email).join(', '))
 
     // Reset usage counters for all free users
     for (const user of users) {
@@ -87,8 +89,9 @@ export default defineEventHandler(async (event) => {
           console.error(errorMsg)
           resetResults.errors.push(errorMsg)
         } else {
-          console.log(`✅ Reset counters for ${user.email}`)
+          console.log(`✅ Reset counters for: ${user.email} (ID: ${user.id})`)
           resetResults.freeUsersReset++
+          resetResults.resetUsersList.push(user.email)
         }
       } catch (userError: unknown) {
         const errorMsg = `Error processing user ${user.email}: ${userError instanceof Error ? userError.message : String(userError)}`
@@ -97,8 +100,11 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
     console.log('✅ Monthly usage reset completed')
-    console.log(`📊 Results: ${resetResults.freeUsersReset} free users reset`)
+    console.log(`📊 Total free users reset: ${resetResults.freeUsersReset}`)
+    console.log(`👥 Users reset: ${resetResults.resetUsersList.join(', ')}`)
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
 
     if (resetResults.errors.length > 0) {
       console.error(`⚠️ ${resetResults.errors.length} errors occurred`)

@@ -54,9 +54,18 @@ export default defineNuxtConfig({
     }
   },
 
-  // Cambia prerender: true a false
+  // Prerender static pages for better SEO and performance
   routeRules: {
     '/': { prerender: true },
+    '/features': { prerender: true },
+    '/features/**': { prerender: true },
+    '/use-cases': { prerender: true },
+    '/use-cases/**': { prerender: true },
+    '/faq': { prerender: true },
+    '/compare-plans': { prerender: true },
+    '/contact': { prerender: true },
+    '/privacy-policy': { prerender: true },
+    '/terms-of-service': { prerender: true }
   },
   
 
@@ -86,9 +95,24 @@ export default defineNuxtConfig({
     key: process.env.SUPABASE_KEY,
     serviceKey: process.env.SUPABASE_SECRET_KEY,
     redirectOptions: {
-      login: '/signup', // User will be redirected to this path if not authenticated or after logout.
-      callback: '/confirm', // This is the path the user will be redirect to after supabase login redirection.
-      exclude: ['/signin', '/', '/compare-plans', '/forgot-password', '/reset-password', '/privacy-policy', '/contact', '/terms-of-service'], // These paths won't be protected and require no authentication.
+      login: '/signup',
+      callback: '/confirm',
+      // Public pages that don't require authentication
+      exclude: [
+        '/signin',
+        '/',
+        '/compare-plans',
+        '/forgot-password',
+        '/reset-password',
+        '/privacy-policy',
+        '/contact',
+        '/terms-of-service',
+        '/features',
+        '/features/**',
+        '/use-cases',
+        '/use-cases/**',
+        '/faq'
+      ],
       cookieRedirect: false
     }
   },
@@ -111,7 +135,7 @@ export default defineNuxtConfig({
     name: 'MiroMiro',
   },
   sitemap: {
-     exclude: [
+    exclude: [
       '/signup',
       '/signin',
       '/success',
@@ -119,6 +143,11 @@ export default defineNuxtConfig({
       '/forgot-password',
       '/confirm',
       '/profile'
+    ],
+    // Define static routes for programmatic SEO pages
+    sources: [
+      // Manually define feature pages for sitemap
+      '/api/__sitemap__/urls'
     ]
   },
 })

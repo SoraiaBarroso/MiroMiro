@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
+import { FAQS } from '../../config/seo'
+
+// SEO Meta with FAQ Schema
+const { setFaqSchema } = useSeo()
+setFaqSchema(FAQS)
 
 const config = useRuntimeConfig()
 const toast = useToast()
@@ -12,17 +17,20 @@ const hoveredCard = ref<string | null>(null)
 // Billing cycle toggle
 const isYearly = ref('0')
 
-const id = "2000802594604904612";
-const id2 = "2000673997713764527";
-const id3 = "2000543455009996839";
-const id4 = "2000795479693779422";
-const id5 = "2000925048069349528";
-const id6 = "2000626087001559120";
-const id7 = "2000938450342830224";
-const id8 = "2001258705128665303";
-const id9 = "2001372792487579736";
-const id10 = "2001711166263878052";
-const id11 = "2000914381002170585";
+// Testimonial tweet IDs - centralized for maintainability
+const testimonialIds = [
+  '2000802594604904612',
+  '2000673997713764527',
+  '2000543455009996839',
+  '2000795479693779422',
+  '2000925048069349528',
+  '2000626087001559120',
+  '2000938450342830224',
+  '2001258705128665303',
+  '2001372792487579736',
+  '2001711166263878052',
+  '2000914381002170585'
+]
 
 const billingItems = ref([
   {
@@ -235,7 +243,7 @@ const plans = computed(() => {
       </template>
 
       <template #description>
-        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations — no DevTools needed.
+        Inspect any site's design system in one click. Copy CSS, grab fonts, colors, spacing, SVGs, images and Lottie animations, no DevTools needed.
       </template>
 
       <template #links>
@@ -314,17 +322,13 @@ const plans = computed(() => {
       description="Designers and developers who've made MiroMiro part of their daily workflow."
     >
       <UPageColumns>
-        <NuxtTweet @click="trackTestimonialClick('tweet_1')" :id="id" :show-media="false"/>
-        <NuxtTweet @click="trackTestimonialClick('tweet_2')" :id="id2" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_3')" :id="id3" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_4')" :id="id4" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_5')" :id="id5" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_6')" :id="id6" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_7')" :id="id7" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_8')" :id="id8" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_9')" :id="id9" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_10')" :id="id10" :show-media="false" />
-        <NuxtTweet @click="trackTestimonialClick('tweet_11')" :id="id11" :show-media="false" />
+        <NuxtTweet
+          v-for="(tweetId, index) in testimonialIds"
+          :key="tweetId"
+          :id="tweetId"
+          :show-media="false"
+          @click="trackTestimonialClick(`tweet_${index + 1}`)"
+        />
       </UPageColumns>
     </UPageSection>
  
