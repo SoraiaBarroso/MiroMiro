@@ -8,6 +8,17 @@ const toast = useToast()
 const config = useRuntimeConfig()
 const baseUrl = config.public.siteUrl
 
+// Google Analytics tracking
+const { gtag } = useGtag()
+
+function trackSignUpClick() {
+  gtag('event', 'signup_button_click', {
+    event_category: 'conversion',
+    event_label: 'header_signup',
+    value: 1
+  })
+}
+
 // Use shared avatar state
 const { avatarUrl, updateAvatar } = useUserAvatar()
 
@@ -242,6 +253,7 @@ const itemsFooter: NavigationMenuItem[] = [{
           v-if="!user"
           to="/signup"
           color="primary"
+          @click="trackSignUpClick"
         >
           Sign Up
         </UButton>

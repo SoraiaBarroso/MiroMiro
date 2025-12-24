@@ -50,6 +50,67 @@ onMounted(async () => {
   }
 })
 
+// Google Analytics tracking for testimonials
+const { gtag } = useGtag()
+
+function trackTestimonialClick(tweetId: string) {
+  gtag('event', 'testimonial_click', {
+    event_category: 'engagement',
+    event_label: tweetId,
+    value: 1
+  })
+}
+
+// Track CTA button clicks
+function trackCTAClick(ctaName: string, destination: string) {
+  gtag('event', 'cta_click', {
+    event_category: 'conversion',
+    event_label: ctaName,
+    cta_destination: destination,
+    value: 1
+  })
+}
+
+// Track billing cycle toggle (monthly vs yearly)
+watch(isYearly, (newValue) => {
+  const billingType = newValue === '1' ? 'yearly' : 'monthly'
+  gtag('event', 'billing_cycle_toggle', {
+    event_category: 'pricing',
+    event_label: billingType,
+    value: 1
+  })
+})
+
+// Scroll depth tracking
+const scrollMilestones = ref<Set<number>>(new Set())
+
+onMounted(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    const scrollPercent = Math.round((scrollTop / docHeight) * 100)
+    
+    // Track at 25%, 50%, 75%, 100% milestones
+    const milestones = [25, 50, 75, 100]
+    for (const milestone of milestones) {
+      if (scrollPercent >= milestone && !scrollMilestones.value.has(milestone)) {
+        scrollMilestones.value.add(milestone)
+        gtag('event', 'scroll_depth', {
+          event_category: 'engagement',
+          event_label: `${milestone}%`,
+          value: milestone
+        })
+      }
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+  })
+})
+
 async function handleCheckout(priceId: string) {
   console.log('Initiating checkout for priceId:', priceId)
   if (checkoutLoading.value) return
@@ -184,6 +245,7 @@ const plans = computed(() => {
           size="xl"
           target="_blank"
           class="rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+          @click="trackCTAClick('add_to_chrome', 'chrome_web_store')"
         >
           Add to Chrome — Free
         </UButton>
@@ -193,6 +255,7 @@ const plans = computed(() => {
           color="neutral"
           variant="outline"
           class="rounded-xl "
+          @click="trackCTAClick('see_how_it_works', 'features_section')"
         >
           See How It Works
         </UButton>
@@ -251,17 +314,17 @@ const plans = computed(() => {
       description="Designers and developers who've made MiroMiro part of their daily workflow."
     >
       <UPageColumns>
-        <NuxtTweet :id="id" :show-media="false"/>
-        <NuxtTweet :id="id2" :show-media="false" />
-        <NuxtTweet :id="id3" :show-media="false" />
-        <NuxtTweet :id="id4" :show-media="false" />
-        <NuxtTweet :id="id5" :show-media="false" />
-        <NuxtTweet :id="id6" :show-media="false" />
-        <NuxtTweet :id="id7" :show-media="false" />
-        <NuxtTweet :id="id8" :show-media="false" />
-        <NuxtTweet :id="id9" :show-media="false" />
-        <NuxtTweet :id="id10" :show-media="false" />
-        <NuxtTweet :id="id11" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_1')" :id="id" :show-media="false"/>
+        <NuxtTweet @click="trackTestimonialClick('tweet_2')" :id="id2" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_3')" :id="id3" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_4')" :id="id4" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_5')" :id="id5" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_6')" :id="id6" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_7')" :id="id7" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_8')" :id="id8" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_9')" :id="id9" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_10')" :id="id10" :show-media="false" />
+        <NuxtTweet @click="trackTestimonialClick('tweet_11')" :id="id11" :show-media="false" />
       </UPageColumns>
     </UPageSection>
  
