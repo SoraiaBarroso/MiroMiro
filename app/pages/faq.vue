@@ -46,7 +46,7 @@ const ctaLinks = [
       title="Frequently Asked Questions"
       description="Everything you need to know about MiroMiro. Can't find an answer? Contact our support team."
     >
-      <div class="min-w-3xl mx-auto">
+      <div class="w-xs lg:w-xl xl:w-3xl mx-auto">
         <UAccordion :items="faqItems" />
       </div>
     </UPageSection>
