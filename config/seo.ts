@@ -238,7 +238,7 @@ export const FAQS = [
   },
   {
     question: 'What browsers does MiroMiro support?',
-    answer: 'MiroMiro is currently available as a Chrome extension and works on all Chromium-based browsers including Chrome, Edge, Brave, and Arc.'
+    answer: 'MiroMiro is available on the Chrome Web Store for Chrome.'
   },
   {
     question: 'How do I export design tokens to Tailwind?',
