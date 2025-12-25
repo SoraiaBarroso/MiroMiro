@@ -55,9 +55,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             name="i-lucide-lock-keyhole"
             class="w-12 h-12 mx-auto mb-4 text-purple-500"
           />
-          <h1 class="text-2xl font-bold mb-2">
+          <h2 class="text-2xl font-bold mb-2">
             Forgot your password?
-          </h1>
+          </h2>
           <p class="text-sm text-gray-600">
             Enter your email address and we'll send you a link to reset your password.
           </p>

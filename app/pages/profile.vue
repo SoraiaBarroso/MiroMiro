@@ -233,9 +233,9 @@ watch(user, loadProfile, { immediate: true })
   <UPage>
     <UPageSection>
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-highlighted font-semibold text-3xl mb-8">
+        <h2 class="text-highlighted font-semibold text-3xl mb-8">
           Profile Settings
-        </h1>
+        </h2>
 
         <div class="grid gap-6">
           <!-- Profile Picture Section -->
@@ -278,9 +278,9 @@ watch(user, loadProfile, { immediate: true })
                 @change="changeProfilePicture"
               >
               <div>
-                <h1 class="text-highlighted font-semibold">
+                <h2 class="text-highlighted font-semibold">
                   Update Profile Picture
-                </h1>
+                </h2>
                 <p class="text-muted">
                   Click avatar to upload. Recommended: Square image, at least 400x400px. Max size: 5MB
                 </p>

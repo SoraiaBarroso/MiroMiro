@@ -19,7 +19,7 @@ setBreadcrumbs([
         <UPageSection
             :ui="{container: '!gap-4 max-w-4xl'}"
         >
-                <h1 class="text-highlighted font-semibold text-3xl">Terms and Conditions for MiroMiro</h1>
+                <h2 class="text-highlighted font-semibold text-3xl">Terms and Conditions for MiroMiro</h2>
                 <p><strong>Last Updated:</strong> January 20, 2025</p>
 
                 <h2 class="text-highlighted font-semibold text-2xl">1. Purpose of the Extension</h2>

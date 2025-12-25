@@ -80,9 +80,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             name="i-lucide-key-round"
             class="w-12 h-12 mx-auto mb-4 text-purple-500"
           />
-          <h1 class="text-2xl font-bold mb-2">
+          <h2 class="text-2xl font-bold mb-2">
             Reset Password
-          </h1>
+          </h2>
           <p class="text-sm text-gray-600">
             Enter your new password below.
           </p>

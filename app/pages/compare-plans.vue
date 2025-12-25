@@ -289,6 +289,20 @@ const sections = ref([
     ]
   },
   {
+    title: 'Personal Library',
+    features: [
+      {
+        title: 'Saved Items',
+        description: 'Save your favorite assets, icons, colors, and design tokens',
+        tiers: {
+          free: `${FREE_LIMITS.saveItems}/items`,
+          starter: `${STRIPE_PLANS.starter.limits.saveItems}/items`,
+          pro: STRIPE_PLANS.pro.limits.saveItems === -1 ? 'Unlimited' : `${STRIPE_PLANS.pro.limits.saveItems}/items`
+        }
+      }
+    ]
+  },
+  {
     title: 'Support',
     features: [
       {
@@ -308,7 +322,7 @@ const sections = ref([
   <UPage>
     <UPageSection>
       <div class="flex flex-col items-center gap-6 mb-8 sm:ml-36">
-        <h1 class="text-highlighted text-4xl font-semibold">Compare plans</h1>
+        <h2 class="text-highlighted text-4xl font-semibold">Compare plans</h2>
         <p class="text-muted text-center max-w-md">
           Join designers and developers who save hours every week. Cancel anytime.
         </p>

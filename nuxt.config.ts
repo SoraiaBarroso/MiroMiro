@@ -43,8 +43,8 @@ export default defineNuxtConfig({
       chromeExtensionId: process.env.CHROME_EXTENSION_ID || 'npkpdkeiibipngipdoohnjhniodgppik',
       stripe: {
         key: process.env.STRIPE_PUBLIC_KEY,
-        starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1STjbEAaZdcZr0Eum9VuWWJ6',
-        starterYearlyPriceId: process.env.STRIPE_STARTER_YEARLY_PRICE_ID || 'price_starter_yearly',
+        starterPriceId: process.env.STRIPE_STARTER_PRICE_ID || 'price_1SiJQqADtW7SyLlw6r6FFRsQ',
+        starterYearlyPriceId: process.env.STRIPE_STARTER_YEARLY_PRICE_ID || 'price_1SiJRCADtW7SyLlwdXOn8VeR',
         proPriceId: process.env.STRIPE_PRO_PRICE_ID || 'price_1STjdMAaZdcZr0Eu9hu7u4a4',
         proYearlyPriceId: process.env.STRIPE_PRO_YEARLY_PRICE_ID || 'price_1SYSVxADtW7SyLlw2bU2bBfO'
       },

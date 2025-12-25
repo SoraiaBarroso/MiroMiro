@@ -103,9 +103,9 @@ setBreadcrumbs([
   <UContainer class="py-12">
     <div class="max-w-2xl mx-auto">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold mb-2">
+        <h2 class="text-3xl font-bold mb-2">
           Contact Us
-        </h1>
+        </h2>
         <p class="text-muted">
           Have a question or found a bug? Let us know and we'll get back to you as soon as possible.
         </p>

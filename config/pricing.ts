@@ -5,7 +5,8 @@ export const FREE_LIMITS = {
   assetExtractions: 15,
   lottieExtractions: 0,
   designSystemExtractions: 0,
-  contrastChecks: 3,
+  contrastChecks: 5,
+  saveItems: 10,
   bulkExport: false,
   prioritySupport: false
 }
@@ -14,26 +15,27 @@ export const STRIPE_PLANS = {
   starter: {
     name: 'Starter',
     tagline: 'Less than a coffee',
-    description: 'Ship side projects without design bottlenecks',
+    description: 'Perfect for freelancers shipping 10+ projects per month.',
     price: {
-      month: 4,
-      year: 38, // €3.17/month when billed yearly (20% savings)
+      month: 7,
+      year: 59, // €4.92/month when billed yearly (20% savings)
       originalPrice: 9,
       currency: 'EUR'
     },
     features: [
-      'Handle 10+ projects/month (500 extractions)',
-      'Grab entire asset folders in seconds',
-      'Ship with pro animations (50 Lottie exports)',
-      'Match any brand instantly (50 token exports)',
-      'Never guess on accessibility (50 contrast checks)'
+      '150 instant CSS & asset grabs',
+      '10 Pro Lottie animation exports',
+      '20 Design System & Token exports',
+      'Unlimited accessibility & contrast audits',
+      'Personal Library (Save up to 100 items)'
     ],
     limits: {
-      assetExtractions: 500,
-      lottieExtractions: 50,
-      designSystemExtractions: 50,
-      contrastChecks: 50,
-      bulkExport: true,
+      assetExtractions: 150,
+      lottieExtractions: 10,
+      designSystemExtractions: 20,
+      contrastChecks: -1,
+      saveItems: 100,
+      bulkExport: false,
       prioritySupport: false
     },
     badge: 'Recommended',
@@ -42,7 +44,7 @@ export const STRIPE_PLANS = {
   pro: {
     name: 'Pro',
     tagline: 'Most Popular',
-    description: 'Run an agency without tool limitations',
+    description: 'Scale your design-to-code workflow with zero limits.',
     price: {
       month: 19,
       year: 140, // €11.67/month when billed yearly (39% savings)
@@ -50,17 +52,19 @@ export const STRIPE_PLANS = {
       currency: 'EUR'
     },
     features: [
-      'Never hit limits mid-project (2,000 extractions)',
-      'Handle unlimited client design systems',
-      'Grab every animation, no restrictions',
-      'Export tokens for entire brand portfolios',
-      'Get unstuck fast with priority support'
+      'High-volume capacity (2,000 grabs)',
+      'Unlimited client design systems',
+      'Unrestricted Lottie & Animation exports',
+      'Full brand portfolio token exports',
+      'Priority VIP support & chat',
+      'Infinite Library (Save unlimited items)'
     ],
     limits: {
       assetExtractions: 2000,
       lottieExtractions: -1, // -1 means unlimited
       designSystemExtractions: -1, // -1 means unlimited
       contrastChecks: -1, // -1 means unlimited
+      saveItems: -1, // -1 means unlimited
       bulkExport: true,
       prioritySupport: true
     },

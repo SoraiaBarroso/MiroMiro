@@ -218,7 +218,7 @@ useHead({
 })
 
 const title = `MiroMiro - Copy Any Website's Design & Assets in One Click`;
-const description = `Chrome Extension that grabs CSS, colors, fonts, spacing, and all media files (SVGs, Lottie, images) instantly. No more digging through DevTools. For designers, developers, and low-code users.`;
+const description = `Inspect CSS, extract images, SVGs, and Lottie animations from any website. No DevTools needed.`;
 
 useSeoMeta({
   title,
@@ -294,7 +294,7 @@ const itemsFooter: NavigationMenuItem[] = [
           loading="eager"
           preload
         />
-        <h1>MiroMiro</h1>
+        <span class="font-semibold text-lg">MiroMiro</span>
       </template>
 
       <UNavigationMenu v-if="showNavigation" :items="items"/>

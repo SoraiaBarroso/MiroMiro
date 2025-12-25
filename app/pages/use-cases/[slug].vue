@@ -60,9 +60,9 @@ const recommendedFeatures = computed(() => {
           </div>
 
           <p class="text-purple-600 font-semibold mb-2">MiroMiro for</p>
-          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+          <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             {{ useCase.audience }}
-          </h1>
+          </h2>
 
           <p class="text-xl text-muted leading-relaxed mb-8 max-w-2xl mx-auto">
             {{ useCase.description }}

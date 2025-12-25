@@ -34,6 +34,13 @@ const aiGenerationsUsagePercent = computed(() => {
   if (limit === -1 || limit === 0) return 0 // unlimited or not available
   return Math.min(((props.profile.ai_generations || 0) / limit) * 100, 100)
 })
+
+const savedItemsUsagePercent = computed(() => {
+  if (!props.profile || !props.planLimits) return 0
+  const limit = props.planLimits.saveItems
+  if (limit === -1) return 0 // unlimited
+  return Math.min(((props.profile.saved_items_count || 0) / limit) * 100, 100)
+})
 </script>
 
 <template>
@@ -141,6 +148,29 @@ const aiGenerationsUsagePercent = computed(() => {
         class="text-xs text-muted mt-1"
       >
         Upgrade to Starter or Pro to unlock Design System extractions
+      </p>
+    </div>
+
+    <!-- Saved Items -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <span class="font-medium">Saved Items</span>
+        </div>
+        <span class="text-sm text-muted">
+          {{ profile.saved_items_count || 0 }} /
+          {{ planLimits?.saveItems === -1 ? 'Unlimited' : planLimits?.saveItems || FREE_LIMITS.saveItems }}
+        </span>
+      </div>
+      <UProgress
+        v-model="savedItemsUsagePercent"
+        :color="savedItemsUsagePercent >= 80 ? 'error' : 'primary'"
+      />
+      <p
+        v-if="savedItemsUsagePercent >= 80 && planLimits?.saveItems !== -1"
+        class="text-xs text-error mt-1"
+      >
+        You're running low on saved items. Consider upgrading!
       </p>
     </div>
 

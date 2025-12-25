@@ -94,9 +94,9 @@ onMounted(async () => {
         class="w-20 h-20 text-primary animate-spin"
       />
       <div class="space-y-2">
-        <h1 class="text-3xl font-bold text-center">
+        <h2 class="text-3xl font-bold text-center">
           Verifying Payment...
-        </h1>
+        </h2>
         <p class="text-muted text-center">
           Please wait while we confirm your subscription
         </p>
@@ -114,9 +114,9 @@ onMounted(async () => {
         class="w-20 h-20 text-red-500"
       />
       <div class="space-y-2">
-        <h1 class="text-3xl font-bold">
+        <h2 class="text-3xl font-bold">
           Verification Failed
-        </h1>
+        </h2>
         <p class="text-muted">
           {{ error }}
         </p>
@@ -143,9 +143,9 @@ onMounted(async () => {
       />
 
       <div class="space-y-2">
-        <h1 class="text-3xl font-bold text-center">
+        <h2 class="text-3xl font-bold text-center">
           Payment Successful!
-        </h1>
+        </h2>
         <p class="text-muted text-center">
           Thank you for subscribing to <strong>{{ planDetails?.name || 'MiroMiro Premium' }}</strong>
         </p>

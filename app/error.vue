@@ -65,13 +65,13 @@ function handleError() {
           </div>
 
           <!-- Error Message -->
-          <h1 class="text-6xl font-bold text-zinc-900 mb-4">
+          <h2 class="text-6xl font-bold text-zinc-900 mb-4">
             {{ error.statusCode }}
-          </h1>
-
-          <h2 class="text-2xl font-semibold text-zinc-700 mb-4">
-            {{ is404 ? 'Page Not Found' : 'Something went wrong' }}
           </h2>
+
+          <h3 class="text-2xl font-semibold text-zinc-700 mb-4">
+            {{ is404 ? 'Page Not Found' : 'Something went wrong' }}
+          </h3>
 
           <p class="text-lg text-muted mb-8">
             {{ is404
