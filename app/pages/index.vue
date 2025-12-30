@@ -241,7 +241,7 @@ const plans = computed(() => {
       </template>
 
       <template #title>
-        Stop Rebuilding From Scratch. <span class="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">Copy Design & Assets Instantly</span>
+        Copy Any Website's Design & Assets, <span class="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">In One Click</span>
       </template>
 
       <template #description>
