@@ -13,6 +13,9 @@ const hoveredCard = defineModel<string | null>('hoveredCard')
         <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 border border-zinc-300 px-2 py-0.5 rounded bg-white">
           Design System
         </span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-purple-600 border border-purple-300 px-2 py-0.5 rounded bg-purple-50">
+          Pro Feature
+        </span>
       </div>
       <h3 class="text-2xl md:text-3xl font-extrabold mt-6 mb-3 tracking-tight group-hover:translate-x-1 transition-transform text-zinc-900">
         Export Ready-to-Use Design Tokens

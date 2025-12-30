@@ -267,13 +267,30 @@ const items = computed<NavigationMenuItem[]>(() => {
   ]
 })
 
-const itemsFooter: NavigationMenuItem[] = [
-  { label: 'Features', to: '/features' },
-  { label: 'Pricing', to: '/compare-plans' },
-  { label: 'FAQ', to: '/faq' },
-  { label: 'Contact', to: '/contact' },
-  { label: 'Privacy Policy', to: '/privacy-policy' },
-  { label: 'Terms of Service', to: '/terms-of-service' }
+const footerColumns = [
+  {
+    label: 'Product',
+    children: [
+      { label: 'Features', to: '/features' },
+      { label: 'Pricing', to: '/compare-plans' },
+      { label: 'FAQ', to: '/faq' }
+    ]
+  },
+  {
+    label: 'Company',
+    children: [
+      { label: 'Contact', to: '/contact' },
+      { label: 'Privacy Policy', to: '/privacy-policy' },
+      { label: 'Terms of Service', to: '/terms-of-service' }
+    ]
+  },
+  {
+    label: 'Connect',
+    children: [
+      { label: 'Twitter / X', to: 'https://x.com/SoraiaDev', target: '_blank', icon: 'i-simple-icons-x' },
+      { label: 'sorilc@hotmail.com', to: 'mailto:sorilc@hotmail.com', icon: 'i-heroicons-envelope' }
+    ]
+  }
 ]
 </script>
 
@@ -351,23 +368,16 @@ const itemsFooter: NavigationMenuItem[] = [
     />
 
     <UFooter>
-      <template #left>
-        <p class="text-sm text-muted">
-          Built by Soraia with ❤️ • © {{ new Date().getFullYear() }}
-        </p>
+      <template #top>
+        <UContainer>
+          <UFooterColumns :columns="footerColumns" />
+        </UContainer>
       </template>
 
-      <UNavigationMenu :items="itemsFooter" variant="link" />
-
-      <template #right>
-        <UButton
-          to="https://x.com/SoraiaDev"
-          target="_blank"
-          icon="i-simple-icons-x"
-          aria-label="Twitter"
-          color="neutral"
-          variant="ghost"
-        />
+      <template #left>
+        <p class="text-sm text-muted">
+          © {{ new Date().getFullYear() }} MiroMiro. All rights reserved.
+        </p>
       </template>
     </UFooter>
   </UApp>

@@ -172,15 +172,17 @@ const plans = computed(() => {
   return [
     {
       title: 'Free Plan',
-      description: 'See if MiroMiro fits your workflow',
+      description: 'Try it out with limited features',
       price: '€0',
       billingCycle: '/month',
       features: [
-        'Inspect any element, skip DevTools',
-        'See the exact CSS behind any design',
-        'Preview any site\'s full color system',
-        'Test on a few projects (15 extractions)',
-        'Check key contrasts (3 checks/month)'
+        { title: 'Inspect any element, skip DevTools' },
+        { title: 'See the exact CSS behind any design' },
+        { title: 'Preview any site\'s full color system' },
+        { title: 'Limited to 15 extractions', icon: 'i-heroicons-minus', muted: true },
+        { title: 'Only 3 Design Token exports', icon: 'i-heroicons-minus', muted: true },
+        { title: 'Save up to 10 items only', icon: 'i-heroicons-minus', muted: true },
+        { title: 'No Lottie animation exports', icon: 'i-heroicons-x-mark', muted: true }
       ],
       button: {
         label: 'Get Started Free',
@@ -196,10 +198,10 @@ const plans = computed(() => {
       billingCycle: yearly ? '/year' : '/month',
       scale: !yearly,
       highlight: !yearly,
-      badge: yearly ? undefined : 'Recommended',
+      badge: yearly ? undefined : 'Best Value',
       features: STRIPE_PLANS.starter.features,
       button: {
-        label: 'Upgrade to Starter',
+        label: 'Start Saving Time Now',
         onClick: () => {
           handleCheckout(
             yearly ? config.public.stripe.starterYearlyPriceId : config.public.stripe.starterPriceId
@@ -219,7 +221,7 @@ const plans = computed(() => {
       features: STRIPE_PLANS.pro.features,
       badge: yearly ? 'Best Deal' : undefined,
       button: {
-        label: 'Upgrade to Pro',
+        label: 'Get Unlimited Access',
         onClick: () => {
           handleCheckout(
             yearly ? config.public.stripe.proYearlyPriceId : config.public.stripe.proPriceId
@@ -239,7 +241,7 @@ const plans = computed(() => {
       </template>
 
       <template #title>
-        Copy Any Website's Design & Assets, <span class="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">In One Click</span>
+        Stop Rebuilding From Scratch. <span class="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">Copy Design & Assets Instantly</span>
       </template>
 
       <template #description>
@@ -298,7 +300,7 @@ const plans = computed(() => {
         
         <!-- Section Header -->
         <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-4">Powerful Features</h2>
+          <h2 class="text-4xl md:text-5xl text-highlighted font-black tracking-tight mb-4">Powerful Features</h2>
           <p class="text-lg text-zinc-500 max-w-2xl mx-auto">Everything you need to inspect, extract, and build faster</p>
         </div>
 
@@ -306,11 +308,11 @@ const plans = computed(() => {
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
           <FeaturesFeatureInspector v-model:hovered-card="hoveredCard" />
           <FeaturesFeatureAssetSnatcher v-model:hovered-card="hoveredCard" />
+          <FeaturesFeatureDesignTokens v-model:hovered-card="hoveredCard" />
           <FeaturesFeatureSvgExtractor v-model:hovered-card="hoveredCard" />
           <FeaturesFeatureLottie v-model:hovered-card="hoveredCard" />
           <FeaturesFeatureSaveAssets v-model:hovered-card="hoveredCard" />
           <FeaturesFeatureContrastCheck v-model:hovered-card="hoveredCard" />
-          <FeaturesFeatureDesignTokens v-model:hovered-card="hoveredCard" />
         </div>
 
       </div>
@@ -318,7 +320,7 @@ const plans = computed(() => {
     
     <UPageSection
       id="testimonials"
-      title="Trusted by 500+ Builders"
+      title="Join 500+ Designers Saving 10h/Week"
       description="Designers and developers who've made MiroMiro part of their daily workflow."
     >
       <UPageColumns>
@@ -334,25 +336,42 @@ const plans = computed(() => {
  
     <UPageSection
       id="pricing"
-      title="Pricing"
+      title="Plans That Pay for Themselves in One Project"
       description="Try it for free and upgrade to unlock advanced features that will boost your efficiency."
       :ui="{
         headline: 'rounded-full border border-purple-500 bg-purple-50 text-purple-700 shadow-lg w-fit mx-auto font-medium',
       }"
     >
       <template #links>
-        <UTabs
-          v-model="isYearly"
-          :items="billingItems"
-          color="primary"
-          size="xs"
-          class="w-48"
-          :ui="{
-            list: 'ring ring-accented rounded-full',
-            indicator: 'rounded-full',
-            trigger: 'w-1/2',
-          }"
-        />
+        <div class="flex items-center gap-2">
+          <UTabs
+            v-model="isYearly"
+            :items="billingItems"
+            color="primary"
+            size="xs"
+            class="w-48"
+            :ui="{
+              list: 'ring ring-accented rounded-full',
+              indicator: 'rounded-full',
+              trigger: 'w-1/2',
+            }"
+          />
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 scale-75 -translate-x-2"
+            enter-to-class="opacity-100 scale-100 translate-x-0"
+            leave-active-class="transition-all duration-200 ease-in"
+            leave-from-class="opacity-100 scale-100 translate-x-0"
+            leave-to-class="opacity-0 scale-75 -translate-x-2"
+          >
+            <span
+              v-if="isYearly === '1'"
+              class="text-xs font-bold mb-2 text-green-700 bg-green-100 border border-green-300 px-2 py-1 rounded-full"
+            >
+              Save 20%
+            </span>
+          </Transition>
+        </div>
       </template>
 
       <UPricingPlans>
@@ -364,7 +383,7 @@ const plans = computed(() => {
             root: plan.highlight ? 'overflow-visible bg-gradient-to-r from-(--ui-primary)/10 to-(--ui-secondary)/10' : (plan.badge ? 'overflow-visible' : ''),
             badge: plan.badge ? 'absolute -top-3 left-1/2 -translate-x-1/2 transform rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-white shadow-lg' : '',
             button: plan.highlight ? 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl ring-4 ring-purple-500/20' : 'bg-purple-500 hover:bg-purple-600 disabled:bg-purple-700! focus:bg-purple-600! rounded-2xl',
-            featureIcon: '!bg-purple-300'
+            featureIcon: plan.title === 'Free Plan' ? '' : '!bg-purple-300'
           }"
         />
       </UPricingPlans>

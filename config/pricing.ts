@@ -23,7 +23,7 @@ export const STRIPE_PLANS = {
       currency: 'EUR'
     },
     features: [
-      '150 instant CSS & asset grabs',
+      '150 asset grabs',
       '10 Pro Lottie animation exports',
       '20 Design System & Token exports',
       'Unlimited accessibility & contrast audits',
