@@ -59,8 +59,6 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/features': { prerender: true },
     '/features/**': { prerender: true },
-    '/use-cases': { prerender: true },
-    '/use-cases/**': { prerender: true },
     '/blog': { prerender: true },
     '/blog/**': { prerender: true },
     '/faq': { prerender: true },
@@ -111,8 +109,6 @@ export default defineNuxtConfig({
         '/terms-of-service',
         '/features',
         '/features/**',
-        '/use-cases',
-        '/use-cases/**',
         '/blog',
         '/blog/**',
         '/faq'

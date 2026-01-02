@@ -11,16 +11,7 @@ const features = [
   'design-tokens'
 ]
 
-const useCases = [
-  'designers',
-  'developers',
-  'agencies',
-  'no-code'
-]
-
 export default defineSitemapEventHandler(() => {
-  const baseUrl = process.env.SITE_URL || 'https://miromiro.app'
-
   return [
     // Feature index page
     asSitemapUrl({
@@ -32,20 +23,6 @@ export default defineSitemapEventHandler(() => {
     // Individual feature pages
     ...features.map(slug => asSitemapUrl({
       loc: `/features/${slug}`,
-      lastmod: new Date().toISOString(),
-      changefreq: 'monthly',
-      priority: 0.7
-    })),
-    // Use cases index page
-    asSitemapUrl({
-      loc: '/use-cases',
-      lastmod: new Date().toISOString(),
-      changefreq: 'weekly',
-      priority: 0.8
-    }),
-    // Individual use case pages
-    ...useCases.map(slug => asSitemapUrl({
-      loc: `/use-cases/${slug}`,
       lastmod: new Date().toISOString(),
       changefreq: 'monthly',
       priority: 0.7
