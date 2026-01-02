@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { STRIPE_PLANS, FREE_LIMITS } from '../../config/pricing'
 
+// Currency localization
+const { formatPrice, disclaimer } = useCurrency()
+
 // SEO Meta
 const { setSeoMeta, setBreadcrumbs, setProductSchema } = useSeo()
 
@@ -132,7 +135,7 @@ const tiers = computed(() => {
     {
       id: 'free',
       title: 'Free Plan',
-      price: '€0',
+      price: formatPrice(0),
       description: 'Perfect for trying MiroMiro and occasional use',
       billingCycle: '/month',
       button: {
@@ -144,8 +147,8 @@ const tiers = computed(() => {
     {
       id: 'starter',
       title: STRIPE_PLANS.starter.name,
-      price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.month}`,
-      originalPrice: yearly ? undefined : `€${STRIPE_PLANS.starter.price.originalPrice}`,
+      price: yearly ? formatPrice(STRIPE_PLANS.starter.price.year) : formatPrice(STRIPE_PLANS.starter.price.month),
+      originalPrice: yearly ? undefined : formatPrice(STRIPE_PLANS.starter.price.originalPrice),
       description: STRIPE_PLANS.starter.description,
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
@@ -162,8 +165,8 @@ const tiers = computed(() => {
     {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
-      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.month}`,
-      originalPrice: yearly ? undefined : (STRIPE_PLANS.pro.price.originalPrice ? `€${STRIPE_PLANS.pro.price.originalPrice}` : undefined),
+      price: yearly ? formatPrice(STRIPE_PLANS.pro.price.year) : formatPrice(STRIPE_PLANS.pro.price.month),
+      originalPrice: yearly ? undefined : (STRIPE_PLANS.pro.price.originalPrice ? formatPrice(STRIPE_PLANS.pro.price.originalPrice) : undefined),
       description: STRIPE_PLANS.pro.description,
       billingCycle: yearly ? '/year' : '/month',
       scale: true,
@@ -343,6 +346,11 @@ const sections = ref([
         :tiers="tiers"
         :sections="sections"
       />
+
+      <!-- Currency disclaimer -->
+      <p v-if="disclaimer" class="text-center text-sm text-muted mt-6">
+        {{ disclaimer }}
+      </p>
     </UPageSection>
   </UPage>
 </template>

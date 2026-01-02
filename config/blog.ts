@@ -51,7 +51,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <ol class="text-lg space-y-4 mb-8 ml-6 list-decimal text-gray-700">
         <li><strong>Activate the Tool:</strong> Open the extension and click the <span class="text-gray-900 font-bold">Inspector Mode</span> icon. MiroMiro will now highlight every image as you move your mouse.</li>
         <li><strong>Hover to Preview:</strong> Simply <span class="text-primary-600 font-bold underline decoration-primary-200">hover over any image</span> to see a high-quality preview, its size, and file type.</li>
-        <li><strong>Download:</strong> Click the download button directly from the hover tooltip to save the asset immediately.</li>
+        <li><strong>Download:</strong> Click the download button to save the asset immediately.</li>
       </ol>
 
       <h2 class="text-4xl font-black mt-16 mb-8 text-gray-900 tracking-tight">Method 2: The Asset Tab (Bulk Export)</h2>

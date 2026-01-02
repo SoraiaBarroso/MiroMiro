@@ -6,6 +6,9 @@ import { FAQS } from '../../config/seo'
 const { setFaqSchema } = useSeo()
 setFaqSchema(FAQS)
 
+// Currency localization
+const { formatPrice, disclaimer } = useCurrency()
+
 const config = useRuntimeConfig()
 const toast = useToast()
 const checkoutLoading = ref(false)
@@ -173,7 +176,7 @@ const plans = computed(() => {
     {
       title: 'Free Plan',
       description: 'Try it out with limited features',
-      price: '€0',
+      price: formatPrice(0),
       billingCycle: '/month',
       features: [
         { title: 'Inspect any element, skip DevTools' },
@@ -193,8 +196,8 @@ const plans = computed(() => {
       id: 'starter',
       title: STRIPE_PLANS.starter.name,
       description: STRIPE_PLANS.starter.description,
-      price: yearly ? `€${STRIPE_PLANS.starter.price.year}` : `€${STRIPE_PLANS.starter.price.originalPrice}`,
-      discount: yearly ? undefined : `€${STRIPE_PLANS.starter.price.month}`,
+      price: yearly ? formatPrice(STRIPE_PLANS.starter.price.year) : formatPrice(STRIPE_PLANS.starter.price.originalPrice),
+      discount: yearly ? undefined : formatPrice(STRIPE_PLANS.starter.price.month),
       billingCycle: yearly ? '/year' : '/month',
       scale: !yearly,
       highlight: !yearly,
@@ -212,9 +215,9 @@ const plans = computed(() => {
     {
       id: 'pro',
       title: STRIPE_PLANS.pro.name,
-      description: yearly ? 'Save €88/year compared to monthly' : STRIPE_PLANS.pro.description,
-      price: yearly ? `€${STRIPE_PLANS.pro.price.year}` : `€${STRIPE_PLANS.pro.price.originalPrice}`,
-      discount: yearly ? undefined : `€${STRIPE_PLANS.pro.price.month}`,
+      description: STRIPE_PLANS.pro.description,
+      price: yearly ? formatPrice(STRIPE_PLANS.pro.price.year) : formatPrice(STRIPE_PLANS.pro.price.originalPrice),
+      discount: yearly ? undefined : formatPrice(STRIPE_PLANS.pro.price.month),
       billingCycle: yearly ? '/year' : '/month',
       scale: yearly,
       highlight: yearly,
@@ -356,21 +359,11 @@ const plans = computed(() => {
               trigger: 'w-1/2',
             }"
           />
-          <Transition
-            enter-active-class="transition-all duration-300 ease-out"
-            enter-from-class="opacity-0 scale-75 -translate-x-2"
-            enter-to-class="opacity-100 scale-100 translate-x-0"
-            leave-active-class="transition-all duration-200 ease-in"
-            leave-from-class="opacity-100 scale-100 translate-x-0"
-            leave-to-class="opacity-0 scale-75 -translate-x-2"
+          <span
+            class="text-xs font-bold mb-2 text-green-700 bg-green-100 border border-green-300 px-2 py-1 rounded-full"
           >
-            <span
-              v-if="isYearly === '1'"
-              class="text-xs font-bold mb-2 text-green-700 bg-green-100 border border-green-300 px-2 py-1 rounded-full"
-            >
-              Save 20%
-            </span>
-          </Transition>
+            Save 20%
+          </span>
         </div>
       </template>
 
@@ -387,6 +380,11 @@ const plans = computed(() => {
           }"
         />
       </UPricingPlans>
+
+      <!-- Currency disclaimer -->
+      <p v-if="disclaimer" class="text-center text-sm text-muted mt-6">
+        {{ disclaimer }}
+      </p>
     </UPageSection>
   </div>
 </template>
