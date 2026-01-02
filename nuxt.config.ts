@@ -61,6 +61,8 @@ export default defineNuxtConfig({
     '/features/**': { prerender: true },
     '/use-cases': { prerender: true },
     '/use-cases/**': { prerender: true },
+    '/blog': { prerender: true },
+    '/blog/**': { prerender: true },
     '/faq': { prerender: true },
     '/compare-plans': { prerender: true },
     '/contact': { prerender: true },
@@ -111,6 +113,8 @@ export default defineNuxtConfig({
         '/features/**',
         '/use-cases',
         '/use-cases/**',
+        '/blog',
+        '/blog/**',
         '/faq'
       ],
       cookieRedirect: false
@@ -149,5 +153,5 @@ export default defineNuxtConfig({
       // Manually define feature pages for sitemap
       '/api/__sitemap__/urls'
     ]
-  },
+  }
 })

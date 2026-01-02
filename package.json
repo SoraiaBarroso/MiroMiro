@@ -32,7 +32,6 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.9.0",
     "@supabase/supabase-js": "^2.49.2",
     "@types/youtube": "^0.1.2",
     "dotenv": "^17.2.3",
@@ -52,5 +51,8 @@
       "glob": "^11.0.0",
       "inflight": "npm:@jsdevtools/inflight@^2.0.0"
     }
+  },
+  "optionalDependencies": {
+    "@nuxt/eslint": "latest"
   }
 }

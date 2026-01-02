@@ -15,7 +15,7 @@ const hoveredCard = defineModel<string | null>('hoveredCard')
         </span>
       </div>
       <h3 class="text-2xl md:text-3xl font-extrabold mt-6 mb-3 tracking-tight group-hover:translate-x-1 transition-transform text-zinc-900">
-        Universal Asset Snatcher
+        Save Images Instantly
       </h3>
       <p class="text-sm text-zinc-500 leading-relaxed font-light">
         Instantly isolate and grab SVGs, PNGs, and background videos hidden in the DOM.

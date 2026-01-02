@@ -8,17 +8,6 @@ const toast = useToast()
 const config = useRuntimeConfig()
 const baseUrl = config.public.siteUrl
 
-// Google Analytics tracking
-const { gtag } = useGtag()
-
-function trackSignUpClick() {
-  gtag('event', 'signup_button_click', {
-    event_category: 'conversion',
-    event_label: 'header_signup',
-    value: 1
-  })
-}
-
 // Use shared avatar state
 const { avatarUrl, updateAvatar } = useUserAvatar()
 
@@ -261,9 +250,8 @@ const items = computed<NavigationMenuItem[]>(() => {
   // On other pages, use page links for better internal linking
   return [
     { label: 'Features', to: '/features' },
-    { label: 'Use Cases', to: '/use-cases' },
-    { label: 'Pricing', to: '/compare-plans' },
-    { label: 'FAQ', to: '/faq' }
+    { label: 'Blog', to: '/blog' },
+    { label: 'Pricing', to: '/compare-plans' }
   ]
 })
 
@@ -273,6 +261,7 @@ const footerColumns = [
     children: [
       { label: 'Features', to: '/features' },
       { label: 'Pricing', to: '/compare-plans' },
+      { label: 'Blog', to: '/blog' },
       { label: 'FAQ', to: '/faq' }
     ]
   },
@@ -317,7 +306,14 @@ const footerColumns = [
       <UNavigationMenu v-if="showNavigation" :items="items"/>
 
       <template #right>
-        <!-- <UColorModeButton /> -->
+        <UButton
+          v-if="!user"
+          to="https://chromewebstore.google.com/detail/miromiro/kpmkikjpclolhodgckeogmiiaehpfjhl"
+          target="_blank"
+          color="neutral"
+        >
+          Get MiroMiro
+        </UButton>
         <UButton
           v-if="!user"
           to="/signin"
@@ -325,14 +321,6 @@ const footerColumns = [
           color="neutral"
         >
           Sign In
-        </UButton>
-        <UButton
-          v-if="!user"
-          to="/signup"
-          color="primary"
-          @click="trackSignUpClick"
-        >
-          Sign Up
         </UButton>
 
         <UDropdownMenu

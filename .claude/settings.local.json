@@ -6,7 +6,12 @@
       "Bash(find:*)",
       "Bash(npx supabase:*)",
       "Bash(pnpm add:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(npm install:*)",
+      "Bash(del /q \"c:\\\\Users\\\\Soraia\\\\Desktop\\\\MiroMiro\\\\content.config.ts\")",
+      "Bash(rd /s /q \"c:\\\\Users\\\\Soraia\\\\Desktop\\\\MiroMiro\\\\content\")",
+      "Bash(del \"c:\\\\Users\\\\Soraia\\\\Desktop\\\\MiroMiro\\\\app\\\\pages\\\\blog\\\\[...slug].vue\")",
+      "Bash(timeout 20 pnpm dev:*)"
     ],
     "deny": [],
     "ask": []

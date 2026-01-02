@@ -257,7 +257,7 @@ const plans = computed(() => {
           class="rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
           @click="trackCTAClick('add_to_chrome', 'chrome_web_store')"
         >
-          Add to Chrome — Free
+          Get MiroMiro Free
         </UButton>
         <UButton
           to="#features"
